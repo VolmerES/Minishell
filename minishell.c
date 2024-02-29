@@ -41,7 +41,14 @@ distintos a los del propio bash, puesto que se ejecutan dentro del propio bash c
     -Argumentos: Son lo argumentos que se le pasan a cualquier comando. 
     -Redireccion: Por ejemplo >> 
 */
-
+void    ft_sigint(int sign)
+{
+    if (sign == SIGINT)
+    {
+        ft_putchar_fd('\n', 1);                                                 // Imprime un salto de linea cuando el usuario presiona ctrl + c.
+    }
+    // ! Falta borrar ^C que se imprime en terminal al presionar las teclas...
+}
 int main(int argc, char **argv, char **envp) 
 {
     char *commands;
@@ -50,7 +57,7 @@ int main(int argc, char **argv, char **envp)
         return(1);
     while (1)
     {
-        signal(SIGINT, ft_sigint());                                                // En este caso SIGINT, verfica si el usuario presiona ctrl+c
+        signal(SIGINT, ft_sigint);                                                // En este caso SIGINT, verfica si el usuario presiona ctrl+c
         commands = readline("Esperando entrada del usuario:\n");
         if (commands == NULL)
         {
@@ -60,7 +67,7 @@ int main(int argc, char **argv, char **envp)
         else
         {
             add_history(commands);                                                  // Añade lo introducido por consola a un historial.
-            printf("Has ingresado: %s\n", commands);                                // Comprobación de lo que se ha introducido por pantalla.
+            //printf("Has ingresado: %s\n", commands);                                // Comprobación de lo que se ha introducido por pantalla.
             //ft_tokenizer(commands);                                                 // Llamo a funcion para tokenizar lo que el usuario nos ha introducido por argumentos.
             system(commands);                                                       // Cochinada colosal para ir ejecutando los comandos introducidos de momento.
             free(commands);                                                         // Libera la memoria asignada por readline();
