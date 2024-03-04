@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "libft/libft.h"
-#include <termcap.h>  
+#include <termcap.h>  // Necesaria para tgetstr
 
 typedef struct  s_cmd{
 

@@ -1,10 +1,50 @@
 // * Manual de BASH *  https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html
 // * Compilar proyecto * gcc libft/libft.a minishell.c -lreadline -ltermcap
 // * Cerrar el porgrama * Escribir kill, sino queda proceso en segundo plano.
-
-                                      // Necesaria para tgetstr
+                       
 #include "minishell.h"    
 
+/*  Funcion que comprueba la existencia de builtins en el input del usuario
+    y llama a ejecutar el builtin indicado                                  */
+
+void    ft_builtins(t_msh *commands)
+{
+    if (ft_strcmp(commands->input, "echo"))
+    {
+        printf("Ejecutado echo");
+        //ejecutar echo, con opción -n si es el caso.
+    }
+    if (ft_strcmp(commands->input, "cd"))
+    {
+        printf("Ejecutado cd");
+        //ejecutar cd, ruta relativa o absoluta
+    }
+    if (ft_strcmp(commands->input, "pwd"))
+    {
+        printf("Ejecutado pwd");
+        //ejecutar pwd
+    }
+    if (ft_strcmp(commands->input, "export"))
+    {
+        printf("Ejecutado export");
+        //ejecutar export
+    }
+    if (ft_strcmp(commands->input, "unset"))
+    {
+        printf("Ejecutado unset");
+        //ejecutar unset
+    }
+    if (ft_strcmp(commands->input, "env"))
+    {
+        printf("Ejecutado env");
+        //ejecutar env
+    }
+    if (ft_strcmp(commands->input, "exit"))
+    {
+        printf("Ejecutado exit");
+        //ejecutrar exit
+    }
+}
 
 /*  Funcion que comprueba que en el imput la comillas doble introducidas sean estes 
 cerradas en caso contrario no es necesario gestionarlo por ende se cierra el programa. */
@@ -52,7 +92,7 @@ int ft_incomplete_squotes(t_msh *commands)
 
 /*  1. Llama a comprobar si las comillas simples estan cerradas
     2. LLama a comporbar si las comillas dobles estan cerradas 
-    3. Llama a comprobar si hay algun built-in                  */
+    3. Llama a comprobar si hay algun built-in y lo ejecuta      */
 void    ft_manage(t_msh *commands)
 {
 
@@ -69,7 +109,8 @@ void    ft_manage(t_msh *commands)
         printf("Syntax error, double quotes not closed");
         return ;
     }
-    
+    ft_builtins(commands);
+
 }
 void    ft_sigint(int sign)
 {
@@ -103,7 +144,7 @@ int main(int argc, char **argv, char **envp)
             add_history(commands->input);                                                  // Añade lo introducido por consola a un historial.
             //printf("Has ingresado: %s\n", commands);                                // Comprobación de lo que se ha introducido por pantalla.
             ft_manage(commands);                                                 // Llamo a funcion para tokenizar lo que el usuario nos ha introducido por argumentos.
-            //system(commands->input);                                                       // Cochinada colosal para ir ejecutando los comandos introducidos de momento.
+             system(commands->input);                                                       // Cochinada colosal para ir ejecutando los comandos introducidos de momento.
             free(commands->input);                                                         // Libera la memoria asignada por readline();
         }
     }
