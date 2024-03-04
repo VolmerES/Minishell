@@ -1,12 +1,95 @@
 /* ***********************************IMPORTANTE*************************************** */
 // * Manual de BASH *  https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html */
 // * Compilar proyecto * gcc libft/libft.a minishell.c -lreadline -ltermcap             */
-// * Cerrar el porgrama * Escribir kill, sino queda proceso en segundo plano.           */
+// * Cerrar el programa * Ctrl + D                                                      */
 // * Instalar better comments en VS para ver los comentarios mas claros                 */
 /* ************************************************************************************ */
                        
 #include "minishell.h"
 
+#define MAX_TOKENS 64
+#define MAX_TOKEN_LENGTH 1024
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX_TOKENS 64
+#define MAX_TOKEN_LENGTH 1024
+
+char** split(const char* input, int* token_count) {
+    char** tokens = (char**)malloc(MAX_TOKENS * sizeof(char*));
+    int token_index = 0;
+    int token_length = 0;
+    bool in_quote = false;
+    bool in_double_quote = false;
+    
+
+    while (*input != '\0') {
+        // If we're in a quote, keep accumulating characters until we find the matching quote
+        if (in_quote || in_double_quote) {
+            if (*input == '\'' && !in_double_quote) {
+                in_quote = false;
+            } else if (*input == '\"' && in_quote) {
+                in_double_quote = false;
+            }
+            input++;
+            continue;
+        }
+
+        // If we encounter a quote, toggle the quote state
+        if (*input == '\'' || *input == '\"') {
+            if (*input == '\'') {
+                in_quote = true;
+            } else {
+                in_double_quote = true;
+            }
+            input++;
+            continue;
+        }
+
+        // If we encounter a delimiter that is not inside quotes, split the input string at that point
+        if (*input == ' ' || *input == '\t' || *input == '\n' || *input == '|') {
+            // If we've accumulated characters for this token, add it to the list
+            if (token_length > 0) {
+                tokens[token_index] = (char*)malloc(token_length * sizeof(char));
+                strncpy(tokens[token_index], &input[-token_length], token_length);
+                tokens[token_index][token_length] = '\0';
+                token_index++;
+                token_length = 0;
+            }
+            // Skip over the delimiter
+            if (*input == '|') {
+                // Create a new pipe token
+                tokens[token_index] = (char*)malloc(2 * sizeof(char));
+                tokens[token_index][0] = '|';
+                tokens[token_index][1] = '\0';
+                token_index++;
+            }
+            input++;
+            continue;
+        }
+
+        // Accumulate characters for this token
+        input++;
+        token_length++;
+    }
+
+    // Add the final token to the list
+    if (token_length > 0) {
+        tokens[token_index] = (char*)malloc(token_length * sizeof(char));
+        strncpy(tokens[token_index], &input[-token_length], token_length);
+        tokens[token_index][token_length] = '\0';
+        token_index++;
+    }
+
+    // Resize the list to the actual number of tokens
+    *token_count = token_index;
+    tokens = (char**)realloc(tokens, *token_count * sizeof(char*));
+
+    return tokens;
+}
 /* ************************************************************************** */
 /*  Funcion para buscar ocurrencias de los bulktins, sin el "n bytes" de la   */
 /*  version de la biblioteca de la libft                                      */
@@ -29,44 +112,38 @@ int	ft_strcmp(const char *str1, const char *str2)
 /* ************************************************************************** */
 /*  Funcion que comprueba la existencia de builtins en el input del usuario   */
 /*  y llama a ejecutar el builtin indicado                                    */
+// ! Falta expandir las variables antes de llamar a comparar cualquiera       */
 /* ************************************************************************** */
 
 void    ft_builtins(t_msh *commands)
 {
     if (ft_strcmp(commands->input, "echo") == 0)
     {
-        printf("Ejecutado echo\n");
-        //ejecutar echo, con opción -n si es el caso.
+        printf("\033[31mEjecutado echo...\033[0m\n");
     }
     if (ft_strcmp(commands->input, "cd") == 0)
     {
-        printf("Ejecutado cd\n");
-        //ejecutar cd, ruta relativa o absoluta
+        printf("\033[31mEjecutado cd...\033[0m\n");
     }
     if (ft_strcmp(commands->input, "pwd") == 0)
     {
-        printf("Ejecutado pwd\n");
-        //ejecutar pwd
+        printf("\033[31mEjecutado pwd...\033[0m\n");
     }
     if (ft_strcmp(commands->input, "export") == 0)
     {
-        printf("Ejecutado export\n");
-        //ejecutar export
+        printf("\033[31mEjecutado export...\033[0m\n");
     }
     if (ft_strcmp(commands->input, "unset") == 0)
     {
-        printf("Ejecutado unset\n");
-        //ejecutar unset
+        printf("\033[31mEjecutado unset...\033[0m\n");
     }
     if (ft_strcmp(commands->input, "env") == 0)
     {
-        printf("Ejecutado env\n");
-        //ejecutar env
+        printf("\033[31mEjecutado env...\033[0m\n");
     }
     if (ft_strcmp(commands->input, "exit") == 0)
     {
-        printf("Ejecutado exit\n");
-        //ejecutrar exit
+        printf("\033[31mEjecutado exit...\033[0m\n");
     }
 }
 /* *********************************************************************************** */
@@ -128,7 +205,8 @@ int ft_incomplete_squotes(t_msh *commands)
 
 void    ft_manage(t_msh *commands)
 {
-
+    char **matrix;
+    int token_count;
 
     if (ft_incomplete_squotes(commands) == 1)
     {
@@ -141,6 +219,10 @@ void    ft_manage(t_msh *commands)
         return ;
     }
     ft_builtins(commands);
+    matrix = split(commands->input, &token_count);                                  // Tokenizar lo que el usuario nos ha introducido por argumentos.
+    for (int i = 0; i < token_count; i++) {
+        printf("\033[32mToken %d: %s\033[0m\n", i, matrix[i]);
+    }
 
 }
 /* ********************************************************************************* */
@@ -180,10 +262,10 @@ int main(int argc, char **argv, char **envp)
     {
         signal(SIGINT, ft_sigint);
         signal(SIGQUIT, ft_sigint);
-        commands.input = readline("Esperando entrada del usuario:\n");
+        commands.input = readline("🐚Minishell-42$");
         if (commands.input == NULL)
         {
-           printf("No se ingresó ninguna entrada.\n");
+           printf("\nNo se ingresó ninguna entrada.\n");
            break;
         }
         else
