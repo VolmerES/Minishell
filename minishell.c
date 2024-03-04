@@ -4,42 +4,57 @@
                        
 #include "minishell.h"    
 
+int	ft_strcmp(const char *str1, const char *str2)
+{
+	size_t	i;
+
+	i = 0;
+	while ((str1[i] || str2[i]))
+	{
+		if (str1[i] != str2[i])
+			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+		i++;
+	}
+	return (0);
+}
+
+
 /*  Funcion que comprueba la existencia de builtins en el input del usuario
     y llama a ejecutar el builtin indicado                                  */
 
 void    ft_builtins(t_msh *commands)
 {
-    if (ft_strcmp(commands->input, "echo"))
+    if (ft_strcmp(commands->input, "echo") == 0)
     {
         printf("Ejecutado echo");
         //ejecutar echo, con opción -n si es el caso.
     }
-    if (ft_strcmp(commands->input, "cd"))
+    if (ft_strcmp(commands->input, "cd") == 0)
     {
         printf("Ejecutado cd");
         //ejecutar cd, ruta relativa o absoluta
     }
-    if (ft_strcmp(commands->input, "pwd"))
+    if (ft_strcmp(commands->input, "pwd") == 0)
     {
         printf("Ejecutado pwd");
         //ejecutar pwd
     }
-    if (ft_strcmp(commands->input, "export"))
+    if (ft_strcmp(commands->input, "export") == 0)
     {
         printf("Ejecutado export");
         //ejecutar export
     }
-    if (ft_strcmp(commands->input, "unset"))
+    if (ft_strcmp(commands->input, "unset") == 0)
     {
         printf("Ejecutado unset");
         //ejecutar unset
     }
-    if (ft_strcmp(commands->input, "env"))
+    if (ft_strcmp(commands->input, "env") == 0)
     {
         printf("Ejecutado env");
         //ejecutar env
     }
-    if (ft_strcmp(commands->input, "exit"))
+    if (ft_strcmp(commands->input, "exit") == 0)
     {
         printf("Ejecutado exit");
         //ejecutrar exit
@@ -133,6 +148,7 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         signal(SIGINT, ft_sigint);                                                // En este caso SIGINT, verfica si el usuario presiona ctrl+c
+        signal(SIGQUIT, ft_sigint);
         commands->input = readline("Esperando entrada del usuario:\n");
         if (commands->input == NULL)
         {
