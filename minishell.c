@@ -110,7 +110,7 @@ int ft_incomplete_squotes(t_msh *commands)
     3. Llama a comprobar si hay algun built-in y lo ejecuta      */
 void    ft_manage(t_msh *commands)
 {
-
+    printf("uwu\n");
 // ! Falta gestionar que el programa no se cierre si las comillas no estas cerradas, 
 // ! no gestionar que se cierren estas, sino simplemente esperar nuevo input.
 
@@ -141,7 +141,7 @@ void    ft_sigint(int sign)
 }
 int main(int argc, char **argv, char **envp) 
 {
-    t_msh *commands;
+    t_msh commands;
 
     if (argc != 1)
         return(1);
@@ -149,19 +149,20 @@ int main(int argc, char **argv, char **envp)
     {
         signal(SIGINT, ft_sigint);                                                // En este caso SIGINT, verfica si el usuario presiona ctrl+c
         signal(SIGQUIT, ft_sigint);
-        commands->input = readline("Esperando entrada del usuario:\n");
-        if (commands->input == NULL)
+        commands.input = readline("Esperando entrada del usuario:\n");
+        if (commands.input == NULL)
         {
            printf("No se ingresó ninguna entrada.\n");
            break;
         }
         else
         {
-            add_history(commands->input);                                                  // Añade lo introducido por consola a un historial.
+            printf("uwu\n");
+            add_history(commands.input);                                                  // Añade lo introducido por consola a un historial.
             //printf("Has ingresado: %s\n", commands);                                // Comprobación de lo que se ha introducido por pantalla.
-            ft_manage(commands);                                                 // Llamo a funcion para tokenizar lo que el usuario nos ha introducido por argumentos.
-             system(commands->input);                                                       // Cochinada colosal para ir ejecutando los comandos introducidos de momento.
-            free(commands->input);                                                         // Libera la memoria asignada por readline();
+            ft_manage(&commands);                                                 // Llamo a funcion para tokenizar lo que el usuario nos ha introducido por argumentos.
+            system(commands.input);                                                       // Cochinada colosal para ir ejecutando los comandos introducidos de momento.
+            free(commands.input);                                                         // Libera la memoria asignada por readline();
         }
     }
     write_history("Historial");                                                     // Imprime en un archivo que se crea en caso de no existir los comandos introducidos.
