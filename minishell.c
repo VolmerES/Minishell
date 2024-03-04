@@ -1,8 +1,16 @@
-// * Manual de BASH *  https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html
-// * Compilar proyecto * gcc libft/libft.a minishell.c -lreadline -ltermcap
-// * Cerrar el porgrama * Escribir kill, sino queda proceso en segundo plano.
+/* ***********************************IMPORTANTE*************************************** */
+// * Manual de BASH *  https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html */
+// * Compilar proyecto * gcc libft/libft.a minishell.c -lreadline -ltermcap             */
+// * Cerrar el porgrama * Escribir kill, sino queda proceso en segundo plano.           */
+// * Instalar better comments en VS para ver los comentarios mas claros                 */
+/* ************************************************************************************ */
                        
-#include "minishell.h"    
+#include "minishell.h"
+
+/* ************************************************************************** */
+/*  Funcion para buscar ocurrencias de los bulktins, sin el "n bytes" de la   */
+/*  version de la biblioteca de la libft                                      */
+/* ************************************************************************** */
 
 int	ft_strcmp(const char *str1, const char *str2)
 {
@@ -18,51 +26,53 @@ int	ft_strcmp(const char *str1, const char *str2)
 	return (0);
 }
 
-
-/*  Funcion que comprueba la existencia de builtins en el input del usuario
-    y llama a ejecutar el builtin indicado                                  */
+/* ************************************************************************** */
+/*  Funcion que comprueba la existencia de builtins en el input del usuario   */
+/*  y llama a ejecutar el builtin indicado                                    */
+/* ************************************************************************** */
 
 void    ft_builtins(t_msh *commands)
 {
     if (ft_strcmp(commands->input, "echo") == 0)
     {
-        printf("Ejecutado echo");
+        printf("Ejecutado echo\n");
         //ejecutar echo, con opción -n si es el caso.
     }
     if (ft_strcmp(commands->input, "cd") == 0)
     {
-        printf("Ejecutado cd");
+        printf("Ejecutado cd\n");
         //ejecutar cd, ruta relativa o absoluta
     }
     if (ft_strcmp(commands->input, "pwd") == 0)
     {
-        printf("Ejecutado pwd");
+        printf("Ejecutado pwd\n");
         //ejecutar pwd
     }
     if (ft_strcmp(commands->input, "export") == 0)
     {
-        printf("Ejecutado export");
+        printf("Ejecutado export\n");
         //ejecutar export
     }
     if (ft_strcmp(commands->input, "unset") == 0)
     {
-        printf("Ejecutado unset");
+        printf("Ejecutado unset\n");
         //ejecutar unset
     }
     if (ft_strcmp(commands->input, "env") == 0)
     {
-        printf("Ejecutado env");
+        printf("Ejecutado env\n");
         //ejecutar env
     }
     if (ft_strcmp(commands->input, "exit") == 0)
     {
-        printf("Ejecutado exit");
+        printf("Ejecutado exit\n");
         //ejecutrar exit
     }
 }
-
-/*  Funcion que comprueba que en el imput la comillas doble introducidas sean estes 
-cerradas en caso contrario no es necesario gestionarlo por ende se cierra el programa. */
+/* *********************************************************************************** */
+/*  Funcion que comprueba que en el imput la comillas doble introducidas sean estes    */
+/*cerradas en caso contrario no es necesario gestionarlo por ende se cierra el programa*/
+/* *********************************************************************************** */
 
 int ft_incomplete_dquotes(t_msh *commands)
 {
@@ -82,9 +92,10 @@ int ft_incomplete_dquotes(t_msh *commands)
     else
         return (0);
 }
-
-/*  Funcion que comprueba que en el imput la comillas simples introducidas sean estes 
-cerradas en caso contrario no es necesario gestionarlo por ende se cierra el programa. */
+/* *********************************************************************************** */
+/*  Funcion que comprueba que en el imput la comillas simples introducidas sean estes  */
+/*cerradas en caso contrario no es necesario gestionarlo por ende se cierra el programa*/
+/* *********************************************************************************** */
 
 int ft_incomplete_squotes(t_msh *commands)
 {
@@ -104,29 +115,40 @@ int ft_incomplete_squotes(t_msh *commands)
     else
         return (0);
 }
+/* ********************************************************************************** */
+/*  1. Llama a comprobar si las comillas simples estan cerradas                       */
+/*  2. LLama a comporbar si las comillas dobles estan cerradas                        */  
+/*  3. Llama a comprobar si hay algun built-in y lo ejecuta                           */ 
+/*                                                                                    *  
+    ! Falta gestionar que el programa no se cierre si las comillas no estas cerradas, 
+    ! no gestionar que se cierren estas, sino simplemente esperar nuevo input.
+    ! Si variables globales contienen comillas, salta error cuando no debería. 
+*/
+/* ********************************************************************************** */
 
-/*  1. Llama a comprobar si las comillas simples estan cerradas
-    2. LLama a comporbar si las comillas dobles estan cerradas 
-    3. Llama a comprobar si hay algun built-in y lo ejecuta      */
 void    ft_manage(t_msh *commands)
 {
-    printf("uwu\n");
-// ! Falta gestionar que el programa no se cierre si las comillas no estas cerradas, 
-// ! no gestionar que se cierren estas, sino simplemente esperar nuevo input.
 
-    if (ft_incomplete_squotes(commands) == 1) //Comprobar si las comillas estan completas, sino return;
+
+    if (ft_incomplete_squotes(commands) == 1)
     {
-        printf("Syntax error, simple quotes not closed");
+        printf("Syntax error, simple quotes not closed\n");
         return ;
     }
     if (ft_incomplete_dquotes(commands) == 1)
     {
-        printf("Syntax error, double quotes not closed");
+        printf("Syntax error, double quotes not closed\n");
         return ;
     }
     ft_builtins(commands);
 
 }
+/* ********************************************************************************* */
+/*  1. TGETSTR = intenta borrar ^C del terminal mediante "cl" (clear) (No funcoiona) */
+/*  2. Si es SIGINT, imprime un salto de línea, para limpiat a terminal.             *
+    ! Falta borrar ^C que se imprime en terminal al presionar las teclas...          */
+/* ********************************************************************************* */
+
 void    ft_sigint(int sign)
 {
     char *get_str;
@@ -135,10 +157,19 @@ void    ft_sigint(int sign)
     if (sign == SIGINT)
     {
         tputs(get_str, 1, putchar);
-        ft_putchar_fd('\n', 1);                                                 // Imprime un salto de linea cuando el usuario presiona ctrl + c.
+        ft_putchar_fd('\n', 1);
     }
-    // ! Falta borrar ^C que se imprime en terminal al presionar las teclas...
+    // 
 }
+/* ******************************************************************************************************************************************************* */
+/*  1. SIGINT = verifica si el usuario presiona ctrl+c;                                                                                                    */
+/*  2. SIGQUIT = verifica si el usuario presiona ctrl+d;                                                                                                   */
+/*  3. READLINE = Dentro de un bucle infinito, espera la entrada del usuario, y la guarda en input, asignando memoria automaticamente                      */
+/*  4. FT_MANAGE = Llama a gestionar cierta parte del parseo del input                                                                                     */
+/*  5. WRITE_HISTORY = Genera una arhivo de los comandos que han sido ejecutados y añadidos mediante add_history                                           *
+    ! SYSTEM = Es una cochinada para que se ejecuten los comandos mientras se realiza el parseo y no la parte ejecutora del programa no esta implementada. */
+/* ******************************************************************************************************************************************************* */
+
 int main(int argc, char **argv, char **envp) 
 {
     t_msh commands;
@@ -147,7 +178,7 @@ int main(int argc, char **argv, char **envp)
         return(1);
     while (1)
     {
-        signal(SIGINT, ft_sigint);                                                // En este caso SIGINT, verfica si el usuario presiona ctrl+c
+        signal(SIGINT, ft_sigint);
         signal(SIGQUIT, ft_sigint);
         commands.input = readline("Esperando entrada del usuario:\n");
         if (commands.input == NULL)
@@ -157,37 +188,12 @@ int main(int argc, char **argv, char **envp)
         }
         else
         {
-            printf("uwu\n");
-            add_history(commands.input);                                                  // Añade lo introducido por consola a un historial.
-            //printf("Has ingresado: %s\n", commands);                                // Comprobación de lo que se ha introducido por pantalla.
-            ft_manage(&commands);                                                 // Llamo a funcion para tokenizar lo que el usuario nos ha introducido por argumentos.
-            system(commands.input);                                                       // Cochinada colosal para ir ejecutando los comandos introducidos de momento.
-            free(commands.input);                                                         // Libera la memoria asignada por readline();
+            add_history(commands.input);
+            ft_manage(&commands);
+            system(commands.input);
+            free(commands.input);
         }
     }
-    write_history("Historial");                                                     // Imprime en un archivo que se crea en caso de no existir los comandos introducidos.
+    write_history("Historial");
     return 0;
 }
-
-/* 
-^
-|
-|
-|
-Esta funcion al ejecutar programa se queda a la espera de una entrada por la linea de comandos (ver readline)
-La idea actual es tokenizar los argumentos pasados de manera que se pueda trabajar por separado para 
-identificarlos. Tokenizar se traduce en segmentarlos por partes, y meterlos dentro de una estrucutura
-asignandoles un tipo de dato(argumento, flag, pipe, builtin).
-Véase:  echo "Hola mundo"  = 2 TOKENS
-        echo Hola mundo = 3 TOKENS
-        echo "Hola mundo"hola = 2 TOKENS 
-        
-Estos TOKENS, van a ser guardados, primero, en una matriz ** y posteriormente en una estructura de datos para, que va a contenter el segmento de la linea
-de comando correpondiente, y el tipo de dato que son.
-Estos serían los siguientes tipos de datos a clasificar: 
-    -Builtin: Comandos propias de la shell, como cd, export o exit. Estos tienen un path, donde se encuentra instalado el programa pero pueden tener comportamientos
-distintos a los del propio bash, puesto que se ejecutan dentro  del propio bash como intrinsecos de esta 
-    -Pipe: |
-    -Argumentos: Son lo argumentos que se le pasan a cualquier comando. 
-    -Redireccion: Por ejemplo >> 
-*/
