@@ -2,7 +2,7 @@
 #include <readline/history.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "libft/libft.h"
+#include "Libft/libft.h"
 #include <termcap.h>  // Necesaria para tgetstr
 
 typedef struct  s_cmd{

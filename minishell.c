@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <signal.h>
 
 #define MAX_TOKENS 64
 #define MAX_TOKEN_LENGTH 1024
