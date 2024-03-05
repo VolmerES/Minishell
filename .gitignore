@@ -1,5 +1,7 @@
 *.out
 .vscode
+Historial
+minishell
 ```
 
 *.o
