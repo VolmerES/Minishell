@@ -33,4 +33,7 @@ typedef struct  s_msh{
 
     /*Comando segmentado*/
     t_cmd **cmd;
+
+    /*Variables entorno*/
+    char    **envp;
 }               t_msh;
