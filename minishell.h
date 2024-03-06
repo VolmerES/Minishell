@@ -37,3 +37,17 @@ typedef struct  s_msh{
     /*Variables entorno*/
     char    **envp;
 }               t_msh;
+
+void    ft_manage(t_msh *commands);
+void    ft_sigint(int sign);
+
+int ft_incomplete_squotes(t_msh *commands);
+int ft_incomplete_dquotes(t_msh *commands);
+
+
+int	ft_strcmp(const char *str1, const char *str2);
+
+int ft_search_shlvl(char **env);
+void    ft_free_env(char **env);
+char    **ft_manage_shlvl(char **minienv);
+char    **ft_copy_envp(char **envp);
