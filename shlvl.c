@@ -19,6 +19,12 @@ void    ft_free_env(char **env)
         free(env[i]);
     free(env);
 }
+
+/* ************************************************************************************* */
+/*  Manage_shlvl, busca la posicion de SHLVL en env, mediante search_shlvl, modifica su  */
+/*  valor numerico, y lo vuelve a sobreescribir mediante strjoin                         */
+/* ************************************************************************************* */
+
 char    **ft_manage_shlvl(char **minienv)
 {
     int index;
@@ -33,6 +39,11 @@ char    **ft_manage_shlvl(char **minienv)
     free(nbr);
     return(minienv);
 }
+
+/* ************************************************************************************* */
+/*  Copy_env, reserva memoria y copia dentro de la struct el entorno para posteriormente */
+/*  realizar cambios en el valor del nivel de la SHELL, variable en env-->  SHLVL= nb    */
+/* ************************************************************************************* */
 
 char    **ft_copy_envp(char **envp)
 {
