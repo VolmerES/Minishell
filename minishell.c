@@ -158,8 +158,9 @@ void    ft_sigint(int sign)
 /*  1. SIGINT = verifica si el usuario presiona ctrl+c;                                                                                                    */
 /*  2. SIGQUIT = verifica si el usuario presiona ctrl+d;                                                                                                   */
 /*  3. READLINE = Dentro de un bucle infinito, espera la entrada del usuario, y la guarda en input, asignando memoria automaticamente                      */
-/*  4. FT_MANAGE = Llama a gestionar cierta parte del parseo del input                                                                                     */
-/*  5. WRITE_HISTORY = Genera una arhivo de los comandos que han sido ejecutados y añadidos mediante add_history                                           *
+/*  4. ENVP = Se llama a copiar en enviroment de la shell, para despues modificar su nivel si se ejecuta una shell en una shell                            */
+/*  5. FT_MANAGE = Llama a gestionar cierta parte del parseo del input                                                                                     */
+/*  6. WRITE_HISTORY = Genera una arhivo de los comandos que han sido ejecutados y añadidos mediante add_history                                           *
     ! SYSTEM = Es una cochinada para que se ejecuten los comandos mientras se realiza el parseo y no la parte ejecutora del programa no esta implementada. */
 /* ******************************************************************************************************************************************************* */
 
