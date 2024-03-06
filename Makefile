@@ -19,6 +19,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) fclean -C $(LIBFT_DIR)
+	@rm Historial
 
 re: fclean $(NAME)
 
