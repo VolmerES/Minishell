@@ -1,7 +1,7 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -Wall -Wextra  
-SRC = minishell.c
+SRC = minishell.c shlvl.c
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
