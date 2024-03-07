@@ -170,6 +170,9 @@ int main(int argc, char **argv, char **envp)
 
     if (argc != 1)
         return(1);
+    
+    commands.envp = ft_copy_envp(envp);
+    commands.envp = ft_manage_shlvl(commands.envp);
     while (1)
     {
         signal(SIGINT, ft_sigint);
@@ -182,8 +185,6 @@ int main(int argc, char **argv, char **envp)
         }
         else
         {
-            commands.envp = ft_copy_envp(envp);
-            commands.envp = ft_manage_shlvl(commands.envp);
             for (int i = 0; commands.envp[i]; i++)
                 printf("\033[31m%s\033[0m\n", commands.envp[i]);
             add_history(commands.input);
