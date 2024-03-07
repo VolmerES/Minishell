@@ -1,6 +1,7 @@
 *.out
 .vscode
 Historial
+no_env.c
 minishell
 ```
 
