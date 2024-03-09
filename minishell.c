@@ -86,7 +86,9 @@ int ft_incomplete_squotes(t_msh *commands)
 			bolean = 1;
 			quote = commands->input[i];
 		}
-		if (commands->input[i] == quote && bolean)
+		if (commands->input[i] == quote && bolean && q % 2 == 0)
+			bolean = 0;
+		else if(commands->input[i] == quote && bolean)
 			q++;
         i++;
     }
@@ -113,6 +115,8 @@ void    ft_manage(t_msh *commands)
         printf("--->Syntax error, quotes not closed\n");
         return ;
     }
+	//todo tendriamos explitear comando echo "$PATH"
+	//? 1. sacar el comando
     ft_builtins(commands);
 
 }
