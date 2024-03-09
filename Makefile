@@ -8,7 +8,7 @@ CLEAR	=	\033[0m
 NAME = minishell
 CC = gcc
 CFLAGS = -Wall -Wextra  
-SRC = minishell.c
+SRC = minishell.c shlvl.c
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -32,7 +32,7 @@ fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) fclean -C $(LIBFT_DIR)
 	@echo "$(RED)minishell removed!$(CLEAR)"
-
+	@rm Historial
 re: fclean $(NAME)
 
 .PHONY: all clean fclean re
