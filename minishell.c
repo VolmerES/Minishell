@@ -81,7 +81,7 @@ int ft_incomplete_squotes(t_msh *commands)
 	bolean = 0;
     while (commands->input[i] != '\0')
     {
-        if (!bolean && (commands->input[i] == '\'' || commands->input[i] == '\"'))
+        if (!bolean && (commands->input[i] == '\'' || commands->input[i] == '\"') && commands->input[i + 1] != '\\')
         {
 			bolean = 1;
 			quote = commands->input[i];
