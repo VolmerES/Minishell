@@ -63,31 +63,9 @@ void    ft_builtins(t_msh *commands)
         printf("\033[31mEjecutado exit...\033[0m\n");
     }
 }
-/* *********************************************************************************** */
-/*  Funcion que comprueba que en el imput la comillas doble introducidas sean estes    */
-/*cerradas en caso contrario no es necesario gestionarlo por ende se cierra el programa*/
-/* *********************************************************************************** */
 
-int ft_incomplete_dquotes(t_msh *commands)
-{
-    int i;
-    int q;
-
-    q = 0;
-    i = 0;
-    while (commands->input[i] != '\0')
-    {
-        if (commands->input[i] == '\"')
-            q++;
-        i++;
-    }
-    if (q % 2 != 0)
-        return (1);
-    else
-        return (0);
-}
 /* *********************************************************************************** */
-/*  Funcion que comprueba que en el imput la comillas simples introducidas sean estes  */
+/*  Funcion que comprueba que en el input las comillas simples y dobles introducidas   */
 /*cerradas en caso contrario no es necesario gestionarlo por ende se cierra el programa*/
 /* *********************************************************************************** */
 
@@ -95,13 +73,21 @@ int ft_incomplete_squotes(t_msh *commands)
 {
     int i;
     int q;
+	int bolean;
+	char quote;
 
     q = 0;
     i = 0;
+	bolean = 0;
     while (commands->input[i] != '\0')
     {
-        if (commands->input[i] == '\'')
-            q++;
+        if (!bolean && (commands->input[i] == '\'' || commands->input[i] == '\"'))
+        {
+			bolean = 1;
+			quote = commands->input[i];
+		}
+		if (commands->input[i] == quote && bolean)
+			q++;
         i++;
     }
     if (q % 2 != 0)
@@ -124,15 +110,9 @@ void    ft_manage(t_msh *commands)
 {
     if (ft_incomplete_squotes(commands) == 1)
     {
-        printf("Syntax error, simple quotes not closed\n");
+        printf("--->Syntax error, quotes not closed\n");
         return ;
     }
-    if (ft_incomplete_dquotes(commands) == 1)
-    {
-        printf("Syntax error, double quotes not closed\n");
-        return ;
-    }
-    // ft_quotes_extract(commands);
     ft_builtins(commands);
 
 }
@@ -145,7 +125,7 @@ void    ft_manage(t_msh *commands)
 void    ft_sigint(int sign)
 {
     char *get_str;
-
+	printf("---->%i", sign);
     get_str = tgetstr("cl", NULL);
     if (sign == SIGINT)
     {
@@ -185,8 +165,8 @@ int main(int argc, char **argv, char **envp)
         }
         else
         {
-            for (int i = 0; commands.envp[i]; i++)
-                printf("\033[31m%s\033[0m\n", commands.envp[i]);
+            // for (int i = 0; commands.envp[i]; i++)
+            //     printf("\033[31m%s\033[0m\n", commands.envp[i]);
             add_history(commands.input);
             ft_manage(&commands);
             system(commands.input);
