@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include "Libft/libft.h"
 #include <termcap.h>  // Necesaria para tgetstr
+#include <signal.h> //? Necesaria para el manejo de señales
+
 
 typedef struct  s_cmd{
 

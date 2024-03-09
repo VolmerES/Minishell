@@ -176,7 +176,7 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         signal(SIGINT, ft_sigint);
-        signal(SIGQUIT, ft_sigint);
+		signal(SIGQUIT, ft_sigint);
         commands.input = readline("🐚Minishell-42$");
         if (commands.input == NULL)
         {
