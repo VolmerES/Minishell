@@ -77,25 +77,25 @@ int ft_incomplete_squotes(t_msh *commands)
 	char quote;
 
     q = 0;
-    i = 0;
+    i = -1;
 	bolean = 0;
-    while (commands->input[i] != '\0')
+    while (commands->input[++i] != '\0')
     {
-        if (!bolean && (commands->input[i] == '\'' || commands->input[i] == '\"'))
+        if (!bolean && (commands->input[i] == '\'' || commands->input[i] == '\"') )
         {
 			bolean = 1;
 			quote = commands->input[i];
 			q++;
 		}
-		else if (commands->input[i] == quote && bolean)
+		else if (commands->input[i] == quote && bolean && commands->input[i - 1] != '\\')
 			q++;
-		
-        i++;
-    }
-    if (q % 2 != 0)
-        return (1);
-    else
-        return (0);
+		if( q == 2)
+		{
+			q = 0;
+			bolean = 0;
+		}
+    } 
+    return (q % 2 != 0);
 }
 /* ********************************************************************************** */
 /*  1. Llama a comprobar si las comillas simples estan cerradas                       */
