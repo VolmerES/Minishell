@@ -85,11 +85,11 @@ int ft_incomplete_squotes(t_msh *commands)
         {
 			bolean = 1;
 			quote = commands->input[i];
-		}
-		if (commands->input[i] == quote && bolean && q % 2 == 0)
-			bolean = 0;
-		else if(commands->input[i] == quote && bolean)
 			q++;
+		}
+		else if (commands->input[i] == quote && bolean)
+			q++;
+		
         i++;
     }
     if (q % 2 != 0)
@@ -116,7 +116,7 @@ void    ft_manage(t_msh *commands)
         return ;
     }
 	//todo tendriamos explitear comando echo "$PATH"
-	//? 1. sacar el comando
+	//? 1. 
     ft_builtins(commands);
 
 }
