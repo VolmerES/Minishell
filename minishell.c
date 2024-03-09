@@ -81,9 +81,9 @@ int ft_incomplete_squotes(t_msh *commands)
 			&& commands->input[i - 1] != '\\')
 			quote = commands->input[i];
 		else if (commands->input[i] == quote && commands->input[i - 1] != '\\')
-			quote = NULL;
+			quote = '\0';
     } 
-    return (quote != NULL);
+    return (quote != '\0');
 }
 /* ********************************************************************************** */
 /*  1. Llama a comprobar si las comillas simples estan cerradas                       */
