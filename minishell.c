@@ -75,11 +75,12 @@ int ft_incomplete_squotes(t_msh *commands)
 	char quote;
 
     i = -1;
+    quote = 0;
     while (commands->input[++i] != '\0')
     {
         if (!quote && (commands->input[i] == '\'' || commands->input[i] == '\"') 
-			&& commands->input[i - 1] != '\\')
-			quote = commands->input[i];
+			&& (commands->input[i - 1] != '\\' || i == 0))
+			    quote = commands->input[i];
 		else if (commands->input[i] == quote && commands->input[i - 1] != '\\')
 			quote = '\0';
     } 
