@@ -13,6 +13,8 @@ OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
+all: $(NAME)
+
 $(NAME): $(OBJ) $(LIBFT)
 	@echo "$(YELLOW)Compiling minishell...$(CLEAR)"
 	@$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) -lreadline -ltermcap $(LIBFT)
@@ -34,5 +36,9 @@ fclean: clean
 	@echo "$(RED)minishell removed!$(CLEAR)"
 	@rm Historial
 re: fclean $(NAME)
+
+run: all
+	clear
+	./$(NAME)
 
 .PHONY: all clean fclean re
