@@ -7,90 +7,6 @@
 
 #include "minishell.h"
 
-void    ft_expand(t_msh *commands)
-{
-    ft_search_env(commands->envp, commands->evar);
-}
-
-int ft_check_syntax(char *evar) 
-{
-    int i = 0;
-    while (evar[i] != '\0') 
-    {
-        if (ft_isdigit(evar[0]) == 1) 
-        {
-            printf("error var num\n");
-            exit(1);
-        }
-        if (ft_isalpha(evar[i]) == 0 && evar[i] != '_' && ft_isdigit(evar[i + 1]) != 0) 
-        {
-            printf("error, var type\n");
-            exit(1);
-        }
-        i++;
-    }
-    return (0);
-}
-
-char *ft_get_var(t_msh *commands, int i) 
-{
-    size_t len = 0;
-    char *evar;
-
-    while (commands->input[i] != '=' && commands->input[i] != '\0') 
-    {
-        i++;
-        len++;
-    }
-    evar = malloc(len + 1);
-    if (!evar)
-    {
-        printf("malloc failed\n");
-        exit(1);
-    }
-    strncpy(evar, &commands->input[i - len], len);
-    evar[len] = '\0';
-    ft_check_syntax(evar);
-    return (evar);
-}
-
-void ft_expand_var(t_msh *commands) 
-{
-    int i = 0;
-    while (commands->input[i] != '\0') 
-    {
-        if (commands->input[i] == '$') 
-        {
-            commands->evar = ft_get_var(commands, i + 1);
-            i += strlen(commands->evar) + 1;
-            printf("Variable de entorno: %s\n", commands->evar);
-            ft_expand(commands);
-            free(commands->evar);
-        }
-        i++;
-    }
-}
-
-
-/* ************************************************************************** */
-/*  Funcion para buscar ocurrencias de los bulktins, sin el "n bytes" de la   */
-/*  version de la biblioteca de la libft                                      */
-/* ************************************************************************** */
-
-int	ft_strcmp(const char *str1, const char *str2)
-{
-	size_t	i;
-
-	i = 0;
-	while ((str1[i] || str2[i]))
-	{
-		if (str1[i] != str2[i])
-			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
-		i++;
-	}
-	return (0);
-}
-
 /* ************************************************************************** */
 /*  Funcion que comprueba la existencia de builtins en el input del usuario   */
 /*  y llama a ejecutar el builtin indicado                                    */
@@ -134,7 +50,7 @@ void    ft_builtins(t_msh *commands)
 /*cerradas en caso contrario no es necesario gestionarlo por ende se cierra el programa*/
 /* *********************************************************************************** */
 
-int ft_incomplete_squotes(t_msh *commands)
+int ft_incomplete_quotes(t_msh *commands)
 {
     int i;
 	char quote;
@@ -164,7 +80,7 @@ int ft_incomplete_squotes(t_msh *commands)
 
 void    ft_manage(t_msh *commands)
 {
-    if (ft_incomplete_squotes(commands) == 1)
+    if (ft_incomplete_quotes(commands) == 1)
     {
         printf("--->Syntax error, quotes not closed\n");
         return ;
@@ -226,6 +142,7 @@ int main(int argc, char **argv, char **envp)
             //     printf("\033[31m%s\033[0m\n", commands.envp[i]);
             add_history(commands.input);
             ft_manage(&commands);
+            printf("Variable expandida: %s\n", commands.evar);
             system(commands.input);
             free(commands.input);
         }
