@@ -50,6 +50,8 @@ typedef struct  s_msh{
 
     /*Variables entorno*/
     char    **envp;
+
+    char    *evar;
 }               t_msh;
 
 void    ft_manage(t_msh *commands);
