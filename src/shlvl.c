@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 char **ft_addVariable(char **minienv, char *aux)
 {

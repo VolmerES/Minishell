@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 char    *ft_manage_expander(char **envpc, int index, char *evar)
 {

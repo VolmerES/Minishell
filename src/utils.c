@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 /* ************************************************************************** */
 /*  Funcion para buscar ocurrencias de los bulktins, sin el "n bytes" de la   */

@@ -5,7 +5,7 @@
 // * Instalar better comments en VS para ver los comentarios mas claros                 */
 /* ************************************************************************************ */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 /* ************************************************************************** */
 /*  Funcion que comprueba la existencia de builtins en el input del usuario   */
