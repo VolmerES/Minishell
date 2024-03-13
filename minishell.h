@@ -51,20 +51,31 @@ typedef struct  s_msh{
     /*Variables entorno*/
     char    **envp;
 
+    /*Variable entorno expandida*/
     char    *evar;
 }               t_msh;
 
+            /*PROGRAMA MAIN*/
 void    ft_manage(t_msh *commands);
 void    ft_sigint(int sign);
 
-int ft_incomplete_squotes(t_msh *commands);
-int ft_incomplete_dquotes(t_msh *commands);
+            /*PARSEO COMILLAS*/
+int     ft_incomplete_quotes(t_msh *commands);
 
+                /*UTILIDADES*/
+int     ft_strcmp(const char *str1, const char *str2);
 
-int	ft_strcmp(const char *str1, const char *str2);
-
-int ft_search_shlvl(char **env);
+                /*MANAGER SHELL LEVEL*/
+int     ft_search_shlvl(char **env);
 void    ft_free_matrix(char **env);
 char    **ft_manage_shlvl(char **minienv);
 char    **ft_copy_envp(char **envp);
-char **ft_addVariable(char **minienv, char *aux);
+char    **ft_addVariable(char **minienv, char *aux);
+int     ft_search_env(char **env, char *tofind);
+
+            /*EXPANDER DE VARIABLES DE ENTORNO*/
+char    *ft_manage_expander(char **envpc, int index, char *evar);
+void    ft_expand(t_msh *commands);
+int     ft_check_syntax(char *evar);
+char    *ft_get_var(t_msh *commands, int i);
+void    ft_expand_var(t_msh *commands);
