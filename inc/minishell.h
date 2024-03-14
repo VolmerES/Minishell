@@ -14,10 +14,17 @@
 #include <readline/history.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../Libft/libft.h"
 #include <termcap.h>  // Necesaria para tgetstr
 #include <signal.h> //? Necesaria para el manejo de señales
 
+#define SPACE ' '
+#define DOLLAR '$'
+#define DQUOTES '\"'
+#define SQUOTES '\''
+#define BACKSLASH '\\'
+#define UNDERSCORE '_'
 
 typedef struct  s_cmd{
 
@@ -58,6 +65,9 @@ typedef struct  s_msh{
             /*PROGRAMA MAIN*/
 void    ft_manage(t_msh *commands);
 void    ft_sigint(int sign);
+void    ft_init_struct(t_msh *commands);
+void    ft_shlvl(t_msh *commands, char **envp);
+void    ft_handle_readline(t_msh *commands);
 
             /*PARSEO COMILLAS*/
 int     ft_incomplete_quotes(t_msh *commands);
