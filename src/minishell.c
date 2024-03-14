@@ -1,36 +1,5 @@
 #include "../inc/minishell.h"
 
-void    ft_builtins(t_msh *commands)
-{
-    if (ft_strcmp(commands->input, "echo") == 0)
-    {
-        printf("\033[34mEjecutado echo...\033[0m\n");
-    }
-    if (ft_strcmp(commands->input, "cd") == 0)
-    {
-        printf("\033[34mEjecutado cd...\033[0m\n");
-    }
-    if (ft_strcmp(commands->input, "pwd") == 0)
-    {
-        printf("\033[34mEjecutado pwd...\033[0m\n");
-    }
-    if (ft_strcmp(commands->input, "export") == 0)
-    {
-        printf("\033[34mEjecutado export...\033[0m\n");
-    }
-    if (ft_strcmp(commands->input, "unset") == 0)
-    {
-        printf("\033[34mEjecutado unset...\033[0m\n");
-    }
-    if (ft_strcmp(commands->input, "env") == 0)
-    {
-        printf("\033[34mEjecutado env...\033[0m\n");
-    }
-    if (ft_strcmp(commands->input, "exit") == 0)
-    {
-        printf("\033[34mEjecutado exit...\033[0m\n");
-    }
-}
 int ft_incomplete_quotes(t_msh *commands)
 {
     int i;
@@ -59,15 +28,7 @@ void    ft_manage(t_msh *commands)
     ft_builtins(commands);
 
 }
-void    ft_sigint(int sign)
-{
-    char *get_str;
-    if (sign == SIGINT)
-    {
-        tputs(get_str, 1, putchar);
-        ft_putchar_fd('\n', 1);
-    }
-}
+
 void    ft_init_struct(t_msh *commands)
 {
     commands->cmd = NULL;
@@ -75,17 +36,12 @@ void    ft_init_struct(t_msh *commands)
     commands->evar = NULL;
     commands->input = NULL;
 }
-void    ft_shlvl(t_msh *commands, char **envp)
-{
-    commands->envp = ft_copy_envp(envp);
-    commands->envp = ft_manage_shlvl(commands->envp);
-}
+
 void    ft_handle_readline(t_msh *commands)
 {
     while (1)
     {
-        signal(SIGINT, ft_sigint);
-		signal(SIGQUIT, ft_sigint);
+        ft_signal_handler();
         commands->input = readline("🐚Minishell-42$");
         if (commands->input == NULL)
         {
