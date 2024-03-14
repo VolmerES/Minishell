@@ -89,3 +89,9 @@ void    ft_expand(t_msh *commands);
 int     ft_check_syntax(char *evar);
 char    *ft_get_var(t_msh *commands, int i);
 void    ft_expand_var(t_msh *commands);
+
+            /*BUILTINS.c*/
+void    ft_builtins(t_msh *commands);
+            
+            /*SINGAL.c*/
+void    ft_signal_handler();
