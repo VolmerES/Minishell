@@ -35,6 +35,7 @@ fclean: clean
 	@$(MAKE) fclean -C $(LIBFT_DIR)
 	@echo "$(RED)minishell removed!$(CLEAR)"
 	@rm Historial
+
 re: fclean $(NAME)
 
 run: all
