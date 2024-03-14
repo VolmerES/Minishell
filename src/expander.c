@@ -46,7 +46,7 @@ int ft_check_syntax(char *evar)
             printf("error var num\n");
             exit(1);
         }
-        if (ft_isalpha(evar[i]) == 0 && evar[i] != '_' && ft_isdigit(evar[i + 1]) != 0) 
+        if (ft_isalpha(evar[i]) == 0 && evar[i] != UNDERSCORE && ft_isdigit(evar[i + 1]) != 0) 
         {
             printf("error, var type\n");
             exit(1);
@@ -62,7 +62,7 @@ char *ft_get_var(t_msh *commands, int i)
     size_t len = 0;
     char *evar;
 
-    while (commands->input[i] != ' ' && commands->input[i] != '\0') 
+    while (commands->input[i] != SPACE && commands->input[i] != '\0') 
     {
         i++;
         len++;
@@ -86,16 +86,16 @@ void ft_expand_var(t_msh *commands)
     int i = 0;
     while (commands->input[i] != '\0') 
     {
-        if (commands->input[i] == '$') 
+        if (commands->input[i] == DOLLAR) 
         {
             commands->evar = ft_get_var(commands, i + 1);
             if (!commands->evar)
             {
                 exit(1);
             }
-            printf("Variable de entorno sin expandir: %s\n", commands->evar);
+            printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n", commands->evar);
             ft_expand(commands);
-            printf("Variable de entorno expandida: %s\n", commands->evar);
+            printf("\033[34mVariable de entorno expandida: %s\033[0m\n", commands->evar);
         }
         i++;
     }
