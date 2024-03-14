@@ -32,21 +32,6 @@ int ft_search_env(char **env, char *tofind)
     return (-1);
 }
 
-void    ft_free_matrix(char **env)
-{
-    int i;
-
-    i = -1;
-    while (env[++i])
-        free(env[i]);
-    free(env);
-}
-
-/* ************************************************************************************* */
-/*  Manage_shlvl, busca la posicion de SHLVL en env, mediante search_shlvl, modifica su  */
-/*  valor numerico, y lo vuelve a sobreescribir mediante strjoin                         */
-/* ************************************************************************************* */
-
 char    **ft_manage_shlvl(char **minienv)
 {
     int index;
@@ -72,11 +57,6 @@ char    **ft_manage_shlvl(char **minienv)
     return(minienv);
 }
 
-/* ************************************************************************************* */
-/*  Copy_env, reserva memoria y copia dentro de la struct el entorno para posteriormente */
-/*  realizar cambios en el valor del nivel de la SHELL, variable en env-->  SHLVL= nb    */
-/* ************************************************************************************* */
-
 char    **ft_copy_envp(char **envp)
 {
     char    **minienv;
@@ -97,4 +77,9 @@ char    **ft_copy_envp(char **envp)
     }
     minienv[i] = NULL;
     return (minienv);
+}
+void    ft_shlvl(t_msh *commands, char **envp)
+{
+    commands->envp = ft_copy_envp(envp);
+    commands->envp = ft_manage_shlvl(commands->envp);
 }
