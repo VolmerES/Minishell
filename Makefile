@@ -8,7 +8,7 @@ CLEAR	=	\033[0m
 NAME = minishell
 CC = gcc
 CFLAGS = -Wall -Wextra  
-SRC = ./src/minishell.c ./src/shlvl.c ./src/expander.c ./src/utils.c
+SRC = ./src/minishell.c ./src/shlvl.c ./src/expander.c ./src/utils.c ./src/builtins.c ./src/signal.c
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
