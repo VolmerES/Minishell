@@ -18,3 +18,12 @@ int	ft_strcmp(const char *str1, const char *str2)
 	}
 	return (0);
 }
+void    ft_free_matrix(char **env)
+{
+    int i;
+
+    i = -1;
+    while (env[++i])
+        free(env[i]);
+    free(env);
+}
