@@ -103,3 +103,5 @@ void    print_commands(t_msh *commands);
 void    process_character(t_msh *commands, int *index, int *start, int *in_quotes, int *cmd_index);
 void    add_command(t_msh *commands, int *start, int *index, int *cmd_index);
 void    allocate_commands(t_msh *commands);
+
+void    ft_logo();
