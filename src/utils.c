@@ -9,6 +9,8 @@ int	ft_strcmp(const char *str1, const char *str2)
 {
 	size_t	i;
 
+	if (!str1 || !str2)
+		return (0);
 	i = 0;
 	while ((str1[i] || str2[i]))
 	{
@@ -23,7 +25,13 @@ void    ft_free_matrix(char **env)
     int i;
 
     i = -1;
+	if (!env)
+		return ;
     while (env[++i])
+	{
         free(env[i]);
+		*env[i] = NULL;
+	}
+	*env = NULL;
     free(env);
 }
