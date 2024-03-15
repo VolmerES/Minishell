@@ -26,12 +26,12 @@ void    ft_manage(t_msh *commands)
     }
     ft_expand_var(commands);
     ft_builtins(commands);
-
+    ft_parse_input(commands);
 }
 
 void    ft_init_struct(t_msh *commands)
 {
-    commands->cmd = NULL;
+    commands->cmds = NULL;
     commands->envp = NULL;
     commands->evar = NULL;
     commands->input = NULL;
