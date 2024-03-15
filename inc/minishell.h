@@ -25,6 +25,8 @@
 #define SQUOTES '\''
 #define BACKSLASH '\\'
 #define UNDERSCORE '_'
+#define PIPE '|'
+#define MAX_COMMANDS 100
 
 typedef struct  s_cmd{
 
@@ -32,30 +34,29 @@ typedef struct  s_cmd{
     char    *cmd;
 
     /*Argumentos del comando*/
-    char    **args;
+    char    *args;
 
     /*Infile del comando*/
-    char    **infile;
+    char    *infile;
 
     /*Outfile del comando*/
-    char    **outfile;
+    char    *outfile;
 
     /*Tipo de comando*/
     char    *filetype;
-
 
 }               t_cmd;
 
 
 typedef struct  s_msh{
 
-    /*Input del usuario*/
+    /* Input del usuario */
     char *input;
 
-    /*Comando segmentado*/
-    t_cmd **cmd;
+    /* Comando segmentado */
+    t_cmd **cmds;
 
-    /*Variables entorno*/
+    /* Variables entorno */
     char    **envp;
 
     /*Variable entorno expandida*/
@@ -95,3 +96,10 @@ void    ft_builtins(t_msh *commands);
             
             /*SINGAL.c*/
 void    ft_signal_handler();
+
+            /*PARSERONE.c*/
+void    ft_parse_input(t_msh *commands);
+void    print_commands(t_msh *commands);
+void    process_character(t_msh *commands, int *index, int *start, int *in_quotes, int *cmd_index);
+void    add_command(t_msh *commands, int *start, int *index, int *cmd_index);
+void    allocate_commands(t_msh *commands);
