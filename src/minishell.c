@@ -25,8 +25,8 @@ void    ft_manage(t_msh *commands)
         return ;
     }
     ft_expand_var(commands);
-    ft_builtins(commands);
     ft_parse_input(commands);
+    ft_builtins(commands);
 }
 
 void    ft_init_struct(t_msh *commands)
@@ -52,7 +52,7 @@ void    ft_handle_readline(t_msh *commands)
         {
             add_history(commands->input);
             ft_manage(commands);
-            system(commands->input);
+            // system(commands->input);
             free(commands->input);
         }
     }

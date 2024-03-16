@@ -18,6 +18,7 @@
 #include "../Libft/libft.h"
 #include <termcap.h>  // Necesaria para tgetstr
 #include <signal.h> //? Necesaria para el manejo de señales
+#include <unistd.h>
 
 #define SPACE ' '
 #define DOLLAR '$'

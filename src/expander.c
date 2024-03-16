@@ -94,8 +94,8 @@ void ft_expand_var(t_msh *commands)
                 exit(1);
             }
             printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n", commands->evar);
-            ft_expand(commands);
-            printf("\033[34mVariable de entorno expandida: %s\033[0m\n", commands->evar);
+            // ft_expand(commands);
+            printf("\033[34mVariable de entorno expandida: %s\033[0m\n", getenv(commands->evar));
         }
         i++;
     }
