@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-/* Sobre escribe dentro de evar,con el valor de la variable de entorno y la devuelve*/
+/* Sobre escribe dentro de evar,con el valor de la variable de entorno y la devuelve */
 char    *ft_manage_expander(char **envpc, int index, char *evar)
 {
     const char  *equal_sign;
@@ -62,7 +62,7 @@ char *ft_get_var(t_msh *commands, int i)
     size_t len = 0;
     char *evar;
 
-    while (commands->input[i] != SPACE && commands->input[i] != '\0') 
+    while (commands->input[i] != SPACE && commands->input[i] != '\0' &&  commands->input[i] != DQUOTES) 
     {
         i++;
         len++;
@@ -70,8 +70,8 @@ char *ft_get_var(t_msh *commands, int i)
     evar = malloc(len + 1);
     if (!evar)
     {
-        printf("malloc failed\n");
-        exit(1);
+        printf("Error: Memory allocation failed. Unable to continue.\n");
+        exit(EXIT_FAILURE);
     }
     strncpy(evar, &commands->input[i - len], len);
     evar[len] = '\0';
@@ -86,7 +86,9 @@ void ft_expand_var(t_msh *commands)
     int i = 0;
     while (commands->input[i] != '\0') 
     {
-        if (commands->input[i] == DOLLAR) 
+        if (commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE 
+        && commands->input[i + 1] != '\0' && commands->input[i + 1] != DQUOTES 
+        && commands->input[i - 1] != SQUOTES) 
         {
             commands->evar = ft_get_var(commands, i + 1);
             if (!commands->evar)
