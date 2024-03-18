@@ -42,7 +42,7 @@ void    ft_handle_readline(t_msh *commands)
     while (1)
     {
         ft_signal_handler();
-        commands->input = readline("🐚Minishell-42$");
+        commands->input = readline("🐚Minihell-42.>");
         if (commands->input == NULL)
         {
            printf("\nNo se ingresó ninguna entrada.\n");
@@ -53,6 +53,7 @@ void    ft_handle_readline(t_msh *commands)
             add_history(commands->input);
             ft_manage(commands);
             system(commands->input);
+            printf("Input expandido: %s\n", commands->input);
             free(commands->input);
         }
     }
