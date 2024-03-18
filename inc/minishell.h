@@ -26,7 +26,7 @@
 #define BACKSLASH '\\'
 #define UNDERSCORE '_'
 #define PIPE '|'
-#define MAX_COMMANDS 100
+#define MAX_COMMANDS 1000
 
 typedef struct  s_cmd{
 
@@ -63,6 +63,8 @@ typedef struct  s_msh{
     char    *evar;
 }               t_msh;
 
+
+void    ft_overwrited_expand(t_msh *commands);
             /*PROGRAMA MAIN*/
 void    ft_manage(t_msh *commands);
 void    ft_sigint(int sign);
