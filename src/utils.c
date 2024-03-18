@@ -30,7 +30,6 @@ void    ft_free_matrix(char **env)
     while (env[++i])
 	{
         free(env[i]);
-		*env[i] = NULL;
 	}
 	*env = NULL;
     free(env);
