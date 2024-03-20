@@ -1,85 +1,85 @@
 #include "../inc/minishell.h"
 
-char **ft_addVariable(char **minienv, char *aux)
+char	**ft_addvariable(char **minienv, char *aux)
 {
-    char **matrix;
-    int i;
+	char	**matrix;
+	int		i;
 
-    i = 0;
-    while (minienv[i])
-        i++;
-    matrix = (char **)malloc((i + 2) * sizeof(char *));
-    matrix[i++] = aux;
-    matrix[i] = NULL;
-    ft_free_matrix(minienv);
-    return (matrix);
+	i = 0;
+	while (minienv[i])
+		i++;
+	matrix = (char **)malloc((i + 2) * sizeof(char *));
+	matrix[i++] = aux;
+	matrix[i] = NULL;
+	ft_free_matrix(minienv);
+	return (matrix);
 }
 
-int ft_search_env(char **env, char *tofind)
+int	ft_search_env(char **env, char *tofind)
 {
-    int i;
-    char    **spl;
+	int		i;
+	char	**spl;
 
-    i = 0;
-    while (env[i])
-    {
-        spl = ft_split(env[i], '=');
-        if (ft_strcmp(spl[0], tofind) == 0)
-            return (ft_free_matrix(spl), i);
-        
-        i++;
-    }
-    return (-1);
+	i = 0;
+	while (env[i])
+	{
+		spl = ft_split(env[i], '=');
+		if (ft_strcmp(spl[0], tofind) == 0)
+			return (ft_free_matrix(spl), i);
+		i++;
+	}
+	return (-1);
 }
 
-char    **ft_manage_shlvl(char **minienv)
+char	**ft_manage_shlvl(char **minienv)
 {
-    int index;
-    int nb;
-    char    *nbr;
-    char    *aux;
-    
-    index = ft_search_env(minienv, "SHLVL");
-    if (index == -1)
-    {
-        aux = ft_strdup("SHLVL=1");
-        minienv = ft_addVariable(minienv, aux);
-    }
-    if (index <= 0)
-    {
-        nb = ft_atoi(&minienv[index][5]);
-        nb += 1;
-        nbr = ft_itoa(nb);
-        free(minienv[index]);
-        minienv[index] = ft_strjoin("SHLVL=", nbr);
-        free(nbr);
-    }
-    return(minienv);
+	int		index;
+	int		nb;
+	char	*nbr;
+	char	*aux;
+
+	index = ft_search_env(minienv, "SHLVL");
+	if (index == -1)
+	{
+		aux = ft_strdup("SHLVL=1");
+		minienv = ft_addVariable(minienv, aux);
+	}
+	if (index <= 0)
+	{
+		nb = ft_atoi(&minienv[index][5]);
+		nb += 1;
+		nbr = ft_itoa(nb);
+		free(minienv[index]);
+		minienv[index] = ft_strjoin("SHLVL=", nbr);
+		free(nbr);
+	}
+	return (minienv);
 }
 
-char    **ft_copy_envp(char **envp)
+char	**ft_copy_envp(char **envp)
 {
-    char    **minienv;
-    int     i;
-    int     count;
+	char	**minienv;
+	int		i;
+	int		count;
 
-    count = 0;
-    i = 0;
-    while (envp[count])
-        count++;
-    minienv = (char **)malloc((count + 1) * sizeof(char *));
-    if (!minienv)
-        return (ft_free_matrix(minienv), NULL);
-    while (envp[i])
-    {
-        minienv[i] = ft_strdup(envp[i]);
-        i++;
-    }
-    minienv[i] = NULL;
-    return (minienv);
+	count = 0;
+	i = 0;
+	while (envp[count])
+		count++;
+	minienv = (char **)malloc((count + 1) * sizeof(char *));
+	if (!minienv)
+		return (ft_free_matrix(minienv), NULL);
+	while (envp[i])
+	{
+		minienv[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	minienv[i] = NULL;
+	return (minienv);
 }
-void    ft_shlvl(t_msh *commands, char **envp)
+
+void	ft_shlvl(t_msh *commands, char **envp)
 {
-    commands->envp = ft_copy_envp(envp);
-    commands->envp = ft_manage_shlvl(commands->envp);
+	commands->envp = ft_copy_envp(envp);
+	commands->envp = ft_manage_shlvl(commands->envp);
 }
