@@ -1,21 +1,5 @@
 #include "../inc/minishell.h"
 
-void    ft_overwrited_expand(t_msh *commands)
-{
-    int i;
-
-    i = 0;
-    while (commands->input[i] != '\0')
-    {
-        if (commands->input[i] == DOLLAR && commands->input[i + 1] != '\0')
-        {
-            ft_strlcpy(commands->input + i, commands->evar, ft_strlen(commands->evar) + 1);
-            i += ft_strlen(commands->evar);
-        }
-        i++;
-    }
-}
-
 /* Sobre escribe dentro de evar,con el valor de la variable de entorno y la devuelve */
 char    *ft_manage_expander(char **envpc, int index, char *evar)
 {
@@ -39,7 +23,7 @@ char    *ft_manage_expander(char **envpc, int index, char *evar)
             return (expanded_variable);
         }
     }
-    return(NULL);
+    return (NULL);
 }
 /*Busca la variable de entorno dentro del env, deuvelve un indice a su posicon y copia lo que sigue al simbolo "="*/
 void    ft_expand(t_msh *commands)
@@ -112,9 +96,9 @@ void ft_expand_var(t_msh *commands)
             }
             printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n", commands->evar);
             ft_expand(commands);
+            ft_overwrited_expand(commands);
             printf("\033[34mVariable de entorno expandida: %s\033[0m\n", commands->evar);
         }
-        ft_overwrited_expand(commands);
         i++;
     }
 }
