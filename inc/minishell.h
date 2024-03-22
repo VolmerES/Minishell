@@ -34,7 +34,7 @@ typedef struct s_cmd
 	char	*cmd;
 
 	/*Argumentos del comando*/
-	char	*args;
+	char	**args;
 
 	/*Infile del comando*/
 	char	*infile;
@@ -112,3 +112,6 @@ void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index);
 void		allocate_commands(t_msh *commands);
 
 void		ft_logo(void);
+
+
+int	cd_builtins(t_msh *commands, int index);
