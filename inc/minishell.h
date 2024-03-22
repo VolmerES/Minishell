@@ -28,23 +28,40 @@
 #define PIPE '|'
 #define MAX_COMMANDS 1000
 
+typedef enum  e_file_type {
+	INFILE_NORMAL = 0,
+	INFILE_HERE_DOC,
+	OUTFILE_TRUNC,
+	OUTFILE_APPEND
+} t_file_type;
+
+typedef struct s_file
+{
+	char	*filename;
+
+	t_file_type	type;
+
+	//int type; // 0 in_normal, 1 in_here_doc, 2 out_truc, 3 out_append
+
+} t_file;
+
 typedef struct s_cmd
 {
 	/*Comando principal*/
 	char	*cmd;
 
 	/*Argumentos del comando*/
-	char	*args;
+	char	**args;
 
 	/*Infile del comando*/
-	char	*infile;
+	t_file	*infile;
+
+	// ls >1 <9 >2 >>3
+	//Infiles:	[{"1", INFILE_NORMAL}, {"2", INFILE_NORMAL}, {"3", INFILE_HERE_DOC}]
+	//Outfiles:	[{"9", OUTFILE_TRUC}]
 
 	/*Outfile del comando*/
-	char	*outfile;
-
-	/*Tipo de comando*/
-	char	*filetype;
-
+	t_file	*outfile;
 }			t_cmd;
 
 typedef struct s_msh
@@ -111,4 +128,8 @@ void		process_character(t_msh *commands, int *index, int *start,
 void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index);
 void		allocate_commands(t_msh *commands);
 
+/*LOGO.c*/
 void		ft_logo(void);
+
+/*TOKENIZER.c*/
+void		ft_tokenize(t_msh *commands);
