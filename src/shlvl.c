@@ -42,7 +42,7 @@ char	**ft_manage_shlvl(char **minienv)
 	if (index == -1)
 	{
 		aux = ft_strdup("SHLVL=1");
-		minienv = ft_addVariable(minienv, aux);
+		minienv = ft_addvariable(minienv, aux);
 	}
 	if (index <= 0)
 	{
