@@ -20,18 +20,18 @@ int	ft_strcmp(const char *str1, const char *str2)
 	}
 	return (0);
 }
-void    ft_free_matrix(char **env)
-{
-    int i;
 
-    i = -1;
+void	ft_free_matrix(char **env)
+{
+	int	i;
+
+	i = -1;
 	if (!env)
 		return ;
-    while (env[++i])
+	while (env[++i])
 	{
-        free(env[i]);
-		*env[i] = NULL;
+		free(env[i]);
 	}
 	*env = NULL;
-    free(env);
+	free(env);
 }

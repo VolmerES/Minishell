@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*   minishell.h                                          :::      ::::::::   */
-/*                                     				    :+:      :+:    :+:   */
+/*                                     					 :+:      :+:    :+:   */
 /*   By: juan <juan@student.42.fr>                    +:+ +:+         +:+     */
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/readline.h>
+#include "../Libft/libft.h"
 #include <readline/history.h>
+#include <readline/readline.h>
+#include <signal.h> //? Necesaria para el manejo de señales
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../Libft/libft.h"
-#include <termcap.h>  // Necesaria para tgetstr
-#include <signal.h> //? Necesaria para el manejo de señales
-#include <unistd.h>
+#include <termcap.h> // Necesaria para tgetstr
 
 #define SPACE ' '
 #define DOLLAR '$'
@@ -27,82 +26,90 @@
 #define BACKSLASH '\\'
 #define UNDERSCORE '_'
 #define PIPE '|'
-#define MAX_COMMANDS 100
+#define MAX_COMMANDS 1000
 
-typedef struct  s_cmd{
+typedef struct s_cmd
+{
+	/*Comando principal*/
+	char	*cmd;
 
-    /*Comando principal*/
-    char    *cmd;
+	/*Argumentos del comando*/
+	char	*args;
 
-    /*Argumentos del comando*/
-    char    *args;
+	/*Infile del comando*/
+	char	*infile;
 
-    /*Infile del comando*/
-    char    *infile;
+	/*Outfile del comando*/
+	char	*outfile;
 
-    /*Outfile del comando*/
-    char    *outfile;
+	/*Tipo de comando*/
+	char	*filetype;
 
-    /*Tipo de comando*/
-    char    *filetype;
+}			t_cmd;
 
-}               t_cmd;
+typedef struct s_msh
+{
+	/* Input del usuario */
+	char	*input;
 
+	/* Comando segmentado */
+	t_cmd	**cmds;
 
-typedef struct  s_msh{
+	/* Variables entorno */
+	char	**envp;
 
-    /* Input del usuario */
-    char *input;
+	/*Variable entorno expandida*/
+	char	*evar;
+}			t_msh;
 
-    /* Comando segmentado */
-    t_cmd **cmds;
+/*OVEREXPANDER.c*/
+void		ft_overwrited_expand(t_msh *commands);
+char		*ft_get_env_var_value(const char *var_name);
+char		*ft_get_var_name(char *input, int *i);
+void		ft_replace_var_with_value(t_msh *commands, char *var_value, int i,
+				int var_len);
 
-    /* Variables entorno */
-    char    **envp;
+/*PROGRAMA MAIN*/
+void		ft_manage(t_msh *commands);
+void		ft_sigint(int sign);
+void		ft_init_struct(t_msh *commands);
+void		ft_shlvl(t_msh *commands, char **envp);
+void		ft_handle_readline(t_msh *commands);
 
-    /*Variable entorno expandida*/
-    char    *evar;
-}               t_msh;
+/*PARSEO COMILLAS*/
+int			ft_incomplete_quotes(t_msh *commands);
 
-            /*PROGRAMA MAIN*/
-void    ft_manage(t_msh *commands);
-void    ft_sigint(int sign);
-void    ft_init_struct(t_msh *commands);
-void    ft_shlvl(t_msh *commands, char **envp);
-void    ft_handle_readline(t_msh *commands);
+/*UTILIDADES*/
+int			ft_strcmp(const char *str1, const char *str2);
 
-            /*PARSEO COMILLAS*/
-int     ft_incomplete_quotes(t_msh *commands);
+/*MANAGER SHELL LEVEL*/
+int			ft_search_shlvl(char **env);
+void		ft_free_matrix(char **env);
+char		**ft_manage_shlvl(char **minienv);
+char		**ft_copy_envp(char **envp);
+char		**ft_addvariable(char **minienv, char *aux);
+int			ft_search_env(char **env, char *tofind);
 
-                /*UTILIDADES*/
-int     ft_strcmp(const char *str1, const char *str2);
+/*EXPANDER DE VARIABLES DE ENTORNO*/
+char		*ft_manage_expander(char **envpc, int index, char *evar);
+void		ft_expand(t_msh *commands);
+int			ft_check_syntax(char *evar);
+char		*ft_get_var(t_msh *commands, int i);
+void		ft_expand_var(t_msh *commands);
 
-                /*MANAGER SHELL LEVEL*/
-int     ft_search_shlvl(char **env);
-void    ft_free_matrix(char **env);
-char    **ft_manage_shlvl(char **minienv);
-char    **ft_copy_envp(char **envp);
-char    **ft_addVariable(char **minienv, char *aux);
-int     ft_search_env(char **env, char *tofind);
+/*BUILTINS.c*/
+void		ft_builtins(t_msh *commands);
 
-            /*EXPANDER DE VARIABLES DE ENTORNO*/
-char    *ft_manage_expander(char **envpc, int index, char *evar);
-void    ft_expand(t_msh *commands);
-int     ft_check_syntax(char *evar);
-char    *ft_get_var(t_msh *commands, int i);
-void    ft_expand_var(t_msh *commands);
+/*SINGAL.c*/
+void		ft_signal_handler(void);
 
-            /*BUILTINS.c*/
-void    ft_builtins(t_msh *commands);
-            
-            /*SINGAL.c*/
-void    ft_signal_handler();
+/*PARSERONE.c*/
+void		ft_parse_input(t_msh *commands);
+void		print_commands(t_msh *commands);
+void		process_character(t_msh *commands, int *index, int *start,
+				int *in_quotes, int *cmd_index, int *in_single_quotes);
+void		add_command(t_msh *commands, int *start, int *index,
+				int *cmd_index);
+void		allocate_commands(t_msh *commands);
 
-            /*PARSERONE.c*/
-void    ft_parse_input(t_msh *commands);
-void    print_commands(t_msh *commands);
-void    process_character(t_msh *commands, int *index, int *start, int *in_quotes, int *cmd_index);
-void    add_command(t_msh *commands, int *start, int *index, int *cmd_index);
-void    allocate_commands(t_msh *commands);
-
-void    ft_logo();
+void		ft_logo(void);

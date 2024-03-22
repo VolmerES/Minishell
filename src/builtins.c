@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-void    ft_builtins(t_msh *commands)
+void	ft_builtins(t_msh *commands)
 {
 	char s[100];
 	printf("%s\n", getcwd(s, 100)); 
