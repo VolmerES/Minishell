@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:40:32 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/03/25 15:15:11 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:30:22 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,20 @@ static void update_env(t_msh *commands, int index, char *value)
 		commands->envp = ft_addvariable(commands->envp, value);
 }
 
-static void	cd_home(t_msh *commands)
+static void cd_home(t_msh *commands)
 {
-	int		i_home;
-	int		i_old_pwd;
-	int		i_pwd;
-	char	*old_pwd;
-	
+	int i_home;
+	int i_old_pwd;
+	int i_pwd;
+	char *old_pwd;
+
 	i_home = ft_search_env(commands->envp, "HOME");
 	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
 	i_pwd = ft_search_env(commands->envp, "PWD");
 	if (i_home == -1)
 	{
 		printf("cd: HOME not set");
-		return ;
+		return;
 	}
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(commands->envp[i_home] + 5) != -1)
@@ -58,10 +58,10 @@ static void	cd_home(t_msh *commands)
 
 static void cd_route(t_msh *commands, int i)
 {
-	int		i_old_pwd;
-	int		i_pwd;
-	char	*old_pwd;
-	
+	int i_old_pwd;
+	int i_pwd;
+	char *old_pwd;
+
 	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
 	i_pwd = ft_search_env(commands->envp, "PWD");
 	old_pwd = getcwd(NULL, 0);
@@ -75,10 +75,10 @@ static void cd_route(t_msh *commands, int i)
 	free(old_pwd);
 }
 
-int	cd_builtin(t_msh *commands, int i)
+int cd_builtin(t_msh *commands, int i)
 {
 	int num_args;
-	
+
 	num_args = check_num_args(commands, i);
 	if (!num_args)
 		cd_home(commands);
