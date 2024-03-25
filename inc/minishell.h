@@ -134,4 +134,6 @@ void		ft_logo(void);
 /*TOKENIZER.c*/
 void		ft_tokenize(t_msh *commands);
 
-int	cd_builtins(t_msh *commands, int index);
+int	cd_builtin(t_msh *commands, int index);
+
+

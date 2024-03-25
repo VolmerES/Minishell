@@ -46,7 +46,8 @@ char	**ft_manage_shlvl(char **minienv)
 	}
 	if (index <= 0)
 	{
-		nb = ft_atoi(&minienv[index][5]);
+		// nb = ft_atoi(&minienv[index][5]);
+		nb = ft_atoi("5");
 		nb += 1;
 		nbr = ft_itoa(nb);
 		free(minienv[index]);

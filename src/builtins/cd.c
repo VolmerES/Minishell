@@ -6,39 +6,83 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:40:32 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/03/22 17:39:36 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:15:11 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	cd_builtins(t_msh *commands, int i)
+static int check_num_args(t_msh *commands, int i)
 {
-	char *old_pwd;
-	int index_pwd;
-	int index_oldpwd;
-	
-	old_pwd = getcwd(NULL, 0);
-	if (chdir(commands->cmds[i]->args) != -1)
+	int j;
+
+	j = 0;
+	while (commands->cmds[i]->args[j])
+		j++;
+	return (j);
+}
+static void update_env(t_msh *commands, int index, char *value)
+{
+	if (index != -1)
 	{
-		index_pwd = ft_search_env(commands->envp, "PWD");
-		index_oldpwd = ft_search_env(commands->envp, "OLDPWD");
-		if (index_pwd != -1)
-		{
-			free(commands->envp[index_pwd]);
-			commands->envp[index_pwd]= ft_strjoin("PWD=", getcwd(NULL, 0));
-		}
-		else
-			commands->envp = ft_addvariable(commands->envp, ft_strjoin("PWD=", commands->cmds[i]->args));
-		if (index_oldpwd != -1)
-		{
-			free(commands->envp[index_oldpwd]);
-			commands->envp[index_oldpwd]= ft_strjoin("OLDPWD=", old_pwd);
-		}
-		else
-			commands->envp = ft_addvariable(commands->envp, ft_strjoin("OLDPWD=", old_pwd));
-		free(old_pwd);		
+		free(commands->envp[index]);
+		commands->envp[index] = value;
 	}
-	printf("=>PATH: %s\n =>PATHOLD: %s\n",commands->envp[index_pwd], commands->envp[index_oldpwd]);
+	else
+		commands->envp = ft_addvariable(commands->envp, value);
+}
+
+static void	cd_home(t_msh *commands)
+{
+	int		i_home;
+	int		i_old_pwd;
+	int		i_pwd;
+	char	*old_pwd;
+	
+	i_home = ft_search_env(commands->envp, "HOME");
+	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
+	i_pwd = ft_search_env(commands->envp, "PWD");
+	if (i_home == -1)
+	{
+		printf("cd: HOME not set");
+		return ;
+	}
+	old_pwd = getcwd(NULL, 0);
+	if (chdir(commands->envp[i_home] + 5) != -1)
+	{
+		update_env(commands, i_pwd, ft_strjoin("PWD=", commands->envp[i_home] + 5));
+		update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
+	}
+	free(old_pwd);
+}
+
+static void cd_route(t_msh *commands, int i)
+{
+	int		i_old_pwd;
+	int		i_pwd;
+	char	*old_pwd;
+	
+	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
+	i_pwd = ft_search_env(commands->envp, "PWD");
+	old_pwd = getcwd(NULL, 0);
+	if (chdir(commands->cmds[i]->args[0]) != -1)
+	{
+		update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
+		free(old_pwd);
+		old_pwd = getcwd(NULL, 0);
+		update_env(commands, i_pwd, ft_strjoin("PWD=", old_pwd));
+	}
+	free(old_pwd);
+}
+
+int	cd_builtin(t_msh *commands, int i)
+{
+	int num_args;
+	
+	num_args = check_num_args(commands, i);
+	if (!num_args)
+		cd_home(commands);
+	else if (num_args >= 1)
+		cd_route(commands, i);
 	return (0);
 }
