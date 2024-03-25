@@ -10,20 +10,21 @@ void	ft_builtins(t_msh *commands)
 	ptr = "..";
 	commands->cmds[0]->args = &ptr;
 	commands->cmds[0]->args[1] = NULL;
-	cd_builtin(commands, i);
+	// cd_builtin(commands, i);
+	// pwd_builtin(commands);
 
 	// while (commands->cmds[i])
 	// {
 	// 	if (ft_strcmp(commands->cmds[i]->cmd, "cd"))
-	// 		cd_builtins(commands, i);
+	// 		cd_builtin(commands, i);
+	// 	else if (ft_strcmp(commands->cmds[i]->cmd, "pwd"))
+	// 		pwd_builtin(commands, i);
 	// }
+
+
     // if (ft_strcmp(commands->input, "echo") == 0)
     // {
     //     printf("\033[34mEjecutado echo...\033[0m\n");
-    // }
-    // if (ft_strcmp(commands->input, "pwd") == 0)
-    // {
-    //     printf("\033[34mEjecutado pwd...\033[0m\n");
     // }
     // if (ft_strcmp(commands->input, "export") == 0)
     // {
