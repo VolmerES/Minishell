@@ -9,7 +9,7 @@ NAME = minishell
 CC = gcc
 CFLAGS = -Wall -Wextra -g3
 SRC = ./src/minishell.c ./src/shlvl.c ./src/expander.c ./src/utils.c ./src/builtins/builtins.c ./src/signal.c ./src/parserone.c ./src/logo.c ./src/overexpander.c \
-		./src/builtins/cd.c
+		./src/builtins/cd.c ./src/tokenizer.c
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
