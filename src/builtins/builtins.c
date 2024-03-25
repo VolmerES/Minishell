@@ -10,7 +10,7 @@ void	ft_builtins(t_msh *commands)
 	ptr = "..";
 	commands->cmds[0]->args = &ptr;
 	commands->cmds[0]->args[1] = NULL;
-	cd_builtins(commands, i);
+	cd_builtin(commands, i);
 
 	// while (commands->cmds[i])
 	// {
