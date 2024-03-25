@@ -30,9 +30,9 @@
 
 typedef enum  e_file_type {
 	INFILE_NORMAL = 0,
-	INFILE_HERE_DOC,
-	OUTFILE_TRUNC,
-	OUTFILE_APPEND
+	INFILE_HERE_DOC = 1,
+	OUTFILE_TRUNC = 2,
+	OUTFILE_APPEND = 3
 } t_file_type;
 
 typedef struct s_file
