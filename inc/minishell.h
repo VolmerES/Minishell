@@ -136,5 +136,6 @@ void		ft_tokenize(t_msh *commands);
 
 /*BUILTINS/BUILTINS.c*/
 int			cd_builtin(t_msh *commands, int i);
+int			pwd_builtin(t_msh *commands);
 
 
