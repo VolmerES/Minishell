@@ -3,15 +3,15 @@
 void	ft_builtins(t_msh *commands)
 {
 	int i;
-	char *ptr;
+	char *ptr[] = {"-nnnnfs", "-n", "-n", NULL};
 
 	i = 0;
 
-	ptr = "..";
-	commands->cmds[0]->args = &ptr;
-	commands->cmds[0]->args[1] = NULL;
+	
+	commands->cmds[0]->args = ptr;
 	// cd_builtin(commands, i);
-	// pwd_builtin(commands);
+	// pwd_builtin();
+	echo_builtin(commands, i);
 
 	// while (commands->cmds[i])
 	// {

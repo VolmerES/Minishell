@@ -6,21 +6,12 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:40:32 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/03/25 15:30:22 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:46:21 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int check_num_args(t_msh *commands, int i)
-{
-	int j;
-
-	j = 0;
-	while (commands->cmds[i]->args[j])
-		j++;
-	return (j);
-}
 static void update_env(t_msh *commands, int index, char *value)
 {
 	if (index != -1)
