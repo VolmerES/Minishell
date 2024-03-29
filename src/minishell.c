@@ -27,7 +27,7 @@ void    ft_manage(t_msh *commands)
     ft_expand_var(commands);
     ft_parse_input(commands);
 	ft_builtins(commands);
-    // ft_tokenize(commands);
+    ft_tokenize(commands);
 }
 
 void    ft_init_struct(t_msh *commands)
@@ -54,8 +54,7 @@ void    ft_handle_readline(t_msh *commands)
             add_history(commands->input);
             ft_manage(commands);
             system(commands->input);
-            printf("Input expandido: %s\n", commands->input);
-            free(commands->input);
+            //free(commands->input);
         }
     }
 }
