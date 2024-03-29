@@ -3,7 +3,7 @@
 void	ft_builtins(t_msh *commands)
 {
 	int i;
-	char *ptr[] = {"-nnnnfs", "-n", "-n", NULL};
+	char *ptr[] = {"-n", "-nnnnnnnnnn", "-nasdfsdfs", NULL};
 
 	i = 0;
 
