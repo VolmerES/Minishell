@@ -3,49 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:43:17 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/03/25 18:30:50 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/03/29 13:11:43 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int check_flag(t_msh *commands, int i)
+static void print_echo(t_msh *commands, int i, int j, int n_flag)
 {
-	int j;
-	int len_arg;
+    while (commands->cmds[i]->args[j])
+    {
+        printf("%s", commands->cmds[i]->args[j]);
+        if (commands->cmds[i]->args[j + 1])
+            printf(" ");
+        j++;
+    }
+    if (!n_flag)
+        printf("\n");
+}
 
-	j = 1;
-	len_arg = ft_strlen(commands->cmds[i]->args[0]);
-	if (commands->cmds[i]->args[0][0] == '-')
+int check_break(t_msh *commands, int i, int j)
+{
+	int k;
+
+	k = 1;
+	while (commands->cmds[i]->args[j][k] != '\0')
 	{
-		while (commands->cmds[i]->args[0][j] == 'n')
-			j++;
+		if (commands->cmds[i]->args[j][k] != 'n')
+			return (1);
+		k++;
 	}
-	return (j == len_arg);
-}
-print_inline(t_msh *commands, int i)
-{
-	int j;
-
-	j = 1;
-	
-}
-
-int	echo_builtin(t_msh *commands, int i)
-{
-	int	num_arg;
-	int	bool_flag;
-
-	num_arg = check_num_args(commands, i);
-	bool_flag = 0;
-	if (num_arg > 1)
-		bool_flag = check_flag(commands, i);
-	if (bool_flag)
-		print_inline(commands, i);
-	else
-		print_ln();
 	return (0);
+}
+int	echo_builtin(t_msh *commands, int i)
+{	
+    int n_flag;
+    int j;
+	
+	n_flag = 0;
+	j = 0;
+    while (commands->cmds[i]->args[j])
+    {
+		if (commands->cmds[i]->args[j][0] == '-')
+		{
+			if (check_break(commands, i, j))
+            	break;
+			j++;
+			n_flag = 1;
+		}
+		else
+			break;
+    }
+	print_echo(commands, i, j, n_flag);
+    return 0;
 }
