@@ -3,7 +3,7 @@
 void	ft_builtins(t_msh *commands)
 {
 	int i;
-	char *ptr[] = {"-n", "-nnnnnnnnnn", "-nasdfsdfs", NULL};
+	char *ptr[] = {"DAVID=123", NULL};
 
 	i = 0;
 
@@ -11,13 +11,15 @@ void	ft_builtins(t_msh *commands)
 	commands->cmds[0]->args = ptr;
 	// cd_builtin(commands, i);
 	// pwd_builtin();
-	echo_builtin(commands, i);
+	export_builtin(commands, i);
 
 	// while (commands->cmds[i])
 	// {
 	// 	if (ft_strcmp(commands->cmds[i]->cmd, "cd"))
 	// 		cd_builtin(commands, i);
 	// 	else if (ft_strcmp(commands->cmds[i]->cmd, "pwd"))
+	// 		pwd_builtin(commands, i);
+	// 	else if (ft_strcmp(commands->cmds[i]->cmd, "export"))
 	// 		pwd_builtin(commands, i);
 	// }
 

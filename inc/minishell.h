@@ -139,5 +139,7 @@ int			cd_builtin(t_msh *commands, int i);
 int			pwd_builtin();
 int			echo_builtin(t_msh *commands, int i);
 int			check_num_args(t_msh *commands, int i);
+int			export_builtin(t_msh *commands, int i);
+
 
 
