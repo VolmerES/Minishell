@@ -47,8 +47,11 @@ typedef struct s_file
 
 typedef struct s_cmd
 {
-	/*Comando principal*/
+	/*Contenido input por pipes*/
 	char	*cmd;
+
+	/*Comando principal solo*/
+	char	*cmd_main;
 
 	/*Argumentos del comando*/
 	char	**args;
