@@ -28,20 +28,20 @@ $(LIBFT):
 	@echo "$(GREEN)libft compiled!$(CLEAR)"
 
 clean:
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ)
 	@$(MAKE) clean -C $(LIBFT_DIR)
 	@echo "$(RED)minishell objects removed!$(CLEAR)"
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -rf $(NAME)
 	@$(MAKE) fclean -C $(LIBFT_DIR)
 	@echo "$(RED)minishell removed!$(CLEAR)"
-	@rm Historial
+	@rm -rf Historial
 
 re: fclean $(NAME)
 
 run: all
-	clear
-	./$(NAME)
+	@clear
+	@./$(NAME)
 
 .PHONY: all clean fclean re
