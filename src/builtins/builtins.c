@@ -8,7 +8,7 @@ void	ft_builtins(t_msh *commands)
 	i = 0;
 
 	
-	commands->cmds[0]->args = ptr;
+	// commands->cmds[0]->args = ptr;
 	// cd_builtin(commands, i);
 	// pwd_builtin();
 	export_builtin(commands, i);

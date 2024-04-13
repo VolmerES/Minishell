@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 12:13:41 by david             #+#    #+#             */
-/*   Updated: 2024/03/30 12:50:33 by david            ###   ########.fr       */
+/*   Updated: 2024/04/13 11:55:51 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	**order_alfa_envp(char **envp)
 	return (new_envp);
 }
 
-void	export_empty(t_msh *commands, int i)
+void	export_empty(t_msh *commands)
 {
 	int		i;
 	int		j;
@@ -78,12 +78,8 @@ void	export_empty(t_msh *commands, int i)
 		printf("declare -x ");
 		while (order_envp[i][j] != '=' && order_envp[i][j] != '\0')
 			printf("%c", order_envp[i][j++]);
-		printf("%s\"", &order_envp[i][j]);
-		// while (order_envp[i][j] != '\0')
-		// {
-		// 	printf("%c", order_envp[i][j]);
-		// 	j++;
-		// }
+		printf("%c\"", order_envp[i][j++]);
+		printf("%s", &order_envp[i][j]);
 		printf("\"\n");
 	}
 	free(order_envp);
