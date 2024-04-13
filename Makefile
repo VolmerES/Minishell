@@ -44,4 +44,8 @@ run: all
 	@clear
 	@./$(NAME)
 
+valgrind: all
+	@clear
+	@./$(NAME)
+
 .PHONY: all clean fclean re
