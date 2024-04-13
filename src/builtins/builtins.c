@@ -3,12 +3,12 @@
 void	ft_builtins(t_msh *commands)
 {
 	int i;
-	char *ptr[] = {"DAVID=123", NULL};
+	char *ptr[] = {"DAVID=123", "DAVID=1234", NULL};
 
 	i = 0;
 
 	
-	// commands->cmds[0]->args = ptr;
+	commands->cmds[0]->args = ptr;
 	// cd_builtin(commands, i);
 	// pwd_builtin();
 	export_builtin(commands, i);

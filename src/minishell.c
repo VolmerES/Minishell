@@ -53,7 +53,7 @@ void    ft_handle_readline(t_msh *commands)
         {
             add_history(commands->input);
             ft_manage(commands);
-            system(commands->input);
+            // system(commands->input);
             //free(commands->input);
         }
     }

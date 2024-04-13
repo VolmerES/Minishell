@@ -4,14 +4,21 @@ char	**ft_addvariable(char **minienv, char *aux)
 {
 	char	**matrix;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	while (minienv[i])
 		i++;
 	matrix = (char **)malloc((i + 2) * sizeof(char *));
+	while (j < i)
+	{
+		matrix[j] = minienv[j];
+		j++;
+	}
 	matrix[i++] = aux;
 	matrix[i] = NULL;
-	ft_free_matrix(minienv);
+	free(minienv);
 	return (matrix);
 }
 
