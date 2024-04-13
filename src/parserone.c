@@ -10,19 +10,18 @@ void	ft_allocate_commands(t_msh *commands)
 	}
 }
 
-void	ft_process_character(t_msh *commands, int *index, int *start,
-		int *in_quotes, int *cmd_index, int *in_single_quotes)
+void	ft_process_character(t_msh *commands)
 {
-	if (commands->input[*index] == DQUOTES && (*index == 0
-			|| commands->input[*index - 1] != BACKSLASH))
-		*in_quotes = !*in_quotes;
-	else if (commands->input[*index] == SQUOTES && (*index == 0
-			|| commands->input[*index - 1] != BACKSLASH))
-		*in_single_quotes = !*in_single_quotes;
-	else if (commands->input[*index] == PIPE && !*in_quotes
-		&& !*in_single_quotes)
-		ft_add_command(commands, start, index, cmd_index);
-	(*index)++;
+	if (commands->input[commands->parser.index] == DQUOTES && (commands->parser.index == 0
+			|| commands->input[commands->parser.index - 1] != BACKSLASH))
+		commands->parser.in_quotes = !(commands->parser.in_quotes);
+	else if (commands->input[commands->parser.index] == SQUOTES && (commands->parser.index == 0
+			|| commands->input[commands->parser.index - 1] != BACKSLASH))
+		commands->parser.in_single_quotes = !(commands->parser.in_single_quotes);
+	else if (commands->input[commands->parser.index] == PIPE && !(commands->parser.in_quotes)
+		&& !(commands->parser.in_single_quotes))
+		ft_add_command(commands, &(commands->parser.start), &(commands->parser.index), &(commands->parser.cmd_index));
+	(commands->parser.index)++;
 }
 
 void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
@@ -53,17 +52,16 @@ void	ft_print_commands(t_msh *commands)
 /**/
 void	ft_parse_input(t_msh *commands)
 {
-	int index = 0;
-	int start = 0;
-	int in_quotes = 0;
-	int cmd_index = 0;
-	int in_single_quotes = 0;
+	commands->parser.index = 0;
+	commands->parser.start = 0;
+	commands->parser.in_quotes = 0;
+	commands->parser.cmd_index = 0;
+	commands->parser.in_single_quotes = 0;
 
 	ft_allocate_commands(commands);
-	while (commands->input[index] != '\0')
-		ft_process_character(commands, &index, &start, &in_quotes, &cmd_index,
-			&in_single_quotes);
-	ft_add_command(commands, &start, &index, &cmd_index);
-	commands->cmds[cmd_index + 1] = NULL;
+	while (commands->input[commands->parser.index] != '\0')
+		ft_process_character(commands);
+	ft_add_command(commands, &(commands->parser.start), &(commands->parser.index), &(commands->parser.cmd_index));
+	commands->cmds[commands->parser.cmd_index + 1] = NULL;
 	ft_print_commands(commands);
 }
