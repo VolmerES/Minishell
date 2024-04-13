@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*   minishell.h                                          :::      ::::::::   */
-/*                                     					 :+:      :+:    :+:   */
+/*                                     					 :+:      :+:    :+:  */
 /*   By: juan <juan@student.42.fr>                    +:+ +:+         +:+     */
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -28,22 +28,28 @@
 #define PIPE '|'
 #define MAX_COMMANDS 1000
 
-typedef enum  e_file_type {
+typedef struct s_parser
+{
+	int	index;
+	int	start;
+	int	in_quotes;
+	int	cmd_index;
+	int	in_single_quotes;
+}				t_parser;
+
+typedef enum e_file_type
+{
 	INFILE_NORMAL = 0,
 	INFILE_HERE_DOC = 1,
 	OUTFILE_TRUNC = 2,
 	OUTFILE_APPEND = 3
-} t_file_type;
+}	t_file_type;
 
 typedef struct s_file
 {
-	char	*filename;
-
+	char		*filename;
 	t_file_type	type;
-
-	//int type; // 0 in_normal, 1 in_here_doc, 2 out_truc, 3 out_append
-
-} t_file;
+}				t_file;
 
 typedef struct s_cmd
 {
@@ -59,28 +65,26 @@ typedef struct s_cmd
 	/*Infile del comando*/
 	t_file	*infile;
 
-	// ls >1 <9 >2 >>3
-	//Infiles:	[{"1", INFILE_NORMAL}, {"2", INFILE_NORMAL}, {"3", INFILE_HERE_DOC}]
-	//Outfiles:	[{"9", OUTFILE_TRUC}]
-
 	/*Outfile del comando*/
 	t_file	*outfile;
-}			t_cmd;
+}				t_cmd;
 
 typedef struct s_msh
 {
 	/* Input del usuario */
-	char	*input;
+	char		*input;
 
 	/* Comando segmentado */
-	t_cmd	**cmds;
+	t_cmd		**cmds;
 
 	/* Variables entorno */
-	char	**envp;
+	char		**envp;
 
 	/*Variable entorno expandida*/
-	char	*evar;
-}			t_msh;
+	char		*evar;
+
+	t_parser	parser;
+}				t_msh;
 
 /*OVEREXPANDER.c*/
 void		ft_overwrited_expand(t_msh *commands);
@@ -126,9 +130,9 @@ void		ft_signal_handler(void);
 /*PARSERONE.c*/
 void		ft_parse_input(t_msh *commands);
 void		print_commands(t_msh *commands);
-void		process_character(t_msh *commands, int *index, int *start,
-				int *in_quotes, int *cmd_index, int *in_single_quotes);
-void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index);
+void		ft_process_character(t_msh *commands);
+void		ft_add_command(t_msh *commands, int *start,
+				int *index, int *cmd_index);
 void		allocate_commands(t_msh *commands);
 
 /*LOGO.c*/
@@ -139,12 +143,10 @@ void		ft_tokenize(t_msh *commands);
 
 /*BUILTINS/BUILTINS.c*/
 int			cd_builtin(t_msh *commands, int i);
-int			pwd_builtin();
+int			pwd_builtin(void);
 int			echo_builtin(t_msh *commands, int i);
 int			check_num_args(t_msh *commands, int i);
 int			export_builtin(t_msh *commands, int i);
 void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
 void		update_env(t_msh *commands, int index, char *value);
-
-
