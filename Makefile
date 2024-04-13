@@ -44,8 +44,11 @@ run: all
 	@clear
 	@./$(NAME)
 
+
+# Descomment the line to get leaks
+VALGRIND_FLAGS=#--leak-check=full
 valgrind: all
 	@clear
-	@./$(NAME)
+	@valgrind $(VALGRIND_FLAGS) ./$(NAME)
 
 .PHONY: all clean fclean re
