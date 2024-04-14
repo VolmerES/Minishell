@@ -28,20 +28,27 @@ $(LIBFT):
 	@echo "$(GREEN)libft compiled!$(CLEAR)"
 
 clean:
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ)
 	@$(MAKE) clean -C $(LIBFT_DIR)
 	@echo "$(RED)minishell objects removed!$(CLEAR)"
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -rf $(NAME)
 	@$(MAKE) fclean -C $(LIBFT_DIR)
 	@echo "$(RED)minishell removed!$(CLEAR)"
-	@rm Historial
+	@rm -rf Historial
 
 re: fclean $(NAME)
 
 run: all
-	clear
-	./$(NAME)
+	@clear
+	@./$(NAME)
+
+
+# Descomment the line to get leaks
+VALGRIND_FLAGS=#--leak-check=full
+valgrind: all
+	@clear
+	@valgrind $(VALGRIND_FLAGS) ./$(NAME)
 
 .PHONY: all clean fclean re

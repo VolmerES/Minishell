@@ -3,7 +3,7 @@
 void	ft_builtins(t_msh *commands)
 {
 	int i;
-	char *ptr[] = {"DAVID=123", "DAVID=1234", NULL};
+	char *ptr[] = {ft_strdup("DAVID=123"), ft_strdup("DAVID=1234"), ft_strdup("lpastor=old"), ft_strdup("lpastor=new"), ft_strdup("DAVID=ldiaz-ra"), NULL};
 
 	i = 0;
 
