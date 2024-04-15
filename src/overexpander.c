@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*   overexpander.c                                       :::      ::::::::   */
+/*                                     		       		:+:      :+:    :+:   */
+/*   By: juan <juan@student.42.fr>                    +:+ +:+         +:+     */
+/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
+/*   Updated: 2024/04/15 13:02:49 by jdelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 char	*ft_get_env_var_value(const char *var_name)
@@ -7,12 +19,11 @@ char	*ft_get_env_var_value(const char *var_name)
 	var_value = getenv(var_name);
 	if (var_value == NULL)
 	{
-		// The environment variable does not exist.
-		// Return an empty string or handle this case as needed.
 		var_value = "";
 	}
 	return (var_value);
 }
+
 char	*ft_get_var_name(char *input, int *i)
 {
 	int	var_len;
@@ -41,18 +52,20 @@ void	ft_replace_var_with_value(t_msh *commands, char *var_value, int i,
 	free(before);
 	free(after);
 }
-/* Recorre */
+
 void	ft_overwrited_expand(t_msh *commands)
 {
-	int i;
+	int		i;
+	char	*var_name;
+	char	*var_value;
 
 	i = 0;
 	while (commands->input[i] != '\0')
 	{
 		if (commands->input[i] == DOLLAR && commands->input[i + 1] != '\0')
 		{
-			char *var_name = ft_get_var_name(commands->input, &i);
-			char *var_value = ft_strdup(ft_get_env_var_value(var_name));
+			var_name = ft_get_var_name(commands->input, &i);
+			var_value = ft_strdup(ft_get_env_var_value(var_name));
 			ft_replace_var_with_value(commands, var_value, i,
 				ft_strlen(var_name) + 1);
 			free(var_name);

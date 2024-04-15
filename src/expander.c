@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
+/*   Updated: 2024/04/15 12:38:34 by jdelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 /* Sobre escribe dentro de evar,con el valor de la variable de 
@@ -18,7 +30,7 @@ char	*ft_manage_expander(char **envpc, int index, char *evar)
 			expanded_variable = ft_strdup(equal_sign + 1);
 			if (expanded_variable == NULL)
 			{
-				printf("Error: No se pudo asignar memoria para la expansión de la variable de entorno.\n");
+				printf("Error: No se pudo asignar memoria.\n");
 				exit(1);
 			}
 			return (expanded_variable);
@@ -28,6 +40,7 @@ char	*ft_manage_expander(char **envpc, int index, char *evar)
 }
 /*Busca la variable de entorno dentro del env,
 	deuvelve un indice a su posicon y copia lo que sigue al simbolo "="*/
+
 void	ft_expand(t_msh *commands)
 {
 	int	i;
@@ -62,7 +75,8 @@ int	ft_check_syntax(char *evar)
 }
 
 /*Esta funcion extrae la variable de entorno y la copia dentro de evar,
-	para despues comprobar que sea una variable de entrono correcta mediante syntax */
+para despues comprobar que sea una variable de entrono correcta 
+mediante syntax */
 char	*ft_get_var(t_msh *commands, int i)
 {
 	size_t	len;
@@ -87,10 +101,9 @@ char	*ft_get_var(t_msh *commands, int i)
 	return (evar);
 }
 
-/*Esta funcion se encarga de buscar una variable de entorno introducida en el input,
-	si la encuentra,
-llama a get_var para seccionarla del resto del input,
-	para posteriormente expandirla*/
+/*Esta funcion se encarga de buscar una variable de entorno introducida 
+ * en el input	si la encuentra, llama a get_var para seccionarla del 
+ * resto del input, para posteriormente expandirla*/
 void	ft_expand_var(t_msh *commands)
 {
 	int	i;
@@ -100,7 +113,7 @@ void	ft_expand_var(t_msh *commands)
 	{
 		if (commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE
 			&& commands->input[i + 1] != '\0' && commands->input[i
-			+ 1] != DQUOTES && commands->input[i - 1] != SQUOTES)
+				+ 1] != DQUOTES && commands->input[i - 1] != SQUOTES)
 		{
 			commands->evar = ft_get_var(commands, i + 1);
 			if (!commands->evar)

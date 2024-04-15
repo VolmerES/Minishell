@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*   minishell.h                                          :::      ::::::::   */
+/*                                     					:+:      :+:    :+:   */
+/*   By: juan <juan@student.42.fr>                    +:+ +:+         +:+     */
+/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
+/*   Updated: 2024/04/15 13:10:34 by jdelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 void	ft_allocate_commands(t_msh *commands)
@@ -12,15 +24,20 @@ void	ft_allocate_commands(t_msh *commands)
 
 void	ft_process_character(t_msh *commands)
 {
-	if (commands->input[commands->parser.index] == DQUOTES && (commands->parser.index == 0
+	if (commands->input[commands->parser.index] == DQUOTES
+		&& (commands->parser.index == 0
 			|| commands->input[commands->parser.index - 1] != BACKSLASH))
 		commands->parser.in_quotes = !(commands->parser.in_quotes);
-	else if (commands->input[commands->parser.index] == SQUOTES && (commands->parser.index == 0
+	else if (commands->input[commands->parser.index] == SQUOTES
+		&& (commands->parser.index == 0
 			|| commands->input[commands->parser.index - 1] != BACKSLASH))
-		commands->parser.in_single_quotes = !(commands->parser.in_single_quotes);
-	else if (commands->input[commands->parser.index] == PIPE && !(commands->parser.in_quotes)
+		commands->parser.in_single_quotes
+			= !(commands->parser.in_single_quotes);
+	else if (commands->input[commands->parser.index] == PIPE
+		&& !(commands->parser.in_quotes)
 		&& !(commands->parser.in_single_quotes))
-		ft_add_command(commands, &(commands->parser.start), &(commands->parser.index), &(commands->parser.cmd_index));
+		ft_add_command(commands, &(commands->parser.start),
+			&(commands->parser.index), &(commands->parser.cmd_index));
 	(commands->parser.index)++;
 }
 
@@ -46,10 +63,16 @@ void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
 
 void	ft_print_commands(t_msh *commands)
 {
-	for (int i = 0; commands->cmds[i] != NULL; i++)
+	int	i;
+
+	i = 0;
+	while (commands->cmds[i] != NULL)
+	{
 		printf("Comando %d: %s\n", i, commands->cmds[i]->cmd);
+		i++;
+	}
 }
-/**/
+
 void	ft_parse_input(t_msh *commands)
 {
 	commands->parser.index = 0;
@@ -57,11 +80,11 @@ void	ft_parse_input(t_msh *commands)
 	commands->parser.in_quotes = 0;
 	commands->parser.cmd_index = 0;
 	commands->parser.in_single_quotes = 0;
-
 	ft_allocate_commands(commands);
 	while (commands->input[commands->parser.index] != '\0')
 		ft_process_character(commands);
-	ft_add_command(commands, &(commands->parser.start), &(commands->parser.index), &(commands->parser.cmd_index));
+	ft_add_command(commands, &(commands->parser.start),
+		&(commands->parser.index), &(commands->parser.cmd_index));
 	commands->cmds[commands->parser.cmd_index + 1] = NULL;
 	ft_print_commands(commands);
 }
