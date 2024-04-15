@@ -140,6 +140,16 @@ void		ft_logo(void);
 
 /*TOKENIZER.c*/
 void		ft_tokenize(t_msh *commands);
+int			increment_j(t_msh *commands, int *i, int *j);
+void		ft_arguments(t_msh *commands, int *i, int *j);
+void		ft_tokenize_command(t_msh *commands, int *i);
+
+/*TOKENIZE REDIR*/
+void		ft_is_command(t_msh *commands, int *i, int *j);
+void		ft_is_outfile_trunc(t_msh *commands, int *i, int *j);
+void		ft_is_outfile_append(t_msh *commands, int *i, int *j);
+void		ft_is_infile(t_msh *commands, int *i, int *j);
+void		ft_is_infile_here_doc(t_msh *commands, int *i, int *j);
 
 /*BUILTINS/BUILTINS.c*/
 int			cd_builtin(t_msh *commands, int i);
