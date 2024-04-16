@@ -51,7 +51,10 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 		if (commands->cmds[*i]->cmd[j] == '<')
 		{
 			if (commands->cmds[*i]->cmd[j + 1] == '<')
+			{
 				ft_is_infile_here_doc(commands, i, &j);
+				j = j + 1;
+			}
 			else
 				ft_is_infile(commands, i, &j);
 		}
@@ -63,8 +66,9 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 				ft_is_outfile_trunc(commands, i, &j);
 		}
 		else
+		{
 			ft_is_command(commands, i, &j);
-		j++;
+		}
 	}
 }
 
