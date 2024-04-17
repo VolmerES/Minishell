@@ -14,11 +14,20 @@
 
 int	increment_j(t_msh *commands, int *i, int *j)
 {
+	int	squotes;
+	int dquotes;
+
+	squotes = 0;
+	dquotes = 0;
 	while (commands->cmds[*i]->cmd[*j] != '\0'
-		&& commands->cmds[*i]->cmd[*j] != SPACE
+		&& (squotes == 1 || dquotes == 1 || (commands->cmds[*i]->cmd[*j] != SPACE
 		&& commands->cmds[*i]->cmd[*j] != '<'
-		&& commands->cmds[*i]->cmd[*j] != '>')
+		&& commands->cmds[*i]->cmd[*j] != '>')))
 	{
+		if (commands->cmds[*i]->cmd[*j] == SQUOTES)
+			squotes = !squotes;
+		if (commands->cmds[*i]->cmd[*j] == DQUOTES)
+			dquotes = !dquotes;
 		(*j)++;
 	}
 	return (*j);

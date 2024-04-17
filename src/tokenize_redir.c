@@ -15,18 +15,26 @@
 void	ft_is_command(t_msh *commands, int *i, int *j)
 {
 	int	start;
+	int squotes;
+	int dquotes;
 
+	dquotes = 0;
+	squotes = 0;
 	start = *j;
 	while (commands->cmds[*i]->cmd[*j] != '\0'
-		&& commands->cmds[*i]->cmd[*j] != ' '
-		&& commands->cmds[*i]->cmd[*j] != '<'
-		&& commands->cmds[*i]->cmd[*j] != '>')
+        && (squotes == 1 || dquotes == 1 || (commands->cmds[*i]->cmd[*j] != ' '
+        && commands->cmds[*i]->cmd[*j] != '<'
+        && commands->cmds[*i]->cmd[*j] != '>')))
 	{
-		(*j)++;
-	}
+        if (commands->cmds[*i]->cmd[*j] == SQUOTES)
+            squotes = !squotes;
+		if (commands->cmds[*i]->cmd[*j] == DQUOTES)
+			dquotes = !dquotes;
+        (*j)++;
+    }
 	commands->cmds[*i]->cmd_main = ft_substr(commands->cmds[*i]->cmd, start, *j
 			- start);
-	printf("\033[34mMain commands: %s\033[0m\n", commands->cmds[*i]->cmd_main);
+	printf("\033[34mMain commands: [%s]\033[0m\n", commands->cmds[*i]->cmd_main);
 	while (commands->cmds[*i]->cmd[*j] != '<'
 		&& commands->cmds[*i]->cmd[*j] != '>'
 		&& commands->cmds[*i]->cmd[*j] != '\0')
