@@ -61,11 +61,20 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 		{
 			if (commands->cmds[*i]->cmd[j + 1] == '<')
 			{
+				if (commands->cmds[*i]->cmd[j + 2] == '<' 
+				|| commands->cmds[*i]->cmd[j + 2] == '\0'
+				|| commands->cmds[*i]->cmd[j + 1] != '<')
+					return ;
 				ft_is_infile_here_doc(commands, i, &j);
 				j = j + 1;
 			}
-			else
+			else if (commands->cmds[*i]->cmd[j + 1] != '<' && commands->cmds[*i]->cmd[j + 2] != '<')
+			{
+				if (commands->cmds[*i]->cmd[j + 1] == '\0')
+					return ;
 				ft_is_infile(commands, i, &j);
+				j = j + 1;
+			}
 		}
 		else if (commands->cmds[*i]->cmd[j] == '>')
 		{
