@@ -3,25 +3,27 @@
 void	ft_builtins(t_msh *commands)
 {
 	int i;
-	char *ptr[] = {ft_strdup("DAVID=123"), ft_strdup("DAVID=1234"), ft_strdup("lpastor=old"), ft_strdup("lpastor=new"), ft_strdup("DAVID=ldiaz-ra"), NULL};
+	// char *ptr[] = {ft_strdup("DAVID=123"), ft_strdup("DAVID=1234"), ft_strdup("lpastor=old"), ft_strdup("lpastor=new"), ft_strdup("DAVID=ldiaz-ra"), NULL};
 
 	i = 0;
 
 	
-	commands->cmds[0]->args = ptr;
+	// commands->cmds[0]->args = ptr;
 	// cd_builtin(commands, i);
 	// pwd_builtin();
-	export_builtin(commands, i);
+	// export_builtin(commands, i);
+	// export_builtin(commands, i);
 
-	// while (commands->cmds[i])
-	// {
-	// 	if (ft_strcmp(commands->cmds[i]->cmd, "cd"))
-	// 		cd_builtin(commands, i);
-	// 	else if (ft_strcmp(commands->cmds[i]->cmd, "pwd"))
-	// 		pwd_builtin(commands, i);
-	// 	else if (ft_strcmp(commands->cmds[i]->cmd, "export"))
-	// 		pwd_builtin(commands, i);
-	// }
+	while (commands->cmds[i])
+	{
+		if (ft_strncmp(commands->cmds[i]->cmd_main, "cd", ft_strlen(commands->cmds[i]->cmd_main)))
+			cd_builtin(commands, i);
+		else if (ft_strncmp(commands->cmds[i]->cmd_main, "pwd", ft_strlen(commands->cmds[i]->cmd_main)))
+			pwd_builtin();
+		else if (ft_strncmp(commands->cmds[i]->cmd_main, "export", ft_strlen(commands->cmds[i]->cmd_main)))
+			export_builtin(commands, i);
+		i++;
+	}
 
 
     // if (ft_strcmp(commands->input, "echo") == 0)
