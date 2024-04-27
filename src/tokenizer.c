@@ -47,7 +47,7 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 	commands->cmds[*i]->args[k] = ft_substr(commands->cmds[*i]->cmd, start, *j
 			- start);
 	printf("Argumento: %s\n", commands->cmds[*i]->args[k]);
-	commands->cmds[*i]->args = NULL;
+	// commands->cmds[*i]->args = NULL;
 }
 
 void	ft_tokenize_command(t_msh *commands, int *i)
