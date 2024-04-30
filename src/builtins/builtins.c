@@ -16,12 +16,18 @@ void	ft_builtins(t_msh *commands)
 
 	while (commands->cmds[i])
 	{
-		if (ft_strncmp(commands->cmds[i]->cmd_main, "cd", ft_strlen(commands->cmds[i]->cmd_main)))
+		if (ft_strcmp(commands->cmds[i]->cmd_main, "cd") == 0)
 			cd_builtin(commands, i);
-		else if (ft_strncmp(commands->cmds[i]->cmd_main, "pwd", ft_strlen(commands->cmds[i]->cmd_main)))
+		else if (ft_strcmp(commands->cmds[i]->cmd_main, "pwd") == 0)
 			pwd_builtin();
-		else if (ft_strncmp(commands->cmds[i]->cmd_main, "export", ft_strlen(commands->cmds[i]->cmd_main)))
+		else if (ft_strcmp(commands->cmds[i]->cmd_main, "export") == 0)
 			export_builtin(commands, i);
+		else if (ft_strcmp(commands->cmds[i]->cmd_main, "echo") == 0)
+			echo_builtin(commands, i);
+		else if (ft_strcmp(commands->cmds[i]->cmd_main, "unset") == 0)
+			unset_builtin(commands, i);
+		else if (ft_strcmp(commands->cmds[i]->cmd_main, "env") == 0)
+			env_builtin(commands);
 		i++;
 	}
 
