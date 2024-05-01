@@ -20,6 +20,8 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 
 	dquotes = 0;
 	squotes = 0;
+	while (commands->cmds[*i]->cmd[*j] == SPACE)
+		(*j)++;
 	start = *j;
 	while (commands->cmds[*i]->cmd[*j] != '\0'
         && (squotes == 1 || dquotes == 1 || (commands->cmds[*i]->cmd[*j] != ' '
@@ -42,6 +44,7 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 		ft_arguments(commands, i, j);
 		*j += 1;
 	}
+	commands->cmds[*i]->args[commands->parser.k] = NULL;
 }
 
 void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
