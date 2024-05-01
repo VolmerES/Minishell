@@ -12,6 +12,26 @@
 
 #include "../inc/minishell.h"
 
+void ft_set_null(t_msh *commands)
+{
+	int	i;
+
+	i = 0;
+	while (commands->cmds[i] != NULL)
+	{
+		i++;
+	}
+	i--;
+	while (i >= 0)
+	{
+		commands->cmds[i]->infile = NULL;
+		commands->cmds[i]->outfile = NULL;
+		commands->cmds[i]->cmd_main = NULL;
+		commands->cmds[i]->args = NULL;
+		i--;
+	}
+}
+
 void ft_trim_end(char *str)
 {
 	int i = strlen(str) - 1;
@@ -58,7 +78,6 @@ void	ft_erase_arg_quotes(t_msh *commands, int *i)
 	int	j;
 	int	arg_len;
 
-	ft_erase_cmd_quotes(commands, i);
 	j = 0;
 	while (commands->cmds[*i]->args[j] != NULL)
 	{
@@ -109,6 +128,7 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 			- start);
 	//printf("Argumento: %s\n", commands->cmds[*i]->args[k]);
 	commands->parser.k++;
+	ft_erase_arg_quotes(commands, i);
 }
 
 void	ft_tokenize_command(t_msh *commands, int *i)
@@ -149,6 +169,7 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 		else
 		{
 			ft_is_command(commands, i, &j);
+			ft_erase_cmd_quotes(commands, i);
 		}
 	}
 }
@@ -158,10 +179,10 @@ void	ft_tokenize(t_msh *commands)
 	int	i;
 
 	i = 0;
+	ft_set_null(commands);
 	while (commands->cmds[i] != NULL)
 	{
 		ft_tokenize_command(commands, &i);
-		ft_erase_arg_quotes(commands, &i);
 		i++;
 	}
 }
