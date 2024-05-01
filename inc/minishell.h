@@ -123,7 +123,7 @@ char		*ft_get_var(t_msh *commands, int i);
 void		ft_expand_var(t_msh *commands);
 
 /*BUILTINS.c*/
-void		ft_builtins(t_msh *commands);
+void		ft_builtins(t_msh *commands, int i);
 
 /*SINGAL.c*/
 void		ft_signal_handler(void);
@@ -158,9 +158,11 @@ int			pwd_builtin(void);
 int			echo_builtin(t_msh *commands, int i);
 int			check_num_args(t_msh *commands, int i);
 int			export_builtin(t_msh *commands, int i);
+int			is_builtins(t_msh *commands, int i);
+
 void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
 void		update_env(t_msh *commands, int index, char *value);
 void		unset_builtin(t_msh *commands, int i);
 void		env_builtin(t_msh *commands);
-void		executor_manage(t_msh *commands, int num_command);
+void		executor_manage(t_msh *commands);
