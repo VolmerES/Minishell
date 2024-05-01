@@ -162,3 +162,4 @@ void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
 void		update_env(t_msh *commands, int index, char *value);
 void		unset_builtin(t_msh *commands, int i);
+void		env_builtin(t_msh *commands);
