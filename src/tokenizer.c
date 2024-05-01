@@ -43,11 +43,10 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 		(*j)++;
 	start = *j;
 	*j = increment_j(commands, i, j);
-	commands->cmds[*i]->args = malloc(sizeof(t_cmd()));
-	commands->cmds[*i]->args[k] = ft_substr(commands->cmds[*i]->cmd, start, *j
+	commands->cmds[*i]->args[commands->parser.k] = ft_substr(commands->cmds[*i]->cmd, start, *j
 			- start);
-	printf("Argumento: %s\n", commands->cmds[*i]->args[k]);
-	// commands->cmds[*i]->args = NULL;
+	//printf("Argumento: %s\n", commands->cmds[*i]->args[k]);
+	commands->parser.k++;
 }
 
 void	ft_tokenize_command(t_msh *commands, int *i)
@@ -55,6 +54,8 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 	int	j;
 
 	j = 0;
+	commands->parser.k = 0;
+	commands->cmds[*i]->args = malloc(sizeof(t_cmd()));
 	while (commands->cmds[*i]->cmd[j] != '\0')
 	{
 		if (commands->cmds[*i]->cmd[j] == '<')
