@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/05/01 12:14:35 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:06:10 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_manage(t_msh *commands)
 	ft_builtins(commands);
 }
 
-void	ft_init_struct(t_msh *commands)
+void	ft_init_msh_struct(t_msh *commands)
 {
 	commands->cmds = NULL;
 	commands->envp = NULL;
@@ -97,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || !argv)
 		return (1);
 	ft_logo();
-	ft_init_struct(&commands);
+	ft_init_msh_struct(&commands);
 	ft_shlvl(&commands, envp);
 	ft_handle_readline(&commands);
 	write_history("Historial");
