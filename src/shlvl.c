@@ -63,9 +63,9 @@ char	**ft_manage_shlvl(char **minienv)
 		aux = ft_strdup("SHLVL=1");
 		minienv = ft_addvariable(minienv, aux);
 	}
-	if (index <= 0)
+	if (index >= 0)
 	{
-		nb = ft_atoi(&minienv[index][5]);
+		nb = ft_atoi(&minienv[index][6]);
 		nb += 1;
 		nbr = ft_itoa(nb);
 		free(minienv[index]);
