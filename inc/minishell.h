@@ -35,6 +35,7 @@ typedef struct s_parser
 	int	in_quotes;
 	int	cmd_index;
 	int	in_single_quotes;
+	int k;
 }				t_parser;
 
 typedef enum e_file_type
