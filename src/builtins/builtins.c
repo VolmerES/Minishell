@@ -29,7 +29,7 @@ void	ft_builtins(t_msh *commands)
 		else if (ft_strcmp(commands->cmds[i]->cmd_main, "env") == 0)
 			env_builtin(commands);
 		else
-			executor_manage();
+			executor_manage(commands, i);
 		i++;
 	}
 
