@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 12:11:18 by david             #+#    #+#             */
-/*   Updated: 2024/04/27 15:17:59 by david            ###   ########.fr       */
+/*   Updated: 2024/05/01 13:32:21 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void unset_builtin(t_msh *commands, int i)
 		index = ft_search_env(commands->envp, commands->cmds[i]->args[j]);
 		if (index != -1)
 		{
-			free(commands->envp[i]);
-			while (commands->envp[i] != NULL)
+			free(commands->envp[index]);
+			while (commands->envp[index] != NULL)
 			{
-				commands->envp[i] = commands->envp[i + 1];
-				i++;
+				commands->envp[index] = commands->envp[index + 1];
+				index++;
 			}
 		}
 		j++;
