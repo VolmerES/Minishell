@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_manage.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:08:39 by david             #+#    #+#             */
-/*   Updated: 2024/04/20 10:11:15 by david            ###   ########.fr       */
+/*   Updated: 2024/05/01 13:11:04 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void	manage_export(t_msh *commands, int num_command)
 		}
 		i++;
 	}
-	i = 0;
-	while (commands->envp[i])
-	{
-		printf("%s\n", commands->envp[i]);
-		i++;
-	}
+	// i = 0;
+	// while (commands->envp[i])
+	// {
+	// 	printf("%s\n", commands->envp[i]);
+	// 	i++;
+	// }
 	
 }
