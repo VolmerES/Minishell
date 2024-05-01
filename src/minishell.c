@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/04/24 20:36:21 by david            ###   ########.fr       */
+/*   Updated: 2024/04/30 10:49:29 by volmer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ void	ft_manage(t_msh *commands)
 	ft_expand_var(commands);
 	ft_parse_input(commands);
 	ft_tokenize(commands);
+	int i = 0;
+	int o = 0;
+	while (commands->cmds[o])
+	{
+		printf("\033[34mMain commands fuera bucle: [%s]\033[0m\n", commands->cmds[o]->cmd_main);
+		o++;
+	}
+	while (commands->cmds[0]->args[i])
+	{
+		printf("Arg fuera bucle %s\n", commands->cmds[0]->args[i]);
+		i++;
+	}
+	i = 0;
+	while (commands->cmds[1]->args[i])
+	{
+		printf("Arg fuera bucle %s\n", commands->cmds[0]->args[i]);
+		i++;
+	}
 	ft_builtins(commands);
 }
 
