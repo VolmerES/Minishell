@@ -166,8 +166,19 @@ void		manage_export(t_msh *commands, int num_command);
 void		update_env(t_msh *commands, int index, char *value);
 void		unset_builtin(t_msh *commands, int i);
 void		env_builtin(t_msh *commands);
-void		executor_manage(t_msh *commands);
+void    	executor_manage();
 void    	bd_one_command(t_msh *commands);
 void    	one_command(t_msh *commands);
 
 char		*check_path(char **path, char *command);
+
+/*QUOTES ERASER*/
+void ft_trim_end(char *str);
+void	ft_erase_cmd_quotes(t_msh *commands, int *i);
+void	ft_set_null_two(t_msh *commands, int *i);
+void	ft_erase_arg_quotes(t_msh *commands, int *i);
+
+/*TOKENIZER_TWO*/
+void	ft_handle_less_than(t_msh *commands, int *i, int *j);
+void	ft_handle_greater_than(t_msh *commands, int *i, int *j);
+void	ft_handle_else(t_msh *commands, int *i, int *j);
