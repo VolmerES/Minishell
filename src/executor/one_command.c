@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/02 16:11:16 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:06:32 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,16 @@ void    bd_one_command(t_msh *commands)
     if (commands->cmds[0]->infile != NULL)
     {
         infd = open_files(commands);
+        if (infd < 0)
+            return;
         dup2(infd, STDIN_FILENO);
         close(infd);
     }
     if (commands->cmds[0]->outfile != NULL)
     {
         outfd = out_files(commands);
+        if (outfd < 0)
+            return;
         dup2(outfd, STDOUT_FILENO);
         close(outfd);
     }
