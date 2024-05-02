@@ -64,12 +64,13 @@ void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 		(*j)++;
 	start = *j;
 	while (commands->cmds[*i]->cmd[*j] != '\0'
-		&& commands->cmds[*i]->cmd[*j] != ' ')
+		&& commands->cmds[*i]->cmd[*j] != ' '
+		&& commands->cmds[*i]->cmd[*j] != '>')
 		(*j)++;
 	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
 	outfile->filename = filename;
 	outfile->type = OUTFILE_TRUNC;
-	commands->cmds[*i]->outfile = outfile;
+	commands->cmds[*i]->outfile = &outfile; // Aquí está el cambio
 	printf("\033[34mOutfile Type Trunc: %s\033[0m\n", outfile->filename);
 }
 
@@ -78,28 +79,26 @@ void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 	t_file	*outfile;
 	char	*filename;
 	int		start;
-	char	*ccmd;
 
-	ccmd = commands->cmds[*i]->cmd;
 	outfile = malloc(sizeof(t_file));
-	while (ccmd[*j] != '\0')
-	{
-		if (ccmd[*j] == '>' && ccmd[*j + 1] == '>')
-			break ;
+	filename = "";
+	while (commands->cmds[*i]->cmd[*j] != '>'
+		&& commands->cmds[*i]->cmd[*j] != '\0')
 		(*j)++;
-	}
-	if (ccmd[*j] == '>' && ccmd[*j + 1] == '>')
-		(*j) += 2;
-	while (ccmd[*j] == ' ')
+	if (commands->cmds[*i]->cmd[*j] == '>')
+		(*j)++;
+	while (commands->cmds[*i]->cmd[*j] == ' ')
 		(*j)++;
 	start = *j;
-	while (ccmd[*j] != '\0' && ccmd[*j] != ' ' && ccmd[*j] != '>')
+	while (commands->cmds[*i]->cmd[*j] != '\0'
+		&& commands->cmds[*i]->cmd[*j] != ' '
+		&& commands->cmds[*i]->cmd[*j] != '>')
 		(*j)++;
-	filename = ft_substr(ccmd, start, *j - start);
+	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
 	outfile->filename = filename;
 	outfile->type = OUTFILE_APPEND;
-	commands->cmds[*i]->outfile = outfile;
-	printf("\033[34mOutfile Type Append: %s\n", outfile->filename);
+	commands->cmds[*i]->outfile = &outfile; // Aquí está el cambio
+	printf("\033[34mOutfile Type Append: %s\033[0m\n", outfile->filename);
 }
 
 void	ft_is_infile(t_msh *commands, int *i, int *j)
@@ -125,7 +124,7 @@ void	ft_is_infile(t_msh *commands, int *i, int *j)
 	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
 	infile->filename = filename;
 	infile->type = INFILE_NORMAL;
-	commands->cmds[*i]->infile = infile;
+	commands->cmds[*i]->infile = &infile; // Aquí está el cambio
 	printf("\033[34mInfile Type Normal: %s\033[0m\n", infile->filename);
 }
 
@@ -134,26 +133,24 @@ void	ft_is_infile_here_doc(t_msh *commands, int *i, int *j)
 	t_file	*infile;
 	char	*filename;
 	int		start;
-	char	*ccmd;
 
-	ccmd = commands->cmds[*i]->cmd;
 	infile = malloc(sizeof(t_file));
-	while (ccmd[*j] != '\0')
-	{
-		if (ccmd[*j] == '<' && ccmd[*j + 1] == '<')
-			break ;
+	filename = "";
+	while (commands->cmds[*i]->cmd[*j] != '<'
+		&& commands->cmds[*i]->cmd[*j] != '\0')
 		(*j)++;
-	}
-	if (ccmd[*j] == '<' && ccmd[*j + 1] == '<')
-		(*j) += 2;
-	while (ccmd[*j] == ' ')
+	if (commands->cmds[*i]->cmd[*j] == '<')
+		(*j)++;
+	while (commands->cmds[*i]->cmd[*j] == ' ')
 		(*j)++;
 	start = *j;
-	while (ccmd[*j] != '\0' && ccmd[*j] != ' ' && ccmd[*j] != '<')
+	while (commands->cmds[*i]->cmd[*j] != '\0'
+		&& commands->cmds[*i]->cmd[*j] != ' '
+		&& commands->cmds[*i]->cmd[*j] != '<')
 		(*j)++;
-	filename = ft_substr(ccmd, start, *j - start);
+	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
 	infile->filename = filename;
 	infile->type = INFILE_HERE_DOC;
-	commands->cmds[*i]->infile = infile;
-	printf("\033[34mInfile Type Here_doc: %s\033[0m\n", infile->filename);
+	commands->cmds[*i]->infile = &infile; // Aquí está el cambio
+	printf("\033[34mInfile Type Here Doc: %s\033[0m\n", infile->filename);
 }
