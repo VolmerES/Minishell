@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <termcap.h> // Necesaria para tgetstr
+# include <fcntl.h>
 
 #define SPACE ' '
 #define DOLLAR '$'
@@ -64,10 +65,10 @@ typedef struct s_cmd
 	char	**args;
 
 	/*Infile del comando*/
-	t_file	*infile;
+	t_file	**infile;
 
 	/*Outfile del comando*/
-	t_file	*outfile;
+	t_file	**outfile;
 }				t_cmd;
 
 typedef struct s_msh
@@ -166,3 +167,7 @@ void		update_env(t_msh *commands, int index, char *value);
 void		unset_builtin(t_msh *commands, int i);
 void		env_builtin(t_msh *commands);
 void		executor_manage(t_msh *commands);
+void    	bd_one_command(t_msh *commands);
+void    	one_command(t_msh *commands);
+
+char		*check_path(char **path, char *command);
