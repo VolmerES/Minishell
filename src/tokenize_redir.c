@@ -36,6 +36,8 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
     }
 	commands->cmds[*i]->cmd_main = ft_substr(commands->cmds[*i]->cmd, start, *j
 			- start);
+	while (commands->cmds[*i]->cmd[*j] == SPACE)
+		(*j)++;
 	printf("\033[34mMain commands: [%s]\033[0m\n", commands->cmds[*i]->cmd_main);
 	while (commands->cmds[*i]->cmd[*j] != '<'
 		&& commands->cmds[*i]->cmd[*j] != '>'
