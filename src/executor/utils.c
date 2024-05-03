@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 14:56:37 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/02 14:59:07 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/03 17:34:19 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ char	*check_path(char **path, char *command)
 			return (path_all);
 		free(path_all);
 		i++;
+	}
+	return (NULL);
+}
+
+char	**find_path(char **env)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+	{
+		if (!ft_strncmp(env[i], "PATH", 4))
+			return (ft_split(env[i] + 5, ':'));
 	}
 	return (NULL);
 }
