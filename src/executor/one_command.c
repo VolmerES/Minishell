@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/03 16:30:36 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/03 17:51:39 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,43 @@ void    bd_one_command(t_msh *commands)
     dup2(commands->cp_stdout, commands->cp_stdout_last);
 }
 
+void   child_one_command(t_msh *commands)
+{
+    int infd;
+    int outfd;
+    char *path;
+
+    if (commands->cmds[0]->infile != NULL)
+    {
+        infd = open_files(commands);
+        if (infd < 0)
+            return;
+        dup2(infd, STDIN_FILENO);
+        close(infd);
+    }
+    if (commands->cmds[0]->outfile != NULL)
+    {
+        outfd = out_files(commands);
+        if (outfd < 0)
+            return;
+        dup2(outfd, STDOUT_FILENO);
+        close(outfd);
+    }
+    path = check_path(commands->path, commands->cmds[0]->cmd_main);
+    execve(path, commands->cmds[0]->args, commands->envp);
+    perror("execve");
+}
+
 void    one_command(t_msh *commands)
 {
-    printf("one command");
+    pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid < 0)
+		exit(1);
+	if (pid == 0)
+		child_one_command(commands);
+	waitpid(pid, &status, 0);
+	//todo WEXITSTATUS(status); gestionar el status
 }
