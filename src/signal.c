@@ -14,12 +14,10 @@
 
 void	ft_sigint(int sign)
 {
-	char	*get_str;
-
 	if (sign == SIGINT)
 	{
-		tputs(get_str, 1, putchar);
 		ft_putchar_fd('\n', 1);
+		ft_putstr_fd("🐚Minihell-42.>", 1);
 	}
 }
 
