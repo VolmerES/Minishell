@@ -81,6 +81,9 @@ typedef struct s_msh
 	/* Variables entorno */
 	char		**envp;
 
+	/* Path */
+	char		**path;
+
 	/*Variable entorno expandida*/
 	char		*evar;
 
@@ -182,6 +185,7 @@ void    	bd_one_command(t_msh *commands);
 void    	one_command(t_msh *commands);
 
 char		*check_path(char **path, char *command);
+char		**find_path(char **env);
 
 /*QUOTES ERASER*/
 void ft_trim_end(char *str);
