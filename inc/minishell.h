@@ -28,7 +28,6 @@
 #define UNDERSCORE '_'
 #define PIPE '|'
 #define MAX_COMMANDS 1000
-
 typedef struct s_parser
 {
 	int	index;
@@ -86,6 +85,18 @@ typedef struct s_msh
 	char		*evar;
 
 	t_parser	parser;
+
+	/*Entrada stdin*/
+	int			cp_stdin;
+
+	/*Salida stdout*/
+	int			cp_stdout;
+
+	/*Entrada anterior*/
+	int			cp_stdin_last;
+
+	/*Salida anterior*/
+	int			cp_stdout_last;
 }				t_msh;
 
 /*OVEREXPANDER.c*/

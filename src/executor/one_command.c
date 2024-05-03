@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/02 16:11:16 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/03 16:30:36 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,17 @@ static int open_files(t_msh *commands)
     i = 0;
     if (commands->cmds[0]->infile)
     {
-        if (commands->cmds[0]->infile[i]->type == INFILE_NORMAL)
-            infd = open(commands->cmds[0]->infile[i]->filename, O_RDONLY);
-        if (infd < 0)
+        while (commands->cmds[0]->infile[i])
         {
-            perror("open");
-            return (-1);
+            if (commands->cmds[0]->infile[i]->type == INFILE_NORMAL)
+                infd = open(commands->cmds[0]->infile[i]->filename, O_RDONLY);
+            if (infd < 0)
+            {
+                perror("open");
+                return (-1);
+            }
+            i++;
         }
-        i++;
     }
     return (infd);
 }
@@ -40,18 +43,18 @@ static int out_files(t_msh *commands)
 
     outfd = -1;
     i = 0;
-    if (commands->cmds[0]->infile)
+    if (commands->cmds[0]->outfile)
     {
-        if (commands->cmds[0]->outfile[i]->type == OUTFILE_TRUNC)
-            outfd = open(commands->cmds[0]->infile[i]->filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-        else
-            outfd = open(commands->cmds[0]->infile[i]->filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
-        if (outfd < 0)
+        while (commands->cmds[0]->outfile[i])
         {
-            perror("open");
-            return (-1);
+            if (commands->cmds[0]->outfile[i]->type == OUTFILE_TRUNC)
+                outfd = open(commands->cmds[0]->outfile[i]->filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+            else
+                outfd = open(commands->cmds[0]->outfile[i]->filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
+            if (outfd < 0)
+                perror("open");
+            i++;
         }
-        i++;
     }
     return (outfd);
 }
@@ -64,16 +67,23 @@ void    bd_one_command(t_msh *commands)
     if (commands->cmds[0]->infile != NULL)
     {
         infd = open_files(commands);
-        dup2(infd, STDIN_FILENO);
+        if (infd < 0)
+            return;
+        commands->cp_stdin_last = dup2(infd, STDIN_FILENO);
         close(infd);
     }
     if (commands->cmds[0]->outfile != NULL)
     {
         outfd = out_files(commands);
-        dup2(outfd, STDOUT_FILENO);
+        if (outfd < 0)
+            return;
+        commands->cp_stdout_last = dup2(outfd, STDOUT_FILENO);
         close(outfd);
     }
     ft_builtins(commands, 0);
+    fflush(stdout);//! quitar
+    dup2(commands->cp_stdin, commands->cp_stdin_last);
+    dup2(commands->cp_stdout, commands->cp_stdout_last);
 }
 
 void    one_command(t_msh *commands)
