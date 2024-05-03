@@ -101,4 +101,5 @@ void	ft_shlvl(t_msh *commands, char **envp)
 {
 	commands->envp = ft_copy_envp(envp);
 	commands->envp = ft_manage_shlvl(commands->envp);
+	commands->path = find_path(commands->envp);
 }
