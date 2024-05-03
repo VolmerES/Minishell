@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/05/03 15:18:18 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/03 17:35:02 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	ft_handle_readline(t_msh *commands)
 		commands->input = readline("🐚Minihell-42.>");
 		if (commands->input == NULL)
 		{
-			printf("\nNo se ingresó ninguna entrada.\n");
-			break ;
+			printf("exit\n");
+			exit (1);
 		}
 		else
 		{
