@@ -66,7 +66,7 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 		= ft_substr(commands->cmds[*i]->cmd, start, *j
 			- start);
 	commands->parser.k++;
-	ft_erase_arg_quotes(commands, i);
+	//ft_erase_arg_quotes(commands, i);
 }
 
 void	ft_tokenize_command(t_msh *commands, int *i)
@@ -79,17 +79,13 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 	while (commands->cmds[*i]->cmd[j] != '\0')
 	{
 		if (commands->cmds[*i]->cmd[j] == '<')
-		{
 			ft_handle_less_than(commands, i, &j);
-		}
 		else if (commands->cmds[*i]->cmd[j] == '>')
-		{
 			ft_handle_greater_than(commands, i, &j);
-		}
+		else if (commands->cmds[*i]->cmd[j] == SPACE)
+			j++;
 		else
-		{
 			ft_handle_else(commands, i, &j);
-		}
 	}
 }
 
