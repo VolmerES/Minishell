@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/05/02 16:47:58 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:18:18 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ void	ft_manage(t_msh *commands)
 	ft_tokenize(commands);
 	int i = 0;
 	int o = 0;
-	while (commands->cmds[o])
-	{
-		printf("\033[34mMain commands fuera bucle: [%s]\033[0m\n", commands->cmds[o]->cmd_main);
-		o++;
-	}
-	while (commands->cmds[0]->args[i])
-	{
-		printf("Arg fuera bucle %s\n", commands->cmds[0]->args[i]);
-		i++;
-	}
+	// while (commands->cmds[o])
+	// {
+	// 	printf("\033[34mMain commands fuera bucle: [%s]\033[0m\n", commands->cmds[o]->cmd_main);
+	// 	o++;
+	// }
+	// while (commands->cmds[0]->args[i])
+	// {
+	// 	printf("Arg fuera bucle %s\n", commands->cmds[0]->args[i]);
+	// 	i++;
+	// }
 	i = 0;
 	// while (commands->cmds[1]->args[i])
 	// {
@@ -69,6 +69,8 @@ void	ft_init_msh_struct(t_msh *commands)
 	commands->envp = NULL;
 	commands->evar = NULL;
 	commands->input = NULL;
+	commands->cp_stdin = dup(STDIN_FILENO);
+	commands->cp_stdout = dup(STDOUT_FILENO);
 }
 
 void	ft_handle_readline(t_msh *commands)
