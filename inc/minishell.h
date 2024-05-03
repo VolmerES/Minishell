@@ -182,3 +182,5 @@ void	ft_erase_arg_quotes(t_msh *commands, int *i);
 void	ft_handle_less_than(t_msh *commands, int *i, int *j);
 void	ft_handle_greater_than(t_msh *commands, int *i, int *j);
 void	ft_handle_else(t_msh *commands, int *i, int *j);
+
+void	*ft_realloc(void *ptr, size_t original_size, size_t new_size);
