@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   one_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/03 17:51:39 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:02:44 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int open_files(t_msh *commands)
+int open_files(t_msh *commands)
 {
     int infd;
     int i;
@@ -36,7 +36,7 @@ static int open_files(t_msh *commands)
     return (infd);
 }
 
-static int out_files(t_msh *commands)
+int out_files(t_msh *commands)
 {
     int outfd;
     int i;
@@ -109,7 +109,7 @@ void   child_one_command(t_msh *commands)
         close(outfd);
     }
     path = check_path(commands->path, commands->cmds[0]->cmd_main);
-    execve(path, commands->cmds[0]->args, commands->envp);
+    execve(path, commands->cmds[0]->full_cmd, commands->envp);
     perror("execve");
 }
 
@@ -118,6 +118,7 @@ void    one_command(t_msh *commands)
     pid_t	pid;
 	int		status;
 
+	commands->cmds[0]->full_cmd = add_to_arg(commands->cmds[0]->args, commands->cmds[0]->cmd_main);
 	pid = fork();
 	if (pid < 0)
 		exit(1);
