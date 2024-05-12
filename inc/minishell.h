@@ -19,6 +19,7 @@
 #include <string.h>
 #include <termcap.h> // Necesaria para tgetstr
 # include <fcntl.h>
+#include <sys/wait.h>
 
 #define SPACE ' '
 #define DOLLAR '$'
@@ -60,6 +61,9 @@ typedef struct s_cmd
 	/*Comando principal solo*/
 	char	*cmd_main;
 
+	/*Comando con argumentos*/
+	char	**full_cmd;
+
 	/*Argumentos del comando*/
 	char	**args;
 
@@ -100,6 +104,9 @@ typedef struct s_msh
 
 	/*Salida anterior*/
 	int			cp_stdout_last;
+
+	/*Fd pipe*/
+	int			pipefd[2];
 }				t_msh;
 
 /*OVEREXPANDER.c*/
@@ -174,6 +181,8 @@ int			echo_builtin(t_msh *commands, int i);
 int			check_num_args(t_msh *commands, int i);
 int			export_builtin(t_msh *commands, int i);
 int			is_builtins(t_msh *commands, int i);
+int			open_files(t_msh *commands);
+int			out_files(t_msh *commands);
 
 void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
@@ -183,9 +192,11 @@ void		env_builtin(t_msh *commands);
 void    	executor_manage();
 void    	bd_one_command(t_msh *commands);
 void    	one_command(t_msh *commands);
+void    	multi_command(t_msh *commands);
 
 char		*check_path(char **path, char *command);
 char		**find_path(char **env);
+char 		**add_to_arg(char **path, char *new_path);
 
 /*QUOTES ERASER*/
 void ft_trim_end(char *str);
