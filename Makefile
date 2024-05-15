@@ -11,7 +11,7 @@ CFLAGS = -Wall -Wextra -g3
 SRC = ./src/minishell.c ./src/shlvl.c ./src/expander.c ./src/utils.c ./src/builtins/builtins.c ./src/signal.c ./src/parserone.c ./src/logo.c ./src/overexpander.c \
 		./src/builtins/cd.c ./src/tokenizer.c ./src/builtins/pwd.c ./src/builtins/utils.c ./src/builtins/echo.c ./src/builtins/export.c ./src/builtins/export_empty.c \
 		./src/builtins/export_manage.c ./src/tokenize_redir.c ./src/builtins/unset.c ./src/builtins/env.c ./src/executor/executor.c ./src/quotes_eraser.c ./src/tokenizer_two.c \
-		./src/executor/one_command.c ./src/executor/utils.c ./src/executor/multi_command.c
+		./src/executor/one_command.c ./src/executor/utils.c ./src/executor/multi_command.c ./src/executor/files_io.c ./src/executor/childs.c ./src/errors.c 
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a

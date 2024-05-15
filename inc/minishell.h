@@ -105,6 +105,9 @@ typedef struct s_msh
 	/*Salida anterior*/
 	int			cp_stdout_last;
 
+	/*Ultimo pid*/
+	pid_t		last_pid;
+
 	/*Fd pipe*/
 	int			pipefd[2];
 }				t_msh;
@@ -181,8 +184,8 @@ int			echo_builtin(t_msh *commands, int i);
 int			check_num_args(t_msh *commands, int i);
 int			export_builtin(t_msh *commands, int i);
 int			is_builtins(t_msh *commands, int i);
-int			open_files(t_msh *commands);
-int			out_files(t_msh *commands);
+int			open_files(t_msh *commands, int cmd_i);
+int			out_files(t_msh *commands, int cmd_i);
 
 void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
@@ -210,3 +213,7 @@ void	ft_handle_greater_than(t_msh *commands, int *i, int *j);
 void	ft_handle_else(t_msh *commands, int *i, int *j);
 
 void	*ft_realloc(void *ptr, size_t original_size, size_t new_size);
+
+void	exit_(int error);
+
+void	first_child(t_msh *commands, int *fd);
