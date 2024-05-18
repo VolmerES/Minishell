@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:42:29 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/12 16:05:34 by david            ###   ########.fr       */
+/*   Updated: 2024/05/18 19:25:25 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,5 @@ void    executor_manage(t_msh *commands)
             one_command(commands);
     }
     else
-    {
-		// if (is_builtins(commands, i))
-		// 	//bd_multi_command(commands);
-		// else
-			multi_command(commands);
-    }
+		multi_command(commands);
 }
