@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/18 15:04:07 by david            ###   ########.fr       */
+/*   Updated: 2024/05/18 15:29:27 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void    bd_one_command(t_msh *commands)
     int infd;
     int outfd;
 
-	infd = open_files(commands, 0);
+	infd = open_files(commands, 0, -1);
 	if (infd < 0){
 		commands->cp_stdout_last = 1;
 		return;
 	}
-    outfd = out_files(commands, 0);
+    outfd = out_files(commands, 0, -1);
 	if (outfd < 0){
 		commands->cp_stdout_last = 1;
 		return;
@@ -41,12 +41,12 @@ void   child_one_command(t_msh *commands)
     int outfd;
     char *path;
 
-	infd = open_files(commands, 0);
+	infd = open_files(commands, 0, -1);
 	if (infd < 0){
 		commands->cp_stdout_last = 1;
 		return;
 	}
-	outfd = out_files(commands, 0);
+	outfd = out_files(commands, 0, -1);
 	if (outfd < 0){
 		commands->cp_stdout_last = 1;
 		return;
