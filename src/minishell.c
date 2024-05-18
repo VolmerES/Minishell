@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/05/03 17:35:02 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/05/18 19:19:19 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,5 @@ int	main(int argc, char **argv, char **envp)
 	ft_shlvl(&commands, envp);
 	ft_handle_readline(&commands);
 	write_history("Historial");
-	return (0);
+	return (commands.last_out);
 }
