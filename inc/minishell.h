@@ -20,6 +20,7 @@
 #include <termcap.h> // Necesaria para tgetstr
 # include <fcntl.h>
 #include <sys/wait.h>
+#include <sys/types.h>
 
 #define SPACE ' '
 #define DOLLAR '$'
@@ -110,6 +111,9 @@ typedef struct s_msh
 
 	/*Fd pipe*/
 	int			pipefd[2];
+
+	/* Salida del ultimo comando */
+	int			last_out;
 }				t_msh;
 
 /*OVEREXPANDER.c*/
@@ -217,3 +221,5 @@ void	*ft_realloc(void *ptr, size_t original_size, size_t new_size);
 void	exit_(int error);
 
 void	first_child(t_msh *commands, int *fd);
+void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i);
+void	last_child(t_msh *commands, int *fd);
