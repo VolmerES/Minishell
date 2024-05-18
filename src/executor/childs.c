@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/18 16:38:40 by david            ###   ########.fr       */
+/*   Updated: 2024/05/18 19:11:38 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 		close(fd_out);
 	if (is_builtins(commands, cmd_i))
 		ft_builtins(commands, cmd_i);
-	else{
-		printf("cmd_i: %d\n", cmd_i);
-		printf("path: %s\n", path);
-		printf("full_cmd: %s\n", commands->cmds[cmd_i]->full_cmd[0]);	
+	else
 		execve(path, commands->cmds[cmd_i]->full_cmd, commands->envp);
-	}
 	exit(commands->last_out);
 }
 
@@ -43,7 +39,6 @@ void	first_child(t_msh *commands, int *fd)
 	commands->last_pid = fork();
 	if (commands->last_pid == 0)
 	{
-		printf("primero: %s\n", commands->cmds[0]->cmd_main);
 		// signals_here_doc();
 		close(fd[0]);
 		fd_in = open_files(commands, 0, fd[0]);
@@ -52,7 +47,7 @@ void	first_child(t_msh *commands, int *fd)
 		fd_out = out_files(commands, 0, fd[1]);
 		if (fd_out < 0)
 			exit(1);
-		child_aux(commands, fd_in, fd_out, 0);
+		child_aux(commands, 0, fd_in, fd_out);
 	}
 	else if (commands->last_pid < 0)
 		exit_(1);
@@ -88,7 +83,6 @@ void	last_child(t_msh *commands, int *fd)
 	commands->last_pid = fork();
 	if (commands->last_pid == 0)
 	{
-		printf("ultimo: %s\n", commands->cmds[commands->parser.cmd_index]->cmd_main);
 		// signals_here_doc();
 		fd_in = open_files(commands, commands->parser.cmd_index - 1, fd[0]);
 		if (fd_in < 0)
