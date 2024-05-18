@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/15 17:57:48 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:04:07 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,18 @@ void    bd_one_command(t_msh *commands)
     int infd;
     int outfd;
 
-    if (commands->cmds[0]->infile != NULL)
-    {
-        infd = open_files(commands, 0);
-        if (infd < 0)
-            return;
-        commands->cp_stdin_last = dup2(infd, STDIN_FILENO);
-        close(infd);
-    }
-    if (commands->cmds[0]->outfile != NULL)
-    {
-        outfd = out_files(commands, 0);
-        if (outfd < 0)
-            return;
-        commands->cp_stdout_last = dup2(outfd, STDOUT_FILENO);
-        close(outfd);
-    }
+	infd = open_files(commands, 0);
+	if (infd < 0){
+		commands->cp_stdout_last = 1;
+		return;
+	}
+    outfd = out_files(commands, 0);
+	if (outfd < 0){
+		commands->cp_stdout_last = 1;
+		return;
+	}
+	commands->cp_stdin_last = dup2(infd, STDIN_FILENO);
+	commands->cp_stdout_last = dup2(outfd, STDOUT_FILENO);
     ft_builtins(commands, 0);
     fflush(stdout);//! quitar
     dup2(commands->cp_stdin, commands->cp_stdin_last);
@@ -45,22 +41,18 @@ void   child_one_command(t_msh *commands)
     int outfd;
     char *path;
 
-    if (commands->cmds[0]->infile != NULL)
-    {
-        infd = open_files(commands, 0);
-        if (infd < 0)
-            return;
-        dup2(infd, STDIN_FILENO);
-        close(infd);
-    }
-    if (commands->cmds[0]->outfile != NULL)
-    {
-        outfd = out_files(commands, 0);
-        if (outfd < 0)
-            return;
-        dup2(outfd, STDOUT_FILENO);
-        close(outfd);
-    }
+	infd = open_files(commands, 0);
+	if (infd < 0){
+		commands->cp_stdout_last = 1;
+		return;
+	}
+	outfd = out_files(commands, 0);
+	if (outfd < 0){
+		commands->cp_stdout_last = 1;
+		return;
+	}
+	dup2(infd, STDIN_FILENO);
+	dup2(outfd, STDOUT_FILENO);
     path = check_path(commands->path, commands->cmds[0]->cmd_main);
     execve(path, commands->cmds[0]->full_cmd, commands->envp);
     perror("execve");
