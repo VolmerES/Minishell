@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 14:17:34 by david             #+#    #+#             */
-/*   Updated: 2024/05/18 16:47:56 by david            ###   ########.fr       */
+/*   Updated: 2024/05/18 19:12:49 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	multi_command(t_msh *commands)
 	counter = 1;
 	while (counter < (commands->parser.cmd_index - 1))
 	{
-		printf("counter: %d\n", counter);
 		if (pipe(new) < 0)
 			exit_(0);
 		mid_child(commands, fd, new, counter);
