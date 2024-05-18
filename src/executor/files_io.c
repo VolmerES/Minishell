@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   files_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:28:33 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/15 17:57:44 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/05/18 14:57:24 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static int	file_check(int fd, int pipe, int predetermined)
+{
+	if (fd > 0)
+	{
+		if (pipe > 0)
+			close(pipe);
+		return (fd);
+	}
+	if (pipe > 0)
+		return (pipe);
+	return (predetermined);
+}
 
 int open_files(t_msh *commands, int cmd_i)
 {
@@ -33,7 +46,7 @@ int open_files(t_msh *commands, int cmd_i)
             i++;
         }
     }
-    return (infd);
+    return (file_check(infd, -1, STDIN_FILENO));
 }
 
 int out_files(t_msh *commands, int cmd_i)
@@ -56,20 +69,5 @@ int out_files(t_msh *commands, int cmd_i)
             i++;
         }
     }
-    return (outfd);
-}
-
-static int	file_check(int fd, int pipe, int predetermined, int count)
-{
-	if (fd > 0)
-	{
-		if (pipe > 0)
-			close(pipe);
-		return (fd);
-	}
-	if (pipe > 0)
-		return (pipe);
-	if (count == 0)
-		return (predetermined);
-	return (-1);
+    return (file_check(outfd, -1, STDOUT_FILENO));
 }
