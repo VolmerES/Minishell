@@ -184,8 +184,8 @@ int			echo_builtin(t_msh *commands, int i);
 int			check_num_args(t_msh *commands, int i);
 int			export_builtin(t_msh *commands, int i);
 int			is_builtins(t_msh *commands, int i);
-int			open_files(t_msh *commands, int cmd_i);
-int			out_files(t_msh *commands, int cmd_i);
+int			open_files(t_msh *commands, int cmd_i, int pipe);
+int			out_files(t_msh *commands, int cmd_i, int pipe);
 
 void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
