@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:28:33 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/18 14:57:24 by david            ###   ########.fr       */
+/*   Updated: 2024/05/18 15:28:32 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	file_check(int fd, int pipe, int predetermined)
 	return (predetermined);
 }
 
-int open_files(t_msh *commands, int cmd_i)
+int open_files(t_msh *commands, int cmd_i, int pipe)
 {
     int infd;
     int i;
@@ -46,10 +46,10 @@ int open_files(t_msh *commands, int cmd_i)
             i++;
         }
     }
-    return (file_check(infd, -1, STDIN_FILENO));
+    return (file_check(infd, pipe, STDIN_FILENO));
 }
 
-int out_files(t_msh *commands, int cmd_i)
+int out_files(t_msh *commands, int cmd_i, int pipe)
 {
     int outfd;
     int i;
@@ -69,5 +69,5 @@ int out_files(t_msh *commands, int cmd_i)
             i++;
         }
     }
-    return (file_check(outfd, -1, STDOUT_FILENO));
+    return (file_check(outfd, pipe, STDOUT_FILENO));
 }
