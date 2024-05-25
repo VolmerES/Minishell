@@ -30,6 +30,14 @@
 #define UNDERSCORE '_'
 #define PIPE '|'
 #define MAX_COMMANDS 1000
+#define PWD './'
+
+typedef enum s_err_msg
+{
+	PIPE_,
+	FORK_,
+	MALLOC_
+}				t_err_msg;
 typedef struct s_parser
 {
 	int	index;
@@ -218,8 +226,10 @@ void	ft_handle_else(t_msh *commands, int *i, int *j);
 
 void	*ft_realloc(void *ptr, size_t original_size, size_t new_size);
 
-void	exit_(int error);
+/* EXECUTOR */
 
+void	exit_(t_err_msg error);
 void	first_child(t_msh *commands, int *fd);
 void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i);
 void	last_child(t_msh *commands, int *fd);
+char	*her_doc(char *name);

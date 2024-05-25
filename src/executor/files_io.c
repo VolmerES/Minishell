@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:28:33 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/18 15:28:32 by david            ###   ########.fr       */
+/*   Updated: 2024/05/25 14:57:31 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,24 @@ int open_files(t_msh *commands, int cmd_i, int pipe)
     int i;
 
     infd = -1;
-    i = 0;
+    i = -1;
     if (commands->cmds[cmd_i]->infile)
     {
-        while (commands->cmds[cmd_i]->infile[i])
+        while (commands->cmds[cmd_i]->infile[++i])
         {
             if (commands->cmds[cmd_i]->infile[i]->type == INFILE_NORMAL)
                 infd = open(commands->cmds[cmd_i]->infile[i]->filename, O_RDONLY);
+            else
+            {
+		        if (!her_doc(commands->cmds[cmd_i]->infile[i]->filename))
+			        exit_(2);
+		        infd = open(ft_strjoin(".", commands->cmds[cmd_i]->infile[i]->filename), O_RDONLY);
+            }
             if (infd < 0)
             {
                 perror("open");
                 return (-1);
             }
-            i++;
         }
     }
     return (file_check(infd, pipe, STDIN_FILENO));

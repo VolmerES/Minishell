@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/05/18 19:19:19 by david            ###   ########.fr       */
+/*   Updated: 2024/05/25 14:26:25 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	ft_handle_readline(t_msh *commands)
 		{
 			add_history(commands->input);
 			ft_manage(commands);
-			//system(commands->input);
 		}
 	}
 }
