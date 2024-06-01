@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/18 16:06:39 by david            ###   ########.fr       */
+/*   Updated: 2024/06/01 16:32:38 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void   child_one_command(t_msh *commands)
 	dup2(outfd, STDOUT_FILENO);
     path = check_path(commands->path, commands->cmds[0]->cmd_main);
     execve(path, commands->cmds[0]->full_cmd, commands->envp);
-    perror("execve");
+    exit_err(commands, 0);
 }
 
 void    one_command(t_msh *commands)
@@ -70,5 +70,5 @@ void    one_command(t_msh *commands)
 	if (pid == 0)
 		child_one_command(commands);
 	waitpid(pid, &status, 0);
-	//todo WEXITSTATUS(status); gestionar el status
+	commands->last_out = WEXITSTATUS(status);
 }
