@@ -1,4 +1,12 @@
+//! importante
+
 la primera ejecucion los argumentos no terminan en null
 ejemplo si ejecutos la minishell con el momando:
 🐚Minihell-42.>sleep 1
-da error la primera vez
+da error la primera vez es por que el array de args no finaliza en null
+
+
+//cuando guardan un comando en una variable de entorno al expandirla no se interpreta como un comando
+
+
+//variable de entorno $?
