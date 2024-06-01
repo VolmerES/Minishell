@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/25 14:42:04 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:37:05 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 	if (is_builtins(commands, cmd_i))
 		ft_builtins(commands, cmd_i);
 	else
+	{
 		execve(path, commands->cmds[cmd_i]->full_cmd, commands->envp);
+		exit_err(commands, cmd_i);
+	}
 	exit(commands->last_out);
 }
 
@@ -39,7 +42,6 @@ void	first_child(t_msh *commands, int *fd)
 	commands->last_pid = fork();
 	if (commands->last_pid == 0)
 	{
-		// signals_here_doc();
 		close(fd[0]);
 		fd_in = open_files(commands, 0, fd[0]);
 		if (fd_in < 0)
@@ -61,7 +63,6 @@ void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i)
 	commands->last_pid = fork();
 	if (commands->last_pid == 0)
 	{
-		// signals_here_doc();
 		close(new[0]);
 		fd_in = open_files(commands, cmd_i, fd[0]);
 		if (fd_in < 0)
@@ -83,7 +84,6 @@ void	last_child(t_msh *commands, int *fd)
 	commands->last_pid = fork();
 	if (commands->last_pid == 0)
 	{
-		// signals_here_doc();
 		fd_in = open_files(commands, commands->parser.cmd_index - 1, fd[0]);
 		if (fd_in < 0)
 			exit(1);
