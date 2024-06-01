@@ -229,6 +229,7 @@ void	*ft_realloc(void *ptr, size_t original_size, size_t new_size);
 /* EXECUTOR */
 
 void	exit_(t_err_msg error);
+void	exit_err(t_msh *commands, int cmd_i);
 void	first_child(t_msh *commands, int *fd);
 void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i);
 void	last_child(t_msh *commands, int *fd);
