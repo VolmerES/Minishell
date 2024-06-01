@@ -204,7 +204,7 @@ void		manage_export(t_msh *commands, int num_command);
 void		update_env(t_msh *commands, int index, char *value);
 void		unset_builtin(t_msh *commands, int i);
 void		env_builtin(t_msh *commands);
-void    	executor_manage();
+void    	executor_manage(t_msh *commands);
 void    	bd_one_command(t_msh *commands);
 void    	one_command(t_msh *commands);
 void    	multi_command(t_msh *commands);
