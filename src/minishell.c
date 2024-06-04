@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/05/25 14:26:25 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:53:31 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_manage(t_msh *commands)
 	// 	printf("Arg fuera bucle %s\n", commands->cmds[0]->args[i]);
 	// 	i++;
 	// }
-	i = 0;
+	// i = 0;
 	// while (commands->cmds[1]->args[i])
 	// {
 	// 	printf("Arg fuera bucle %s\n", commands->cmds[0]->args[i]);
@@ -65,7 +65,8 @@ void	ft_manage(t_msh *commands)
 
 void	ft_init_msh_struct(t_msh *commands)
 {
-	commands->cmds = NULL;
+	commands->cmds = ft_calloc(1, sizeof(*commands->cmds));
+	commands->cmds[0] = NULL;
 	commands->envp = NULL;
 	commands->evar = NULL;
 	commands->input = NULL;
