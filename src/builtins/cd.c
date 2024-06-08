@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:40:32 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/04/13 13:45:33 by david            ###   ########.fr       */
+/*   Updated: 2024/06/08 17:36:03 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void cd_home(t_msh *commands)
 	if (i_home == -1)
 	{
 		printf("cd: HOME not set");
+		commands->last_out = 1;
 		return;
 	}
 	old_pwd = getcwd(NULL, 0);
@@ -43,6 +44,7 @@ static void cd_home(t_msh *commands)
 	{
 		update_env(commands, i_pwd, ft_strjoin("PWD=", commands->envp[i_home] + 5));
 		update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
+		commands->last_out = 0;
 	}
 	free(old_pwd);
 }
@@ -62,6 +64,11 @@ static void cd_route(t_msh *commands, int i)
 		free(old_pwd);
 		old_pwd = getcwd(NULL, 0);
 		update_env(commands, i_pwd, ft_strjoin("PWD=", old_pwd));
+		commands->last_out = 0;
+	}
+	else{
+		perror(commands->cmds[i]->args[0]);
+		commands->last_out = 1;
 	}
 	free(old_pwd);
 }
