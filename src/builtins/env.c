@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:25:02 by david             #+#    #+#             */
-/*   Updated: 2024/04/27 17:49:41 by david            ###   ########.fr       */
+/*   Updated: 2024/06/08 17:58:28 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void env_builtin(t_msh *commands)
+int	env_builtin(t_msh *commands)
 {
 	int j;
 
@@ -23,4 +23,5 @@ void env_builtin(t_msh *commands)
 			printf("%s\n", commands->envp[j]);
 		j++;
 	}
+	return (0);
 }

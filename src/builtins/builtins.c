@@ -11,11 +11,11 @@ void	ft_builtins(t_msh *commands, int i)
 		else if (ft_strcmp(commands->cmds[i]->cmd_main, "export") == 0)
 			export_builtin(commands, i);
 		else if (ft_strcmp(commands->cmds[i]->cmd_main, "echo") == 0)
-			echo_builtin(commands, i);
+			commands->last_out = echo_builtin(commands, i);
 		else if (ft_strcmp(commands->cmds[i]->cmd_main, "unset") == 0)
-			unset_builtin(commands, i);
+			commands->last_out = unset_builtin(commands, i);
 		else if (ft_strcmp(commands->cmds[i]->cmd_main, "env") == 0)
-			env_builtin(commands);
+			commands->cp_stdout = env_builtin(commands);
 		i++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:43:17 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/03/29 13:11:43 by david            ###   ########.fr       */
+/*   Updated: 2024/06/08 17:54:00 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,5 @@ int	echo_builtin(t_msh *commands, int i)
 			break;
     }
 	print_echo(commands, i, j, n_flag);
-    return 0;
+    return (0);
 }

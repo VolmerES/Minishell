@@ -6,13 +6,13 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 12:11:18 by david             #+#    #+#             */
-/*   Updated: 2024/05/01 13:32:21 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:55:42 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void unset_builtin(t_msh *commands, int i)
+int unset_builtin(t_msh *commands, int i)
 {
 	int index;
 	int j;
@@ -32,4 +32,5 @@ void unset_builtin(t_msh *commands, int i)
 		}
 		j++;
 	}
+	return (0);
 }
