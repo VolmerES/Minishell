@@ -155,7 +155,7 @@ int			ft_search_env(char **env, char *tofind);
 /*EXPANDER DE VARIABLES DE ENTORNO*/
 char		*ft_manage_expander(char **envpc, int index, char *evar);
 void		ft_expand(t_msh *commands);
-int			ft_check_syntax(char *evar);
+int			ft_check_syntax(char *evar, t_msh *commands);
 char		*ft_get_var(t_msh *commands, int i);
 void		ft_expand_var(t_msh *commands);
 

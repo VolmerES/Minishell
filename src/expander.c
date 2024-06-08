@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/04/15 12:38:34 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:42:05 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_expand(t_msh *commands)
 
 /*Verifica que la variable de entorno no comienze por un numero,
 	y que tenga caracteres correctos*/
-int	ft_check_syntax(char *evar)
+int	ft_check_syntax(char *evar, t_msh *commands)
 {
 	int	i;
 
@@ -61,12 +61,14 @@ int	ft_check_syntax(char *evar)
 		if (ft_isdigit(evar[0]) == 1)
 		{
 			printf("error var num\n");
+			commands->last_out = 1;
 			exit(1);
 		}
 		if (ft_isalpha(evar[i]) == 0 && evar[i] != UNDERSCORE
 			&& ft_isdigit(evar[i + 1]) != 0)
 		{
 			printf("error, var type\n");
+			commands->last_out = 1;
 			exit(1);
 		}
 		i++;
@@ -97,7 +99,7 @@ char	*ft_get_var(t_msh *commands, int i)
 	}
 	strncpy(evar, &commands->input[i - len], len);
 	evar[len] = '\0';
-	ft_check_syntax(evar);
+	ft_check_syntax(evar, commands);
 	return (evar);
 }
 
