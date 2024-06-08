@@ -44,7 +44,7 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 		&& commands->cmds[*i]->cmd[*j] != '\0')
 	{
 		ft_arguments(commands, i, j);
-		*j += 1;
+		 *j += 1; //revisar porque aca hace un desborde de buffer de la memoria
 	}
 	commands->cmds[*i]->args[commands->parser.k] = NULL;
 }
