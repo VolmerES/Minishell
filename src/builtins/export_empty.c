@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_empty.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 12:13:41 by david             #+#    #+#             */
-/*   Updated: 2024/04/13 11:55:51 by david            ###   ########.fr       */
+/*   Updated: 2024/06/08 17:46:03 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	export_empty(t_msh *commands)
 		printf("%c\"", order_envp[i][j++]);
 		printf("%s", &order_envp[i][j]);
 		printf("\"\n");
+		commands->last_out = 0;
 	}
 	free(order_envp);
 }
