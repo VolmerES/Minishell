@@ -14,12 +14,20 @@
 
 void	ft_allocate_commands(t_msh *commands)
 {
+	int i;
+	
 	commands->cmds = malloc(sizeof(t_cmd *) * MAX_COMMANDS);
 	if (commands->cmds == NULL)
 	{
 		fprintf(stderr, "Error al asignar memoria para los comandos\n");
 		exit(EXIT_FAILURE);
 	}
+	i = 0;
+    while (i < MAX_COMMANDS)
+    {
+        commands->cmds[i] = NULL;
+        i++;
+    }
 }
 
 void	ft_process_character(t_msh *commands)
