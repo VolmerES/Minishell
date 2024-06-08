@@ -16,6 +16,8 @@ void	ft_builtins(t_msh *commands, int i)
 			commands->last_out = unset_builtin(commands, i);
 		else if (ft_strcmp(commands->cmds[i]->cmd_main, "env") == 0)
 			commands->cp_stdout = env_builtin(commands);
+		else if (ft_strcmp(commands->cmds[i]->cmd_main, "exit") == 0)
+			exit_builtin(commands, i);
 		i++;
 	}
 }
@@ -35,6 +37,8 @@ int	is_builtins(t_msh *commands, int i)
 		else if (ft_strcmp(commands->cmds[i]->cmd_main, "unset") == 0)
 			return (1);
 		else if (ft_strcmp(commands->cmds[i]->cmd_main, "env") == 0)
+			return (1);
+		else if (ft_strcmp(commands->cmds[i]->cmd_main, "exit") == 0)
 			return (1);
 		i++;
 	}

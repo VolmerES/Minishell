@@ -208,6 +208,7 @@ void    	executor_manage(t_msh *commands);
 void    	bd_one_command(t_msh *commands);
 void    	one_command(t_msh *commands);
 void    	multi_command(t_msh *commands);
+void		exit_builtin(t_msh *commands, int cmd_i);
 
 char		*check_path(char **path, char *command);
 char		**find_path(char **env);
