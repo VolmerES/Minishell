@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_eraser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/05/02 12:07:43 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:19:06 by volmer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@ void	ft_erase_cmd_quotes(t_msh *commands, int *i)
 		if (commands->cmds[*i]->cmd_main[j] == SQUOTES
 			|| commands->cmds[*i]->cmd_main[j] == DQUOTES)
 		{
-			ft_memmove(&commands->cmds[*i]->cmd_main[j],
-				&commands->cmds[*i]->cmd_main[j + 1], cmd_len - j - 1);
-			commands->cmds[*i]->cmd_main[cmd_len - 1] = '\0';
-			cmd_len--;
+			if (j + 1 < cmd_len) {
+				ft_memmove(&commands->cmds[*i]->cmd_main[j],
+					&commands->cmds[*i]->cmd_main[j + 1], cmd_len - j - 1);
+			}
+			if (cmd_len > 0) {
+				commands->cmds[*i]->cmd_main[cmd_len - 1] = '\0';
+				cmd_len--;
+			}
 		}
 		else
 		{
