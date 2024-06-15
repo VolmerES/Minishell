@@ -16,6 +16,12 @@ void	ft_allocate_commands(t_msh *commands)
 {
 	int i;
 	
+	if (commands->cmds)
+	{
+		free(commands->cmds);
+		commands->cmds = NULL;
+	}
+	
 	commands->cmds = malloc(sizeof(t_cmd *) * MAX_COMMANDS);
 	if (commands->cmds == NULL)
 	{
@@ -51,6 +57,8 @@ void	ft_process_character(t_msh *commands)
 
 void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
 {
+	if (commands->cmds[*cmd_index])
+		free(commands->cmds);
 	commands->cmds[*cmd_index] = malloc(sizeof(t_cmd));
 	if (commands->cmds[*cmd_index] == NULL)
 	{

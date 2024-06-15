@@ -42,14 +42,17 @@ int	ft_search_env(char **env, char *tofind)
 	i = 0;
 	while (env[i])
 	{
+
 		spl = ft_split(env[i], '=');
 		if (ft_strcmp(spl[0], tofind) == 0)
 			return (ft_free_matrix(spl), i);
 		i++;
+		ft_free_matrix(spl); //! Libera memoria PUTO cochino.
 	}
 	return (-1);
 }
-
+//273
+//153
 char	**ft_manage_shlvl(char **minienv)
 {
 	int		index;

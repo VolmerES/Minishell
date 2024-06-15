@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/06/01 16:32:38 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:43:25 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void    one_command(t_msh *commands)
 	if (pid == 0)
 		child_one_command(commands);
 	waitpid(pid, &status, 0);
+	ft_free_matrix(commands->cmds[0]->full_cmd);
 	commands->last_out = WEXITSTATUS(status);
 }

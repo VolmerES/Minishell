@@ -44,32 +44,32 @@ void	ft_free_matrix(char **env)
 	{
 		free(env[i]);
 	}
-	*env = NULL;
 	free(env);
+	env = NULL;
 }
 
 void	*ft_realloc(void *ptr, size_t original_size, size_t new_size) 
 {
-    if (new_size == 0)
+	if (new_size == 0)
 	{
-        free(ptr);
-        return (NULL);
-    } 
+		free(ptr);
+		return (NULL);
+	} 
 	else if (!ptr)
 	{
-        return (malloc(new_size));
-    } else if (new_size <= original_size)
+		return (malloc(new_size));
+	} else if (new_size <= original_size)
 	{
-        return (ptr);
-    }
+		return (ptr);
+	}
 	else
 	{
-        void *new_ptr = malloc(new_size);
-        if (new_ptr)
+		void *new_ptr = malloc(new_size);
+		if (new_ptr)
 		{
-            ft_memcpy(new_ptr, ptr, original_size);
-            free(ptr);
-        }
-        return (new_ptr);
-    }
+			ft_memcpy(new_ptr, ptr, original_size);
+			free(ptr);
+		}
+		return (new_ptr);
+	}
 }

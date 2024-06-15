@@ -22,6 +22,20 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+# define RESET "\033[0m"
+# define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define OR1 "\033[38;5;208m"
+# define OR2 "\033[38;5;214m"
+# define OR3 "\033[38;5;220m"
+# define YE1 "\033[38;5;226m"
+# define YE2 "\033[38;5;229m"
+# define YE3 "\033[38;5;227m"
+# define BLUE "\033[0;34m"
+# define PURPLE "\033[0;35m"
+# define CYAN "\033[0;36m"
+# define WHITE "\033[0;37m"
+
 #define SPACE ' '
 #define DOLLAR '$'
 #define DQUOTES '\"'

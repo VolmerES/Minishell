@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/06/04 12:53:31 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:51:54 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ void	ft_init_msh_struct(t_msh *commands)
 
 void	ft_handle_readline(t_msh *commands)
 {
+	int i;
+	int	j;
+
+	i = 0;
 	while (1)
 	{
 		ft_signal_handler();
@@ -90,6 +94,21 @@ void	ft_handle_readline(t_msh *commands)
 			add_history(commands->input);
 			ft_manage(commands);
 		}
+		while (commands->cmds[i])
+		{
+			j = 0;
+			free(commands->cmds[i]->cmd);
+			//free(commands->cmds[i]->cmd_main);
+			// ft_free_matrix(commands->cmds[i]->args);
+			while(commands->cmds[i]->args[j])
+				free(commands->cmds[i]->args[j++]);	
+			if (commands->cmds[i]->args)
+				free(commands->cmds[i]->args);
+			free(commands->cmds[i++]);
+		}
+		free(commands->input);
+		//free(commands->cmds);
+		
 	}
 }
 
