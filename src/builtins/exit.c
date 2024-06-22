@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:25:02 by david             #+#    #+#             */
-/*   Updated: 2024/06/22 20:30:17 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/06/22 20:39:05 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,17 @@ static void check_arg(char *arg)
 void	exit_builtin(t_msh *commands, int cmd_i)
 {
 	printf("exit\n");
+	commands->last_out = 0;
 	if (check_num_args(commands, cmd_i) > 1)
 	{
 		commands->last_out = 1;
 		check_arg(commands->cmds[cmd_i]->args[0]);
 		printf("exit: too many arguments\n");
 		return ;
+	}else if(check_num_args(commands, cmd_i) == 1)
+	{
+		check_arg(commands->cmds[cmd_i]->args[0]);
+		exit(ft_atoi(commands->cmds[cmd_i]->args[0]) % 256);
 	}
-	check_arg(commands->cmds[cmd_i]->args[0]);
-	exit(ft_atoi(commands->cmds[cmd_i]->args[0]) % 256);
+	exit(commands->last_out);
 }
