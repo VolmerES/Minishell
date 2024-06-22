@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/06/15 16:51:54 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/06/22 17:24:21 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,19 @@ void	ft_init_msh_struct(t_msh *commands)
 	commands->cp_stdout = dup(STDOUT_FILENO);
 }
 
+static int	command_empty(char *text)
+{
+	int i;
+
+	i = -1;
+	while (text[++i])
+	{
+		if (text[i] != ' ' && text[i] != '\t')
+			return (0);
+	}
+	return (1);
+}
+
 void	ft_handle_readline(t_msh *commands)
 {
 	int i;
@@ -89,11 +102,13 @@ void	ft_handle_readline(t_msh *commands)
 			printf("exit\n");
 			exit (1);
 		}
-		else
+		if (command_empty(commands->input))
 		{
-			add_history(commands->input);
-			ft_manage(commands);
+			free(commands->input);
+			continue ;
 		}
+		add_history(commands->input);
+		ft_manage(commands);
 		while (commands->cmds[i])
 		{
 			j = 0;
@@ -107,8 +122,7 @@ void	ft_handle_readline(t_msh *commands)
 			free(commands->cmds[i++]);
 		}
 		free(commands->input);
-		//free(commands->cmds);
-		
+		//free(commands->cmds);		
 	}
 }
 
