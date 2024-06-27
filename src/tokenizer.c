@@ -12,6 +12,19 @@
 
 #include "../inc/minishell.h"
 
+void ft_free_args(t_msh *commands, int *i)
+{
+	int j;
+
+	j = 0;
+	while (commands->cmds[*i]->args[j] != NULL)
+	{
+		free(commands->cmds[*i]->args[j]);
+		j++;
+	}
+	free(commands->cmds[*i]->args);
+}
+
 void	ft_set_null(t_msh *commands)
 {
 	int	i;
@@ -65,6 +78,11 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 	commands->cmds[*i]->args[commands->parser.k]
 		= ft_substr(commands->cmds[*i]->cmd, start, *j
 			- start);
+	if (commands->cmds[*i]->args[commands->parser.k] == NULL)
+	{
+		ft_free_args(commands, i);
+		exit(1);
+	}
 	commands->parser.k++;
 	// ft_erase_arg_quotes(commands, i);
 }

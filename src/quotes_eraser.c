@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_eraser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/06/13 15:19:06 by volmer           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:32:53 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,33 +24,30 @@ void	ft_trim_end(char *str)
 	}
 }
 
-void	ft_erase_cmd_quotes(t_msh *commands, int *i)
+void ft_erase_cmd_quotes(t_msh *commands, int *i)
 {
-	int	j;
-	int	cmd_len;
+	int     j;
+	int     k;
+	int     cmd_len;
+	char    *new_cmd;
 
+	k = 0;
 	j = 0;
-	ft_trim_end(commands->cmds[*i]->cmd);
-	cmd_len = ft_strlen(commands->cmds[*i]->cmd);
+	cmd_len = ft_strlen(commands->cmds[*i]->cmd_main);
+	new_cmd = malloc(sizeof(char) * (cmd_len + 1));
+	if (!new_cmd) 
+		return;
 	while (j < cmd_len)
 	{
-		if (commands->cmds[*i]->cmd_main[j] == SQUOTES
-			|| commands->cmds[*i]->cmd_main[j] == DQUOTES)
+		if (commands->cmds[*i]->cmd_main[j] != '\'' && commands->cmds[*i]->cmd_main[j] != '\"') // Asumiendo SQUOTES y DQUOTES
 		{
-			if (j + 1 < cmd_len) {
-				ft_memmove(&commands->cmds[*i]->cmd_main[j],
-					&commands->cmds[*i]->cmd_main[j + 1], cmd_len - j - 1);
-			}
-			if (cmd_len > 0) {
-				commands->cmds[*i]->cmd_main[cmd_len - 1] = '\0';
-				cmd_len--;
-			}
+			new_cmd[k++] = commands->cmds[*i]->cmd_main[j];
 		}
-		else
-		{
-			j++;
-		}
+		j++;
 	}
+	new_cmd[k] = '\0';
+	free(commands->cmds[*i]->cmd_main);
+	commands->cmds[*i]->cmd_main = new_cmd;
 }
 
 void	ft_set_null_two(t_msh *commands, int *i)

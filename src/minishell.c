@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/06/22 17:24:21 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:18:22 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_manage(t_msh *commands)
 	// 	i++;
 	// }
 	executor_manage(commands);
-	// ft_builtins(commands);
+	//ft_builtins(commands);
 }
 
 void	ft_init_msh_struct(t_msh *commands)
@@ -109,20 +109,20 @@ void	ft_handle_readline(t_msh *commands)
 		}
 		add_history(commands->input);
 		ft_manage(commands);
-		while (commands->cmds[i])
-		{
-			j = 0;
-			free(commands->cmds[i]->cmd);
-			//free(commands->cmds[i]->cmd_main);
-			// ft_free_matrix(commands->cmds[i]->args);
-			while(commands->cmds[i]->args[j])
-				free(commands->cmds[i]->args[j++]);	
-			if (commands->cmds[i]->args)
-				free(commands->cmds[i]->args);
-			free(commands->cmds[i++]);
-		}
+		// while (commands->cmds[i])
+		// {
+		// 	j = 0;
+		// 	free(commands->cmds[i]->cmd);
+		// 	//free(commands->cmds[i]->cmd_main);
+		// 	// ft_free_matrix(commands->cmds[i]->args);
+		// 	while(commands->cmds[i]->args[j])
+		// 		free(commands->cmds[i]->args[j++]);
+		// 	// if (commands->cmds[i]->args)
+		// 	// 	free(commands->cmds[i]->args);
+		// 	free(commands->cmds[i++]);
+		// }
 		free(commands->input);
-		//free(commands->cmds);		
+		//free(commands->cmds);
 	}
 }
 
