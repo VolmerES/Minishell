@@ -161,6 +161,7 @@ int			ft_strcmp(const char *str1, const char *str2);
 /*MANAGER SHELL LEVEL*/
 int			ft_search_shlvl(char **env);
 void		ft_free_matrix(char **env);
+void		generation_pwd(t_msh *commands);
 char		**ft_manage_shlvl(char **minienv);
 char		**ft_copy_envp(char **envp);
 char		**ft_addvariable(char **minienv, char *aux);

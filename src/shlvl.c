@@ -103,6 +103,7 @@ char	**ft_copy_envp(char **envp)
 void	ft_shlvl(t_msh *commands, char **envp)
 {
 	commands->envp = ft_copy_envp(envp);
+	generation_pwd(commands);
 	commands->envp = ft_manage_shlvl(commands->envp);
 	commands->path = find_path(commands->envp);
 }

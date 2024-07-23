@@ -73,3 +73,11 @@ void	*ft_realloc(void *ptr, size_t original_size, size_t new_size)
 		return (new_ptr);
 	}
 }
+
+void generation_pwd(t_msh *commands)
+{
+	char	*pwd;
+
+	pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	update_env(commands, ft_search_env(commands->envp, "PWD"), pwd);
+}
