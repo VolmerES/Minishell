@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:08:39 by david             #+#    #+#             */
-/*   Updated: 2024/06/08 17:47:39 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:12:39 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	manage_export(t_msh *commands, int num_command)
 {
 	char	**var_split;
+	char	*value;
 	int		i;
 
 	i= 0;
@@ -26,8 +27,10 @@ void	manage_export(t_msh *commands, int num_command)
 			if (!var_split)
 				exit(1);
 			ft_check_syntax(var_split[0], commands);
-			update_env(commands, ft_search_env(commands->envp, var_split[0]), ft_strdup(commands->cmds[num_command]->args[i]));
+			value = ft_strdup(commands->cmds[num_command]->args[i]);
+			update_env(commands, ft_search_env(commands->envp, var_split[0]), value);
 			ft_free_matrix(var_split);
+			free(value);
 			commands->last_out = 0;
 		}
 		i++;
