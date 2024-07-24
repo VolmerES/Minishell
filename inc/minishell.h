@@ -250,3 +250,5 @@ void	first_child(t_msh *commands, int *fd);
 void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i);
 void	last_child(t_msh *commands, int *fd);
 char	*her_doc(char *name);
+
+void printArray(char *array[]);
