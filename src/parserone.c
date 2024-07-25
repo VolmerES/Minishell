@@ -15,21 +15,23 @@
 void	ft_allocate_commands(t_msh *commands)
 {
 	int i;
+	int pipes;
 	
 	if (commands->cmds)
 	{
 		free(commands->cmds);
 		commands->cmds = NULL;
 	}
-	
-	commands->cmds = malloc(sizeof(t_cmd *) * MAX_COMMANDS);
+	pipes = ft_count_pipes(commands);
+	printf("%i\n", pipes);
+	commands->cmds = malloc(sizeof(t_cmd *) * pipes);
 	if (commands->cmds == NULL)
 	{
 		fprintf(stderr, "Error al asignar memoria para los comandos\n");
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
-    while (i < MAX_COMMANDS)
+    while (i < pipes)
     {
         commands->cmds[i] = NULL;
         i++;
@@ -39,12 +41,10 @@ void	ft_allocate_commands(t_msh *commands)
 void	ft_process_character(t_msh *commands)
 {
 	if (commands->input[commands->parser.index] == DQUOTES
-		&& (commands->parser.index == 0
-			|| commands->input[commands->parser.index - 1] != BACKSLASH))
+		&& commands->parser.index == 0)
 		commands->parser.in_quotes = !(commands->parser.in_quotes);
 	else if (commands->input[commands->parser.index] == SQUOTES
-		&& (commands->parser.index == 0
-			|| commands->input[commands->parser.index - 1] != BACKSLASH))
+		&& commands->parser.index == 0)
 		commands->parser.in_single_quotes
 			= !(commands->parser.in_single_quotes);
 	else if (commands->input[commands->parser.index] == PIPE
@@ -59,7 +59,7 @@ void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
 {
 	if (commands->cmds[*cmd_index])
 		free(commands->cmds);
-	commands->cmds[*cmd_index] = malloc(sizeof(t_cmd));
+	commands->cmds[*cmd_index] = malloc(sizeof(t_cmd)); 
 	if (commands->cmds[*cmd_index] == NULL)
 	{
 		fprintf(stderr, "Error al asignar memoria para el comando\n");
@@ -96,7 +96,7 @@ void	ft_parse_input(t_msh *commands)
 	commands->parser.in_quotes = 0;
 	commands->parser.cmd_index = 0;
 	commands->parser.in_single_quotes = 0;
-	ft_allocate_commands(commands);
+	//ft_allocate_commands(commands);
 	while (commands->input[commands->parser.index] != '\0')
 		ft_process_character(commands);
 	ft_add_command(commands, &(commands->parser.start),

@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:40:32 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/06/08 17:36:03 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:51:36 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,20 @@ static void cd_route(t_msh *commands, int i)
 	int i_old_pwd;
 	int i_pwd;
 	char *old_pwd;
-
+	
 	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
 	i_pwd = ft_search_env(commands->envp, "PWD");
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(commands->cmds[i]->args[0]) != -1)
 	{
-		update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
-		free(old_pwd);
-		old_pwd = getcwd(NULL, 0);
-		update_env(commands, i_pwd, ft_strjoin("PWD=", old_pwd));
-		commands->last_out = 0;
+		if(old_pwd)
+		{
+			update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
+			free(old_pwd);
+			old_pwd = getcwd(NULL, 0);
+			update_env(commands, i_pwd, ft_strjoin("PWD=", old_pwd));
+			commands->last_out = 0;
+		}//! vaciar pwd
 	}
 	else{
 		perror(commands->cmds[i]->args[0]);

@@ -187,7 +187,7 @@ void		ft_process_character(t_msh *commands);
 void		ft_add_command(t_msh *commands, int *start,
 				int *index, int *cmd_index);
 void		allocate_commands(t_msh *commands);
-
+int			ft_count_pipes(t_msh *commands);
 /*LOGO.c*/
 void		ft_logo(void);
 
