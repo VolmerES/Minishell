@@ -18,7 +18,7 @@ void	ft_sigint(int sign)
 	{
 		rl_replace_line("", 0);
 		ft_putchar_fd('\n', 1);
-		ft_putstr_fd("🐚Minihell-42.>", 1);
+		ft_putstr_fd("🐚Minihell-42", 1);
 	}
 }
 void	ft_sigquit(int sign)
