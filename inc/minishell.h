@@ -206,7 +206,7 @@ void		ft_is_infile_here_doc(t_msh *commands, int *i, int *j);
 
 /*BUILTINS/BUILTINS.c*/
 int			cd_builtin(t_msh *commands, int i);
-int			pwd_builtin(void);
+int			pwd_builtin(t_msh *commands);
 int			echo_builtin(t_msh *commands, int i);
 int			check_num_args(t_msh *commands, int i);
 int			export_builtin(t_msh *commands, int i);
