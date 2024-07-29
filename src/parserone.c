@@ -23,7 +23,6 @@ void	ft_allocate_commands(t_msh *commands)
 		commands->cmds = NULL;
 	}
 	pipes = ft_count_pipes(commands);
-	printf("%i\n", pipes);
 	commands->cmds = malloc(sizeof(t_cmd *) * pipes);
 	if (commands->cmds == NULL)
 	{
