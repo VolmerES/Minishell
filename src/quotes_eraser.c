@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_eraser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/06/27 14:32:53 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:03:55 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,45 @@ void	ft_set_null_two(t_msh *commands, int *i)
 
 void	ft_erase_arg_quotes(t_msh *commands, int *i)
 {
-	int	j;
-	int	arg_len;
+	int		j;
+	int		k;
+	int		l;
+	char	*arg;
+	char	*new_arg;
+	char	quote_char;
 
 	j = 0;
 	while (commands->cmds[*i]->args[j] != NULL)
 	{
-		arg_len = ft_strlen(commands->cmds[*i]->args[j]);
-		if ((commands->cmds[*i]->args[j][0] == SQUOTES
-			|| commands->cmds[*i]->args[j][0] == DQUOTES) &&
-			(commands->cmds[*i]->args[j][arg_len - 1] == SQUOTES
-			|| commands->cmds[*i]->args[j][arg_len - 1] == DQUOTES))
+		arg = commands->cmds[*i]->args[j];
+		new_arg = malloc(ft_strlen(arg) + 1);
+		if (!new_arg)
+			return ;
+		k = 0;
+		l = 0;
+		quote_char = '\0';
+		if (arg[0] == SQUOTES || arg[0] == DQUOTES)
+			quote_char = arg[0];
+		while (arg[l] != '\0')
 		{
-			ft_memmove(&commands->cmds[*i]->args[j][0],
-				&commands->cmds[*i]->args[j][1], arg_len - 2);
-			commands->cmds[*i]->args[j][arg_len - 2] = '\0';
+			if (quote_char != '\0' && arg[l] == quote_char)
+			{
+				if (l == 0)
+				{
+					l++;
+					continue;
+				}
+				else if (arg[l + 1] == '\0')
+				{
+					l++;
+					continue;
+				}
+			}
+			new_arg[k++] = arg[l++];
 		}
+		new_arg[k] = '\0';
+		free(commands->cmds[*i]->args[j]);
+		commands->cmds[*i]->args[j] = new_arg;
 		j++;
 	}
 	ft_set_null_two(commands, i);
