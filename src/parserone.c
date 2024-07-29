@@ -40,19 +40,23 @@ void	ft_allocate_commands(t_msh *commands)
 
 void	ft_process_character(t_msh *commands)
 {
-	if (commands->input[commands->parser.index] == DQUOTES
-		&& commands->parser.index == 0)
+	char current_char;
+	int *index;
+
+	current_char = commands->input[commands->parser.index];
+	index = &(commands->parser.index);
+	if (current_char == DQUOTES && !commands->parser.in_single_quotes)
 		commands->parser.in_quotes = !(commands->parser.in_quotes);
-	else if (commands->input[commands->parser.index] == SQUOTES
-		&& commands->parser.index == 0)
-		commands->parser.in_single_quotes
-			= !(commands->parser.in_single_quotes);
-	else if (commands->input[commands->parser.index] == PIPE
-		&& !(commands->parser.in_quotes)
-		&& !(commands->parser.in_single_quotes))
+	else if (current_char == SQUOTES && !commands->parser.in_quotes)
+		commands->parser.in_single_quotes = !(commands->parser.in_single_quotes);
+	if (current_char == PIPE 
+		&& !commands->parser.in_quotes
+		&& !commands->parser.in_single_quotes)
+	{
 		ft_add_command(commands, &(commands->parser.start),
-			&(commands->parser.index), &(commands->parser.cmd_index));
-	(commands->parser.index)++;
+			index, &(commands->parser.cmd_index));
+	}
+	(*index)++;
 }
 
 void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
@@ -96,11 +100,11 @@ void	ft_parse_input(t_msh *commands)
 	commands->parser.in_quotes = 0;
 	commands->parser.cmd_index = 0;
 	commands->parser.in_single_quotes = 0;
-	//ft_allocate_commands(commands);
+	ft_allocate_commands(commands);
 	while (commands->input[commands->parser.index] != '\0')
 		ft_process_character(commands);
 	ft_add_command(commands, &(commands->parser.start),
 		&(commands->parser.index), &(commands->parser.cmd_index));
-	commands->cmds[commands->parser.cmd_index + 1] = NULL;
+	commands->cmds[commands->parser.cmd_index] = NULL;
 	ft_print_commands(commands);
 }
