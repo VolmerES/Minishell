@@ -78,6 +78,7 @@ void generation_pwd(t_msh *commands)
 {
 	char	*pwd;
 
-	pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
-	update_env(commands, ft_search_env(commands->envp, "PWD"), pwd);
+	pwd = getcwd(NULL, 0);
+	update_env(commands, ft_search_env(commands->envp, "PWD"), ft_strjoin("PWD=", pwd));
+	free(pwd);
 }
