@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/07/24 16:57:51 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:56:18 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ void	ft_manage(t_msh *commands)
 
 void	ft_init_msh_struct(t_msh *commands)
 {
-	commands->cmds = ft_calloc(1, sizeof(*commands->cmds));
-	commands->cmds[0] = NULL;
+	commands->cmds = NULL;
 	commands->envp = NULL;
 	commands->evar = NULL;
 	commands->input = NULL;
