@@ -45,7 +45,8 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 	{
 		ft_arguments(commands, i, j);//revisar porque aca hace un desborde de buffer de la memoria (!he borrado la suma de la *j = *j + 1; si algo a falla retonar)
 	}
-	commands->cmds[*i]->args[commands->parser.k] = NULL;
+	if (commands->cmds[*i]->args)
+		commands->cmds[*i]->args[commands->parser.k] = NULL;
 }
 
 void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
