@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/06/15 15:06:36 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:25:47 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 {
 	char	*path;
 
-	commands->cmds[cmd_i]->full_cmd = NULL;
 	commands->cmds[cmd_i]->full_cmd = add_to_arg(commands->cmds[cmd_i]->args, commands->cmds[cmd_i]->cmd_main);
     path = check_path(commands->path, commands->cmds[cmd_i]->cmd_main);
 	dup2(fd_in, STDIN_FILENO);
