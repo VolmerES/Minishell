@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:43:17 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/06/08 17:54:00 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:25:31 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void print_echo(t_msh *commands, int i, int j, int n_flag)
 {
-    while (commands->cmds[i]->args[j])
+    while (commands->cmds[i]->args && commands->cmds[i]->args[j])
     {
         printf("%s", commands->cmds[i]->args[j]);
         if (commands->cmds[i]->args[j + 1])
@@ -45,7 +45,7 @@ int	echo_builtin(t_msh *commands, int i)
 	
 	n_flag = 0;
 	j = 0;
-    while (commands->cmds[i]->args[j])
+    while (commands->cmds[i]->args && commands->cmds[i]->args[j])
     {
 		if (commands->cmds[i]->args[j][0] == '-')
 		{
