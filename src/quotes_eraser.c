@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/06 17:32:26 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:27:12 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ void	ft_erase_arg_quotes(t_msh *commands, int *i)
 		}
 		new_arg[k] = '\0';
 		free(commands->cmds[*i]->args[j]);
-		commands->cmds[*i]->args[j] = new_arg;
+		commands->cmds[*i]->args[j] = ft_strtrim(new_arg, " ");
+		free(new_arg);
 		j++;
 	}
 	ft_set_null_two(commands, i);
