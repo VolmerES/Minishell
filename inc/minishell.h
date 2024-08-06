@@ -193,7 +193,7 @@ void		ft_logo(void);
 
 /*TOKENIZER.c*/
 void		ft_tokenize(t_msh *commands);
-int			increment_j(t_msh *commands, int *i, int *j);
+void		increment_j(t_msh *commands, int *i, int *j);
 void		ft_arguments(t_msh *commands, int *i, int *j);
 void		ft_tokenize_command(t_msh *commands, int *i);
 
