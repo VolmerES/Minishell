@@ -23,7 +23,7 @@ void	ft_allocate_commands(t_msh *commands)
 		commands->cmds = NULL;
 	}
 	pipes = ft_count_pipes(commands);
-	commands->cmds = malloc(sizeof(t_cmd *) * pipes);
+	commands->cmds = malloc(sizeof(t_cmd *) * (pipes + 1));
 	if (commands->cmds == NULL)
 	{
 		fprintf(stderr, "Error al asignar memoria para los comandos\n");
