@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 14:56:37 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/05/12 16:01:53 by david            ###   ########.fr       */
+/*   Updated: 2024/08/06 20:08:10 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char **add_to_arg(char **path, char *new_path)
 	i = 0;
 	path_len = 0;
 	new_path_list = NULL;
-	while (path[path_len] != NULL)
+	while (path && path[path_len] != NULL)
 		path_len++;
 	new_path_list = malloc((path_len + 2) * sizeof(char *));
 	if (!new_path_list)
