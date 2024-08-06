@@ -41,11 +41,12 @@ void	ft_set_null(t_msh *commands)
 		commands->cmds[i]->outfile = NULL;
 		commands->cmds[i]->cmd_main = NULL;
 		commands->cmds[i]->args = NULL;
+		commands->cmds[i]->full_cmd = NULL;
 		i--;
 	}
 }
 
-int	increment_j(t_msh *commands, int *i, int *j)
+void	increment_j(t_msh *commands, int *i, int *j)
 {
 	int	squotes;
 	int	dquotes;
@@ -64,17 +65,35 @@ int	increment_j(t_msh *commands, int *i, int *j)
 			dquotes = !dquotes;
 		(*j)++;
 	}
-	return (*j);
+}
+
+int ft_count_spaces(t_msh *commands, int *i, int *j)
+{
+    int squotes = 0;
+    int dquotes = 0;
+    int count = 0;
+
+    while (commands->cmds[*i]->cmd[*j] != '\0')
+    {
+        if (commands->cmds[*i]->cmd[*j] == SQUOTES)
+            squotes = !squotes;
+        else if (commands->cmds[*i]->cmd[*j] == DQUOTES)
+            dquotes = !dquotes;
+        else if (commands->cmds[*i]->cmd[*j] == SPACE && !squotes && !dquotes)
+            count++;
+        (*j)++;
+    }
+    return (count + 1);
 }
 
 void	ft_arguments(t_msh *commands, int *i, int *j)
 {
 	int	start;
-
 	while (commands->cmds[*i]->cmd[*j] == SPACE)
 		(*j)++;
 	start = *j;
-	*j = increment_j(commands, i, j);
+	commands->cmds[*i]->args = malloc(sizeof(char *) * (ft_count_spaces(commands, i, j) + 1));
+	increment_j(commands, i, j);
 	commands->cmds[*i]->args[commands->parser.k]
 		= ft_substr(commands->cmds[*i]->cmd, start, *j
 			- start);
@@ -93,7 +112,6 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 
 	j = 0;
 	commands->parser.k = 0;
-	commands->cmds[*i]->args = malloc(sizeof(char *) * MAX_COMMANDS); //! revisar memoria
 	while (commands->cmds[*i]->cmd[j] != '\0')
 	{
 		if (commands->cmds[*i]->cmd[j] == '<')
