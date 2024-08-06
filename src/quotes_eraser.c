@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/07/29 21:03:55 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:32:26 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void ft_erase_cmd_quotes(t_msh *commands, int *i)
 		return;
 	while (j < cmd_len)
 	{
-		if (commands->cmds[*i]->cmd_main[j] != '\'' && commands->cmds[*i]->cmd_main[j] != '\"') // Asumiendo SQUOTES y DQUOTES
+		if (commands->cmds[*i]->cmd_main[j] != '\'' && commands->cmds[*i]->cmd_main[j] != '\"') 
 		{
 			new_cmd[k++] = commands->cmds[*i]->cmd_main[j];
 		}
