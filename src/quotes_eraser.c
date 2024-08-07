@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/06 20:27:12 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:48:23 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,6 @@ void ft_erase_cmd_quotes(t_msh *commands, int *i)
 	commands->cmds[*i]->cmd_main = new_cmd;
 }
 
-void	ft_set_null_two(t_msh *commands, int *i)
-{
-	int	j;
-
-	j = 0;
-	while (commands->cmds[*i]->args[j] != NULL)
-		j++;
-	commands->cmds[*i]->args[j] = NULL;
-}
 
 void	ft_erase_arg_quotes(t_msh *commands, int *i)
 {
@@ -70,7 +61,7 @@ void	ft_erase_arg_quotes(t_msh *commands, int *i)
 	char	quote_char;
 
 	j = 0;
-	while (commands->cmds[*i]->args[j] != NULL)
+	while (commands->cmds[*i]->args && commands->cmds[*i]->args[j] != NULL)
 	{
 		arg = commands->cmds[*i]->args[j];
 		new_arg = malloc(ft_strlen(arg) + 1);
@@ -104,5 +95,4 @@ void	ft_erase_arg_quotes(t_msh *commands, int *i)
 		free(new_arg);
 		j++;
 	}
-	ft_set_null_two(commands, i);
 }
