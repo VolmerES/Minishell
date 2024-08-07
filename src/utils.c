@@ -37,12 +37,14 @@ void	ft_free_matrix(char **env)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (!env)
 		return ;
-	while (env[++i])
+	while (env[i])
 	{
 		free(env[i]);
+		env[i] = NULL;
+		i++;
 	}
 	free(env);
 	env = NULL;
