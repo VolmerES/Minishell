@@ -157,6 +157,7 @@ int			ft_incomplete_quotes(t_msh *commands);
 
 /*UTILIDADES*/
 int			ft_strcmp(const char *str1, const char *str2);
+void		free_struct(t_msh *commands);
 
 /*MANAGER SHELL LEVEL*/
 int			ft_search_shlvl(char **env);
@@ -188,6 +189,7 @@ void		ft_add_command(t_msh *commands, int *start,
 				int *index, int *cmd_index);
 void		allocate_commands(t_msh *commands);
 int			ft_count_pipes(t_msh *commands);
+void		set_null(t_msh *commands, int index);
 /*LOGO.c*/
 void		ft_logo(void);
 
@@ -232,7 +234,6 @@ char 		**add_to_arg(char **path, char *new_path);
 /*QUOTES ERASER*/
 void ft_trim_end(char *str);
 void	ft_erase_cmd_quotes(t_msh *commands, int *i);
-void	ft_set_null_two(t_msh *commands, int *i);
 void	ft_erase_arg_quotes(t_msh *commands, int *i);
 
 /*TOKENIZER_TWO*/
