@@ -17,11 +17,6 @@ void	ft_allocate_commands(t_msh *commands)
 	int i;
 	int pipes;
 	
-	if (commands->cmds)
-	{
-		free(commands->cmds);
-		commands->cmds = NULL;
-	}
 	pipes = ft_count_pipes(commands);
 	commands->cmds = malloc(sizeof(t_cmd *) * (pipes + 1));
 	if (commands->cmds == NULL)
@@ -32,9 +27,13 @@ void	ft_allocate_commands(t_msh *commands)
 	i = 0;
     while (i < pipes)
     {
-        commands->cmds[i] = NULL;
+        commands->cmds[i] = malloc(sizeof(t_cmd) * 1);
+		set_null(commands, i);
+		if (!commands->cmds[i])
+			exit_(2);
         i++;
     }
+	commands->cmds[i] = NULL;
 }
 
 void	ft_process_character(t_msh *commands)
@@ -60,14 +59,6 @@ void	ft_process_character(t_msh *commands)
 
 void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
 {
-	if (commands->cmds[*cmd_index])
-		free(commands->cmds);
-	commands->cmds[*cmd_index] = malloc(sizeof(t_cmd)); 
-	if (commands->cmds[*cmd_index] == NULL)
-	{
-		fprintf(stderr, "Error al asignar memoria para el comando\n");
-		exit(EXIT_FAILURE);
-	}
 	commands->cmds[*cmd_index]->cmd = strndup(&commands->input[*start], *index
 			- *start);
 	if (commands->cmds[*cmd_index]->cmd == NULL)
