@@ -25,27 +25,6 @@ void ft_free_args(t_msh *commands, int *i)
 	free(commands->cmds[*i]->args);
 }
 
-void	ft_set_null(t_msh *commands)
-{
-	int	i;
-
-	i = 0;
-	while (commands->cmds[i] != NULL)
-	{
-		i++;
-	}
-	i--;
-	while (i >= 0)
-	{
-		commands->cmds[i]->infile = NULL;
-		commands->cmds[i]->outfile = NULL;
-		commands->cmds[i]->cmd_main = NULL;
-		commands->cmds[i]->args = NULL;
-		commands->cmds[i]->full_cmd = NULL;
-		i--;
-	}
-}
-
 void	increment_j(t_msh *commands, int *i, int *j)
 {
 	int	squotes;
@@ -130,7 +109,6 @@ void	ft_tokenize(t_msh *commands)
 	int	i;
 
 	i = 0;
-	ft_set_null(commands);
 	while (commands->cmds[i] != NULL)
 	{
 		ft_tokenize_command(commands, &i);
