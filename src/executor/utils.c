@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 14:56:37 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/08/06 20:08:10 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:58:15 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ char **add_to_arg(char **path, char *new_path)
 	new_path_list = malloc((path_len + 2) * sizeof(char *));
 	if (!new_path_list)
 		return NULL;
-	new_path_list[0] = new_path;
+	new_path_list[0] =  ft_strdup(new_path);
 	while (i < path_len)
 	{
-		new_path_list[i + 1] = path[i];
+		new_path_list[i + 1] = ft_strdup(path[i]);
 		i++;
 	}
 	new_path_list[path_len + 1] = NULL;
