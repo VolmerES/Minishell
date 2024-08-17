@@ -48,19 +48,24 @@ void	increment_j(t_msh *commands, int *i, int *j)
 
 int ft_count_spaces(t_msh *commands, int *i, int *j)
 {
-    int squotes = 0;
-    int dquotes = 0;
-    int count = 0;
+    int squotes;
+    int dquotes;
+    int count;
+	int l;
 
-    while (commands->cmds[*i]->cmd[*j] != '\0')
+	l = *j;
+	squotes = 0;
+	dquotes = 0;
+	count = 0;
+    while (commands->cmds[*i]->cmd[l] != '\0')
     {
-        if (commands->cmds[*i]->cmd[*j] == SQUOTES)
+        if (commands->cmds[*i]->cmd[l] == SQUOTES)
             squotes = !squotes;
-        else if (commands->cmds[*i]->cmd[*j] == DQUOTES)
+        else if (commands->cmds[*i]->cmd[l] == DQUOTES)
             dquotes = !dquotes;
-        else if (commands->cmds[*i]->cmd[*j] == SPACE && !squotes && !dquotes)
+        else if (commands->cmds[*i]->cmd[l] == SPACE && !squotes && !dquotes)
             count++;
-        (*j)++;
+    	l++;
     }
     return (count + 1);
 }
@@ -71,7 +76,8 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 	while (commands->cmds[*i]->cmd[*j] == SPACE)
 		(*j)++;
 	start = *j;
-	commands->cmds[*i]->args = malloc(sizeof(char *) * (ft_count_spaces(commands, i, j) + 1));
+	if (commands->cmds[*i]->args == NULL)
+		commands->cmds[*i]->args = malloc(sizeof(char *) * (ft_count_spaces(commands, i, j) + 1));
 	increment_j(commands, i, j);
 	commands->cmds[*i]->args[commands->parser.k]
 		= ft_substr(commands->cmds[*i]->cmd, start, *j
@@ -82,7 +88,6 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 		exit(1);
 	}
 	commands->parser.k++;
-	ft_erase_arg_quotes(commands, i);
 }
 
 void	ft_tokenize_command(t_msh *commands, int *i)
