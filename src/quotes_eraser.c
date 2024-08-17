@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/17 10:29:39 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:12:41 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void ft_erase_cmd_quotes(t_msh *commands, int *i)
 }
 
 
-void	ft_erase_arg_quotes(t_msh *commands, int *i)
+void	ft_erase_arg_quotes(t_msh *commands)
 {
 	t_counters count;
 	char	*arg;
@@ -59,31 +59,36 @@ void	ft_erase_arg_quotes(t_msh *commands, int *i)
 	char	quote_char;
 
 	count.j = 0;
-	while (commands->cmds[*i]->args && commands->cmds[*i]->args[count.j] != NULL)
+	count.i = 0;
+	while (commands->cmds && commands->cmds[count.i] != NULL)
 	{
-		arg = commands->cmds[*i]->args[count.j];
-		new_arg = malloc((ft_strlen(arg) + 1 )* sizeof(char));
-		if (!new_arg)
-			exit_(2);
-		count.k = 0;
-		count.l = 0;
-		quote_char = '\0';
-		if (arg[0] == SQUOTES || arg[0] == DQUOTES)
-			quote_char = arg[0];
-		while (arg[count.l] != '\0')
+		while (commands->cmds[count.i]->args && commands->cmds[count.i]->args[count.j] != NULL)
 		{
-			if (arg[count.l] == quote_char && (count.l == 0 || arg[count.l + 1] == '\0'))
-				count.l++;
-			else
-				new_arg[count.k++] = arg[count.l++];
+			arg = commands->cmds[count.i]->args[count.j];
+			new_arg = malloc((ft_strlen(arg) + 1 )* sizeof(char));
+			if (!new_arg)
+				exit_(2);
+			count.k = 0;
+			count.l = 0;
+			quote_char = '\0';
+			if (arg[0] == SQUOTES || arg[0] == DQUOTES)
+				quote_char = arg[0];
+			while (arg[count.l] != '\0')
+			{
+				if (arg[count.l] == quote_char && (count.l == 0 || arg[count.l + 1] == '\0'))
+					count.l++;
+				else
+					new_arg[count.k++] = arg[count.l++];
+			}
+			new_arg[count.k] = '\0';
+			free(commands->cmds[count.i]->args[count.j]);
+			commands->cmds[count.i]->args[count.j] = ft_strtrim(new_arg, " ");
+			free(new_arg);
+			if (!commands->cmds[count.i]->args[count.j])
+				exit_(2);
+			count.j++;
 		}
-		new_arg[count.k] = '\0';
-		free(commands->cmds[*i]->args[count.j]);
-		commands->cmds[*i]->args[count.j] = ft_strtrim(new_arg, " ");
-		free(new_arg);
-		if (!commands->cmds[*i]->args[count.j])
-			exit_(2);
-		count.j++;
+	count.i++;
 	}
 }
 
