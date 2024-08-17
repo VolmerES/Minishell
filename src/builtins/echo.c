@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:43:17 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/08/06 19:25:31 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:18:20 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	echo_builtin(t_msh *commands, int i)
 	j = 0;
     while (commands->cmds[i]->args && commands->cmds[i]->args[j])
     {
-		if (commands->cmds[i]->args[j][0] == '-')
+		if (commands->cmds[i]->args[j][0] == '-' && ft_strlen(commands->cmds[i]->args[j]) > 1)
 		{
 			if (check_break(commands, i, j))
             	break;
