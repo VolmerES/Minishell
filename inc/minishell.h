@@ -138,6 +138,14 @@ typedef struct s_msh
 	int			last_out;
 }				t_msh;
 
+typedef struct s_counters
+{
+	int	i;
+	int	j;
+	int	k;
+	int	l;
+}				t_counters;
+
 /*OVEREXPANDER.c*/
 void		ft_overwrited_expand(t_msh *commands);
 char		*ft_get_env_var_value(const char *var_name);
