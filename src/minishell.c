@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/07 19:50:05 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:12:54 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_manage(t_msh *commands)
 	ft_expand_var(commands);
 	ft_parse_input(commands);
 	ft_tokenize(commands);
+	ft_erase_arg_quotes(commands);
 	executor_manage(commands);
 }
 

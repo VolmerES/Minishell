@@ -242,7 +242,7 @@ char 		**add_to_arg(char **path, char *new_path);
 /*QUOTES ERASER*/
 void ft_trim_end(char *str);
 void	ft_erase_cmd_quotes(t_msh *commands, int *i);
-void	ft_erase_arg_quotes(t_msh *commands, int *i);
+void	ft_erase_arg_quotes(t_msh *commands);
 
 /*TOKENIZER_TWO*/
 void	ft_handle_less_than(t_msh *commands, int *i, int *j);
