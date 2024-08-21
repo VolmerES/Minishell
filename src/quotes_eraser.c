@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/17 11:12:41 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:41:21 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ void	ft_erase_arg_quotes(t_msh *commands)
 			}
 			new_arg[count.k] = '\0';
 			free(commands->cmds[count.i]->args[count.j]);
-			commands->cmds[count.i]->args[count.j] = ft_strtrim(new_arg, " ");
-			free(new_arg);
+			commands->cmds[count.i]->args[count.j] = new_arg;
 			if (!commands->cmds[count.i]->args[count.j])
 				exit_(2);
 			count.j++;
