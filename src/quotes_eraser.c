@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/21 17:41:21 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:49:24 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_trim_end(char *str)
 {
 	int	i;
 
-	i = strlen(str) - 1;
+	i = ft_strlen(str) - 1;
 	while (i >= 0 && str[i] == ' ')
 	{
 		str[i] = '\0';
