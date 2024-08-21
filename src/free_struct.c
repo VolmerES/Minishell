@@ -40,7 +40,7 @@
 			count++;
 		}
 		free(commands->cmds);
-		if (commands->evar)
-			free(commands->evar);
+		// if (commands->evar)
+		// 	free(commands->evar);
 		free(commands->input);
 	}
