@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/06/08 17:42:05 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:42:49 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_expand_var(t_msh *commands)
 	{
 		if (commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE
 			&& commands->input[i + 1] != '\0' && commands->input[i
-				+ 1] != DQUOTES && commands->input[i - 1] != SQUOTES)
+				+ 1] != DQUOTES && (i == 0 || commands->input[i - 1] != SQUOTES))
 		{
 			commands->evar = ft_get_var(commands, i + 1);
 			if (!commands->evar)
