@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/08/06 20:25:47 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/21 20:02:42 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 		ft_builtins(commands, cmd_i);
 	else
 	{
-		execve(path, commands->cmds[cmd_i]->full_cmd, commands->envp);
+		if (path)
+			execve(path, commands->cmds[cmd_i]->full_cmd, commands->envp);
 		exit_err(commands, cmd_i);
 	}
 	exit(commands->last_out);
