@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/17 11:12:54 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:47:48 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	ft_incomplete_quotes(t_msh *commands)
 	while (commands->input[++i] != '\0')
 	{
 		if (!quote && (commands->input[i] == SQUOTES
-				|| commands->input[i] == DQUOTES) && (commands->input[i
-					- 1] != BACKSLASH || i == 0))
+				|| commands->input[i] == DQUOTES) && (i == 0 || commands->input[i
+					- 1] != BACKSLASH))
 			quote = commands->input[i];
-		else if (commands->input[i] == quote && commands->input[i - 1] != '\\')
+		else if (commands->input[i] == quote && ( i == 0 || commands->input[i - 1] != '\\'))
 			quote = '\0';
 	}
 	return (quote != '\0');
@@ -53,6 +53,7 @@ void	ft_init_msh_struct(t_msh *commands)
 	commands->input = NULL;
 	commands->cp_stdin = dup(STDIN_FILENO);
 	commands->cp_stdout = dup(STDOUT_FILENO);
+	commands->parser.cmd_index = 0;
 }
 
 static int	command_empty(char *text)
