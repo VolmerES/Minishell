@@ -12,15 +12,21 @@
 
 #include "../inc/minishell.h"
 
-char	*ft_get_env_var_value(const char *var_name)
+char	*ft_get_env_var_value(t_msh *commands, char *var_name)
 {
 	char	*var_value;
+	char	**value;
+	int		index;
 
-	var_value = getenv(var_name);
-	if (var_value == NULL)
+	index = ft_search_env(commands->envp, var_name);
+	if (index != -1)
 	{
-		var_value = "";
+		value = ft_split(commands->envp[index], '=');
+		var_value = ft_strdup(value[1]);
+		ft_free_matrix(value);
 	}
+	else
+		var_value = "";
 	return (var_value);
 }
 
@@ -65,7 +71,7 @@ void	ft_overwrited_expand(t_msh *commands)
 		if (commands->input[i] == DOLLAR && commands->input[i + 1] != '\0')
 		{
 			var_name = ft_get_var_name(commands->input, &i);
-			var_value = ft_strdup(ft_get_env_var_value(var_name));
+			var_value = ft_get_env_var_value(commands, var_name);
 			ft_replace_var_with_value(commands, var_value, i,
 				ft_strlen(var_name) + 1);
 			free(var_name);
