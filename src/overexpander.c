@@ -26,7 +26,7 @@ char	*ft_get_env_var_value(t_msh *commands, char *var_name)
 		ft_free_matrix(value);
 	}
 	else
-		var_value = "";
+		var_value = ft_strdup("");
 	return (var_value);
 }
 
@@ -74,9 +74,9 @@ void	ft_overwrited_expand(t_msh *commands)
 			var_value = ft_get_env_var_value(commands, var_name);
 			ft_replace_var_with_value(commands, var_value, i,
 				ft_strlen(var_name) + 1);
+			i += ft_strlen(var_value) - 1;
 			free(var_name);
 			free(var_value);
-			i += ft_strlen(var_value) - 1;
 		}
 		i++;
 	}
