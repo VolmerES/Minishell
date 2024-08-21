@@ -1,11 +1,3 @@
-//! importante
-
-la primera ejecucion los argumentos no terminan en null
-
-da error la primera vez es por que el array de args no finaliza en null
-
-
-//cuando guardan un comando en una variable de entorno al expandirla no se interpreta como un comando
 
 
 //variable de entorno $?
