@@ -3,15 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/21 19:42:49 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:45:01 by volmer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+
+int	ft_is_special(t_msh *commands)
+{
+	int	i;
+
+	i = 0;
+	while (commands->input[i] != '\0')
+	{
+		if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
+		{
+			commands->special_char = 1;
+			printf("special char\n");
+			return (i);
+		}
+		i++;
+	}
+	printf("no special char\n");
+	commands->special_char = 0;
+	return (i);
+}
 /* Sobre escribe dentro de evar,con el valor de la variable de 
 entorno y la devuelve */
 char	*ft_manage_expander(char **envpc, int index, char *evar)
@@ -111,6 +131,7 @@ void	ft_expand_var(t_msh *commands)
 	int	i;
 
 	i = 0;
+	ft_is_special(commands);
 	while (commands->input[i] != '\0')
 	{
 		if (commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE

@@ -90,6 +90,7 @@ typedef struct s_cmd
 	/*Argumentos del comando*/
 	char	**args;
 
+
 	/*Infile del comando*/
 	t_file	**infile;
 
@@ -113,6 +114,8 @@ typedef struct s_msh
 
 	/*Variable entorno expandida*/
 	char		*evar;
+
+	int 		special_char;
 
 	t_parser	parser;
 
