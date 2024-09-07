@@ -6,7 +6,7 @@
 /*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/07 17:49:32 by volmer           ###   ########.fr       */
+/*   Updated: 2024/09/07 17:57:09 by volmer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,14 +148,12 @@ void	ft_expand_var(t_msh *commands)
 	i = 0;
 	while (commands->input[i] != '\0')
 	{
-		if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
-		{
-			ft_expand_special(commands);
-		}
 		if (commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE
 			&& commands->input[i + 1] != '\0' && commands->input[i
 				+ 1] != DQUOTES && (i == 0 || commands->input[i - 1] != SQUOTES))
 		{
+			if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
+				ft_expand_special(commands);
 			commands->evar = ft_get_var(commands, i + 1);
 			if (!commands->evar)
 			{
