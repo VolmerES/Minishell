@@ -55,7 +55,6 @@ void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 	char	*filename;
 	int		start;
 
-	//! aqui tambien 
 	outfile = malloc(sizeof(t_file));
 	filename = "";
 	while (commands->cmds[*i]->cmd[*j] != '>'
@@ -156,7 +155,6 @@ void	ft_is_infile_here_doc(t_msh *commands, int *i, int *j)
 	char	*filename;
 	int		start;
 
-	//! revisar para poder liberar
 	infile = malloc(sizeof(t_file));
 	printf("inicio %li\n", sizeof(t_file));
 	filename = "";
