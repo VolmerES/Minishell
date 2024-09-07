@@ -1,21 +1,21 @@
 	#include "../inc/minishell.h"
 
-	static void free_aux(t_file **list)
+	static void free_aux(t_msh *commands, int count)
 	{
 		int i;
 
 		i = 0;
-		while (list[i])
+		while (commands->cmds[count]->infile[i])
 		{
-			if (list[i]->filename)
+			if (commands->cmds[count]->infile[i]->filename)
 			{
-				free(list[i]->filename);
-				list[i]->filename = NULL;
+				free(commands->cmds[count]->infile[i]->filename);
+				commands->cmds[count]->infile[i]->filename = NULL;
 			}
 			i++;
 		}
-		free(list);
-		list = NULL;
+		free(commands->cmds[count]->infile);
+		commands->cmds[count]->infile = NULL;
 	}
 
 	void free_struct(t_msh *commands)
@@ -32,9 +32,9 @@
 			if (commands->cmds[count]->cmd_main)
 				free(commands->cmds[count]->cmd_main);
 			if (commands->cmds[count]->infile)
-				free_aux(commands->cmds[count]->infile);
+				free_aux(commands, count);
 			if (commands->cmds[count]->outfile)
-				free_aux(commands->cmds[count]->outfile);
+				free_aux(commands, count);
 			free(commands->cmds[count]->cmd);
 			free(commands->cmds[count]);
 			count++;
