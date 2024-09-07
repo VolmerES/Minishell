@@ -144,7 +144,7 @@ void	ft_is_infile(t_msh *commands, int *i, int *j)
 	int infile_count = 0;
 	while (commands->cmds[*i]->infile && commands->cmds[*i]->infile[infile_count])
 		infile_count++;
-	commands->cmds[*i]->infile = ft_realloc(commands->cmds[*i]->infile, sizeof(t_file *) * infile_count, sizeof(t_file *) * (infile_count + 2));
+	commands->cmds[*i]->infile = ft_realloc(commands->cmds[*i]->infile, sizeof(t_file *) * (infile_count + 1), sizeof(t_file *) * (infile_count + 2));
 	commands->cmds[*i]->infile[infile_count] = infile;
 	commands->cmds[*i]->infile[infile_count + 1] = NULL;
 	printf("\033[34mInfile Type Normal: %s\033[0m\n", infile->filename);
