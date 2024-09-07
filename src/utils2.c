@@ -9,3 +9,36 @@ void	set_null(t_msh *commands, int index)
 	commands->cmds[index]->args = NULL;
 	commands->cmds[index]->full_cmd = NULL;
 }
+
+char *ft_strncpy(char *dst, const char *src, size_t len, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len && src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dst[i] = '\0';
+		i++;
+	}
+	return (dst);
+}
+char	*ft_strstr(const char *haystack, const char *needle)
+{
+	size_t	len;
+
+	len = ft_strlen(needle);
+	if (len == 0)
+		return ((char *)haystack);
+	while (*haystack)
+	{
+		if (!ft_strncmp(haystack, needle, len))
+			return ((char *)haystack);
+		haystack++;
+	}
+	return (NULL);
+}
