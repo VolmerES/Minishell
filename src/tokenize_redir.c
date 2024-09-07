@@ -76,7 +76,7 @@ void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 	int outfile_count = 0;
 	while (commands->cmds[*i]->outfile && commands->cmds[*i]->outfile[outfile_count])
 		outfile_count++;
-	commands->cmds[*i]->outfile = ft_realloc(commands->cmds[*i]->outfile, sizeof(t_file *) * outfile_count, sizeof(t_file *) * (outfile_count + 2));
+	commands->cmds[*i]->outfile = ft_realloc(commands->cmds[*i]->outfile, sizeof(t_file *) * (outfile_count + 1), sizeof(t_file *) * (outfile_count + 2));
 	commands->cmds[*i]->outfile[outfile_count] = outfile;
 	commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
 
@@ -111,7 +111,7 @@ void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 	int outfile_count = 0;
 	while (commands->cmds[*i]->outfile && commands->cmds[*i]->outfile[outfile_count])
 		outfile_count++;
-	commands->cmds[*i]->outfile = ft_realloc(commands->cmds[*i]->outfile, sizeof(t_file *) * outfile_count, sizeof(t_file *) * (outfile_count + 2));
+	commands->cmds[*i]->outfile = ft_realloc(commands->cmds[*i]->outfile, sizeof(t_file *) * (outfile_count + 1), sizeof(t_file *) * (outfile_count + 2));
 	commands->cmds[*i]->outfile[outfile_count] = outfile;
 	commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
 
@@ -182,7 +182,7 @@ void	ft_is_infile_here_doc(t_msh *commands, int *i, int *j)
 		infile_count++;
 	printf("original size %li\n", sizeof(t_file *) * infile_count);
 	printf("new size %li\n", sizeof(t_file *) * (infile_count + 2));
-	commands->cmds[*i]->infile = ft_realloc(commands->cmds[*i]->infile, sizeof(t_file *) * infile_count, sizeof(t_file *) * (infile_count + 2));
+	commands->cmds[*i]->infile = ft_realloc(commands->cmds[*i]->infile, sizeof(t_file *) * (infile_count + 1), sizeof(t_file *) * (infile_count + 2));
 	commands->cmds[*i]->infile[infile_count] = infile;
 	commands->cmds[*i]->infile[infile_count + 1] = NULL;
 
