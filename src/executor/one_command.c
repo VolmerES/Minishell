@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/07 13:43:59 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/07 14:08:32 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,4 @@ void    one_command(t_msh *commands)
 		child_one_command(commands);
 	waitpid(pid, &status, 0);
     commands->last_out = WEXITSTATUS(status);
-	printf("salida proceso hijo %i\n", commands->last_out);
 }
