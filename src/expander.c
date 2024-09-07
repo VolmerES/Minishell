@@ -6,7 +6,7 @@
 /*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/07 17:57:09 by volmer           ###   ########.fr       */
+/*   Updated: 2024/09/07 18:11:14 by volmer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,16 +144,20 @@ char	*ft_get_var(t_msh *commands, int i)
 void	ft_expand_var(t_msh *commands)
 {
 	int	i;
+	int	in_single_quote;
 
+	in_single_quote = 0;
 	i = 0;
 	while (commands->input[i] != '\0')
 	{
-		if (commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE
+		if (commands->input[i] == SQUOTES && (i == 0 || commands->input[i - 1] != BACKSLASH))
+		{
+			in_single_quote = !in_single_quote;
+		}
+		if (!in_single_quote && commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE
 			&& commands->input[i + 1] != '\0' && commands->input[i
 				+ 1] != DQUOTES && (i == 0 || commands->input[i - 1] != SQUOTES))
 		{
-			if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
-				ft_expand_special(commands);
 			commands->evar = ft_get_var(commands, i + 1);
 			if (!commands->evar)
 			{
