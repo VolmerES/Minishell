@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:28:33 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/08/17 12:46:30 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/07 13:36:21 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ int open_files(t_msh *commands, int cmd_i, int pipe)
             else
 		        infd = open(her_doc(commands->cmds[cmd_i]->infile[i]->filename), O_RDONLY);
             if (infd < 0)
-            {
-                perror("open");
                 return (-1);
-            }
         }
     }
     return (file_check(infd, pipe, STDIN_FILENO));
