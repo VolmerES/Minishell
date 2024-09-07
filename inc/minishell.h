@@ -115,8 +115,6 @@ typedef struct s_msh
 	/*Variable entorno expandida*/
 	char		*evar;
 
-	int 		special_char;
-
 	t_parser	parser;
 
 	/*Entrada stdin*/
