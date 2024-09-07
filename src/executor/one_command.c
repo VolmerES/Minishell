@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/08/21 20:01:04 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/07 13:43:59 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,11 @@ void   child_one_command(t_msh *commands)
     char *path;
 
 	infd = open_files(commands, 0, -1);
-	if (infd < 0){
-		commands->last_out = 1;
-		return;
-	}
+	if (infd < 0)
+		exit(1);
 	outfd = out_files(commands, 0, -1);
-	if (outfd < 0){
-		commands->last_out = 1;
-		return;
-	}
+	if (outfd < 0)
+		exit(1);
 	dup2(infd, STDIN_FILENO);
 	dup2(outfd, STDOUT_FILENO);
     path = check_path(commands->path, commands->cmds[0]->cmd_main);
@@ -71,5 +67,6 @@ void    one_command(t_msh *commands)
 	if (pid == 0)
 		child_one_command(commands);
 	waitpid(pid, &status, 0);
-	commands->last_out = WEXITSTATUS(status);
+    commands->last_out = WEXITSTATUS(status);
+	printf("salida proceso hijo %i\n", commands->last_out);
 }
