@@ -6,31 +6,63 @@
 /*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/06 12:45:01 by volmer           ###   ########.fr       */
+/*   Updated: 2024/09/07 17:29:12 by volmer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-
-int	ft_is_special(t_msh *commands)
+char *ft_strncpy(char *dst, const char *src, size_t len, size_t n)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (commands->input[i] != '\0')
+	while (i < len && src[i] != '\0')
 	{
-		if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
-		{
-			commands->special_char = 1;
-			printf("special char\n");
-			return (i);
-		}
+		dst[i] = src[i];
 		i++;
 	}
-	printf("no special char\n");
-	commands->special_char = 0;
-	return (i);
+	while (i < n)
+	{
+		dst[i] = '\0';
+		i++;
+	}
+	return (dst);
+}
+//funcion que se encarga de expandir la variable  $?, sustityuendo el valor de $?
+// por el valor de last_out dentro de input
+void	ft_expand_special(t_msh *commands)
+{
+	char	*expanded_variable;
+	char	*result;
+	char	*pos;
+
+	expanded_variable = ft_itoa(commands->last_out);
+	if (expanded_variable == NULL)
+	{
+		printf("Error: No se pudo asignar memoria.\n");
+		exit(1);
+	}
+	pos = strstr(commands->input, "$?");
+	if (pos == NULL)
+	{
+		free(expanded_variable);
+		return;
+	}
+	result = malloc(strlen(commands->input) - 2 + strlen(expanded_variable) + 1);
+	if (result == NULL)
+	{
+		printf("Error: No se pudo asignar memoria.\n");
+		free(expanded_variable);
+		exit(1);
+	}
+	ft_strncpy(result, commands->input, pos - commands->input, strlen(commands->input) - 2 + strlen(expanded_variable) + 1);
+	result[pos - commands->input] = '\0';
+	ft_strlcat(result, expanded_variable, strlen(commands->input) - 2 + strlen(expanded_variable) + 1);
+	ft_strlcat(result, pos + 2, strlen(commands->input) - 2 + strlen(expanded_variable) + 1);
+	free(commands->input);
+	commands->input = result;
+	free(expanded_variable);
 }
 /* Sobre escribe dentro de evar,con el valor de la variable de 
 entorno y la devuelve */
@@ -131,9 +163,12 @@ void	ft_expand_var(t_msh *commands)
 	int	i;
 
 	i = 0;
-	ft_is_special(commands);
 	while (commands->input[i] != '\0')
 	{
+		if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
+		{
+			ft_expand_special(commands);
+		}
 		if (commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE
 			&& commands->input[i + 1] != '\0' && commands->input[i
 				+ 1] != DQUOTES && (i == 0 || commands->input[i - 1] != SQUOTES))
