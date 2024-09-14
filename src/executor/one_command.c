@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/07 14:08:32 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:18:01 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ void    bd_one_command(t_msh *commands)
 		commands->last_out = 1;
 		return;
 	}
-	commands->cp_stdin_last = dup2(infd, STDIN_FILENO);
-	commands->cp_stdout_last = dup2(outfd, STDOUT_FILENO);
+	dup2(infd, STDIN_FILENO);
+	dup2(outfd, STDOUT_FILENO);
     ft_builtins(commands, 0);
-    fflush(stdout);//! quitar
-    dup2(commands->cp_stdin, commands->cp_stdin_last);
-    dup2(commands->cp_stdout, commands->cp_stdout_last);
+    dup2(commands->cp_stdin, STDIN_FILENO);
+    dup2(commands->cp_stdout, STDOUT_FILENO);
 }
 
 void   child_one_command(t_msh *commands)
