@@ -24,7 +24,7 @@ void	ft_builtins(t_msh *commands, int i)
 
 int	is_builtins(t_msh *commands, int i)
 {
-	while (commands->cmds[i])
+	while (commands->cmds[i] && commands->cmds[i]->cmd_main)
 	{
 		if (ft_strcmp(commands->cmds[i]->cmd_main, "cd") == 0)
 			return (1);

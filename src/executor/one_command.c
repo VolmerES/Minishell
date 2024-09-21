@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/14 19:18:01 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:39:24 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void   child_one_command(t_msh *commands)
 		exit(1);
 	dup2(infd, STDIN_FILENO);
 	dup2(outfd, STDOUT_FILENO);
+	if (!commands->cmds[0]->cmd_main)
+		exit(0);
     path = check_path(commands->path, commands->cmds[0]->cmd_main);
 	if (path)
     	execve(path, commands->cmds[0]->full_cmd, commands->envp);
@@ -59,7 +61,8 @@ void    one_command(t_msh *commands)
     pid_t	pid;
 	int		status;
 
-	commands->cmds[0]->full_cmd = add_to_arg(commands->cmds[0]->args, commands->cmds[0]->cmd_main);
+	if (commands->cmds[0]->cmd_main)
+		commands->cmds[0]->full_cmd = add_to_arg(commands->cmds[0]->args, commands->cmds[0]->cmd_main);
 	pid = fork();
 	if (pid < 0)
 		exit_(1);
