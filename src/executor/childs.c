@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/14 19:18:07 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:21:07 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 {
 	char	*path;
 
-	commands->cmds[cmd_i]->full_cmd = add_to_arg(commands->cmds[cmd_i]->args, commands->cmds[cmd_i]->cmd_main);
-    path = check_path(commands->path, commands->cmds[cmd_i]->cmd_main);
+	if (commands->cmds[0]->cmd_main)
+		commands->cmds[cmd_i]->full_cmd = add_to_arg(commands->cmds[cmd_i]->args, commands->cmds[cmd_i]->cmd_main);
+	if (commands->cmds[0]->cmd_main)
+    	path = check_path(commands->path, commands->cmds[cmd_i]->cmd_main);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	if (fd_in != 0)
 		close(fd_in);
 	if (fd_out != 1 && fd_out != 2)
 		close(fd_out);
+	if (!commands->cmds[0]->cmd_main)
+		exit(0);
 	if (is_builtins(commands, cmd_i))
 		ft_builtins(commands, cmd_i);
 	else
@@ -32,6 +36,7 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 			execve(path, commands->cmds[cmd_i]->full_cmd, commands->envp);
 		exit_err(commands, cmd_i);
 	}
+	dprintf(2,"Aquí\n");
 	exit(commands->last_out);
 }
 

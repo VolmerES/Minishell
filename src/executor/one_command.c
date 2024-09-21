@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/21 17:39:24 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:45:55 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,13 @@ void   child_one_command(t_msh *commands)
 	dup2(infd, STDIN_FILENO);
 	dup2(outfd, STDOUT_FILENO);
 	if (!commands->cmds[0]->cmd_main)
+	{
+		if (infd != STDIN_FILENO)
+			close(infd);
+		if (outfd != STDOUT_FILENO)
+			close(outfd);
 		exit(0);
+	}
     path = check_path(commands->path, commands->cmds[0]->cmd_main);
 	if (path)
     	execve(path, commands->cmds[0]->full_cmd, commands->envp);
