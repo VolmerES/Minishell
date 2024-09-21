@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:28:33 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/07 13:36:21 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:48:42 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	file_check(int fd, int pipe, int predetermined)
 
 int open_files(t_msh *commands, int cmd_i, int pipe)
 {
+    char    *join;
     int infd;
     int i;
 
@@ -41,7 +42,12 @@ int open_files(t_msh *commands, int cmd_i, int pipe)
             else
 		        infd = open(her_doc(commands->cmds[cmd_i]->infile[i]->filename), O_RDONLY);
             if (infd < 0)
+            {
+                join = ft_strjoin("Minishell-42: ", commands->cmds[cmd_i]->infile[i]->filename);
+                perror(join);
+                free(join);
                 return (-1);
+            }
         }
     }
     return (file_check(infd, pipe, STDIN_FILENO));
@@ -49,22 +55,27 @@ int open_files(t_msh *commands, int cmd_i, int pipe)
 
 int out_files(t_msh *commands, int cmd_i, int pipe)
 {
-    int outfd;
-    int i;
+    char    *join;
+    int     outfd;
+    int     i;
 
     outfd = -1;
-    i = 0;
+    i = -1;
     if (commands->cmds[cmd_i]->outfile)
     {
-        while (commands->cmds[cmd_i]->outfile[i])
+        while (commands->cmds[cmd_i]->outfile[++i])
         {
             if (commands->cmds[cmd_i]->outfile[i]->type == OUTFILE_TRUNC)
                 outfd = open(commands->cmds[cmd_i]->outfile[i]->filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
             else
                 outfd = open(commands->cmds[cmd_i]->outfile[i]->filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
             if (outfd < 0)
-                perror("open");
-            i++;
+            {
+                join = ft_strjoin("Minishell-42: ", commands->cmds[cmd_i]->outfile[i]->filename);
+                perror(join);
+                free(join);
+                return (-1);
+            }
         }
     }
     return (file_check(outfd, pipe, STDOUT_FILENO));
