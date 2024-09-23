@@ -87,6 +87,7 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 		ft_free_args(commands, i);
 		exit(1);
 	}
+	printf("\033[34mARGS: [%s]\033[0m\n", commands->cmds[*i]->args[commands->parser.k]);
 	commands->parser.k++;
 }
 
