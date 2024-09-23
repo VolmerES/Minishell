@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/07 18:11:14 by volmer           ###   ########.fr       */
+/*   Updated: 2024/09/23 16:25:24 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,14 @@ int	ft_check_syntax(char *evar, t_msh *commands)
 		{
 			printf("error var num\n");
 			commands->last_out = 1;
-			exit(1);
+			return (1);
 		}
 		if (ft_isalpha(evar[i]) == 0 && evar[i] != UNDERSCORE
 			&& ft_isdigit(evar[i + 1]) != 0)
 		{
 			printf("error, var type\n");
 			commands->last_out = 1;
-			exit(1);
+			return (1);
 		}
 		i++;
 	}
