@@ -17,7 +17,8 @@ int	pwd_builtin(t_msh *commands)
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	if(pwd){
+	if (pwd)
+	{
 		printf("%s\n", pwd);
 		free(pwd);
 	}
@@ -25,6 +26,5 @@ int	pwd_builtin(t_msh *commands)
 	{
 		update_env(commands, ft_search_env(commands->envp, "PWD"), "PWD=");
 	}
-	
 	return (0);
 }

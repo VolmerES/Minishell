@@ -12,10 +12,10 @@
 
 #include "../../inc/minishell.h"
 
-static void check_arg(char *arg)
+static	void	check_arg(char *arg)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (arg[i])
 	{
@@ -38,7 +38,8 @@ void	exit_builtin(t_msh *commands, int cmd_i)
 		check_arg(commands->cmds[cmd_i]->args[0]);
 		printf("exit: too many arguments\n");
 		return ;
-	}else if(check_num_args(commands, cmd_i) == 1)
+	}
+	else if (check_num_args(commands, cmd_i) == 1)
 	{
 		check_arg(commands->cmds[cmd_i]->args[0]);
 		exit(ft_atoi(commands->cmds[cmd_i]->args[0]) % 256);

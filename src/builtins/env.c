@@ -14,7 +14,7 @@
 
 int	env_builtin(t_msh *commands)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (commands->envp[j])

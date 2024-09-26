@@ -12,9 +12,9 @@
 
 #include "../../inc/minishell.h"
 
-int check_num_args(t_msh *commands, int i)
+int	check_num_args(t_msh *commands, int i)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (commands->cmds[i]->args && commands->cmds[i]->args[j])

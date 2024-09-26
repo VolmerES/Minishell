@@ -12,19 +12,19 @@
 
 #include "../../inc/minishell.h"
 
-static void check_path_unset(t_msh *commands, int index)
+static	void	check_path_unset(t_msh *commands, int index)
 {
-	if(ft_strncmp(commands->envp[index], "PATH", 4) == 0)
+	if (ft_strncmp(commands->envp[index], "PATH", 4) == 0)
 	{
 		ft_free_matrix(commands->path);
 		commands->path = NULL;
 	}
 }
 
-int unset_builtin(t_msh *commands, int i)
+int	unset_builtin(t_msh *commands, int i)
 {
-	int index;
-	int j;
+	int	index;
+	int	j;
 
 	j = 0;
 	while (commands->cmds[i]->args && commands->cmds[i]->args[j])

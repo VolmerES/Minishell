@@ -12,22 +12,22 @@
 
 #include "../../inc/minishell.h"
 
-static void print_echo(t_msh *commands, int i, int j, int n_flag)
+static	void	print_echo(t_msh *commands, int i, int j, int n_flag)
 {
-    while (commands->cmds[i]->args && commands->cmds[i]->args[j])
-    {
-        printf("%s", commands->cmds[i]->args[j]);
-        if (commands->cmds[i]->args[j + 1])
-            printf(" ");
-        j++;
-    }
-    if (!n_flag)
-        printf("\n");
+	while (commands->cmds[i]->args && commands->cmds[i]->args[j])
+	{
+		printf("%s", commands->cmds[i]->args[j]);
+		if (commands->cmds[i]->args[j + 1])
+			printf(" ");
+		j++;
+	}
+	if (!n_flag)
+		printf("\n");
 }
 
-int check_break(t_msh *commands, int i, int j)
+int	check_break(t_msh *commands, int i, int j)
 {
-	int k;
+	int	k;
 
 	k = 1;
 	while (commands->cmds[i]->args[j][k] != '\0')
@@ -38,25 +38,27 @@ int check_break(t_msh *commands, int i, int j)
 	}
 	return (0);
 }
+
 int	echo_builtin(t_msh *commands, int i)
-{	
-    int n_flag;
-    int j;
-	
+{
+	int	n_flag;
+	int	j;
+
 	n_flag = 0;
 	j = 0;
-    while (commands->cmds[i]->args && commands->cmds[i]->args[j])
-    {
-		if (commands->cmds[i]->args[j][0] == '-' && ft_strlen(commands->cmds[i]->args[j]) > 1)
+	while (commands->cmds[i]->args && commands->cmds[i]->args[j])
+	{
+		if (commands->cmds[i]->args[j][0] == '-' && \
+		ft_strlen(commands->cmds[i]->args[j]) > 1)
 		{
 			if (check_break(commands, i, j))
-            	break;
+				break ;
 			j++;
 			n_flag = 1;
 		}
 		else
-			break;
-    }
+			break ;
+	}
 	print_echo(commands, i, j, n_flag);
-    return (0);
+	return (0);
 }

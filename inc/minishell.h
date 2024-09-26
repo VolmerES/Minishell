@@ -261,8 +261,6 @@ void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i);
 void	last_child(t_msh *commands, int *fd);
 char	*her_doc(char *name);
 
-void printArray(char *array[]);
-
 char *ft_strncpy(char *dst, const char *src, size_t len, size_t n);
 void	ft_expand_special(t_msh *commands);
 char	*ft_strstr(const char *haystack, const char *needle);

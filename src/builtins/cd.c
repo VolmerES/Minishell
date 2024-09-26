@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-void update_env(t_msh *commands, int index, char *value)
+void	update_env(t_msh *commands, int index, char *value)
 {
 	if (index != -1)
 	{
@@ -23,12 +23,12 @@ void update_env(t_msh *commands, int index, char *value)
 		commands->envp = ft_addvariable(commands->envp, value);
 }
 
-static void cd_home(t_msh *commands)
+static	void	cd_home(t_msh *commands)
 {
-	int i_home;
-	int i_old_pwd;
-	int i_pwd;
-	char *old_pwd;
+	int		i_home;
+	int		i_old_pwd;
+	int		i_pwd;
+	char	*old_pwd;
 
 	i_home = ft_search_env(commands->envp, "HOME");
 	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
@@ -37,30 +37,31 @@ static void cd_home(t_msh *commands)
 	{
 		printf("cd: HOME not set");
 		commands->last_out = 1;
-		return;
+		return ;
 	}
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(commands->envp[i_home] + 5) != -1)
 	{
-		update_env(commands, i_pwd, ft_strjoin("PWD=", commands->envp[i_home] + 5));
+		update_env(commands, i_pwd, \
+		ft_strjoin("PWD=", commands->envp[i_home] + 5));
 		update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
 		commands->last_out = 0;
 	}
 	free(old_pwd);
 }
 
-static void cd_route(t_msh *commands, int i)
+static	void	cd_route(t_msh *commands, int i)
 {
-	int i_old_pwd;
-	int i_pwd;
-	char *old_pwd;
-	
+	int		i_old_pwd;
+	int		i_pwd;
+	char	*old_pwd;
+
 	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
 	i_pwd = ft_search_env(commands->envp, "PWD");
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(commands->cmds[i]->args[0]) != -1)
 	{
-		if(old_pwd)
+		if (old_pwd)
 		{
 			update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
 			free(old_pwd);
@@ -69,16 +70,17 @@ static void cd_route(t_msh *commands, int i)
 			commands->last_out = 0;
 		}//! vaciar pwd
 	}
-	else{
+	else
+	{
 		perror(commands->cmds[i]->args[0]);
 		commands->last_out = 1;
 	}
 	free(old_pwd);
 }
 
-int cd_builtin(t_msh *commands, int i)
+int	cd_builtin(t_msh *commands, int i)
 {
-	int num_args;
+	int	num_args;
 
 	num_args = check_num_args(commands, i);
 	if (!num_args)
