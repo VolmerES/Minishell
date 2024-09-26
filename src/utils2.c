@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*   utils2.c                                             :::      ::::::::   */
+/*                                     					:+:      :+:    :+:   */
+/*   By: juan <juan@student.42.fr>                    +:+ +:+         +:+     */
+/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
+/*   Updated: 2024/03/05 22:50:46 by jdelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 void	set_null(t_msh *commands, int index)
@@ -10,7 +22,7 @@ void	set_null(t_msh *commands, int index)
 	commands->cmds[index]->full_cmd = NULL;
 }
 
-char *ft_strncpy(char *dst, const char *src, size_t len, size_t n)
+char	*ft_strncpy(char *dst, const char *src, size_t len, size_t n)
 {
 	size_t	i;
 
@@ -27,6 +39,7 @@ char *ft_strncpy(char *dst, const char *src, size_t len, size_t n)
 	}
 	return (dst);
 }
+
 char	*ft_strstr(const char *haystack, const char *needle)
 {
 	size_t	len;

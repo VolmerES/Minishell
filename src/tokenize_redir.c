@@ -15,8 +15,8 @@
 void	ft_is_command(t_msh *commands, int *i, int *j)
 {
 	int	start;
-	int squotes;
-	int dquotes;
+	int	squotes;
+	int	dquotes;
 
 	dquotes = 0;
 	squotes = 0;
@@ -53,6 +53,7 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 	if (commands->cmds[*i]->args)
 		commands->cmds[*i]->args[commands->parser.k] = NULL;
 }
+
 void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 {
 	t_file	*outfile;

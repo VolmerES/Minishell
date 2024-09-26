@@ -24,22 +24,23 @@ void	ft_trim_end(char *str)
 	}
 }
 
-void ft_erase_cmd_quotes(t_msh *commands, int *i)
+void	ft_erase_cmd_quotes(t_msh *commands, int *i)
 {
-	int     j;
-	int     k;
-	int     cmd_len;
-	char    *new_cmd;
+	int		j;
+	int		k;
+	int		cmd_len;
+	char	*new_cmd;
 
 	k = 0;
 	j = 0;
 	cmd_len = ft_strlen(commands->cmds[*i]->cmd_main);
 	new_cmd = malloc(sizeof(char) * (cmd_len + 1));
-	if (!new_cmd) 
-		return;
+	if (!new_cmd)
+		return ;
 	while (j < cmd_len)
 	{
-		if (commands->cmds[*i]->cmd_main[j] != '\'' && commands->cmds[*i]->cmd_main[j] != '\"') 
+		if (commands->cmds[*i]->cmd_main[j] != '\'' && \
+		commands->cmds[*i]->cmd_main[j] != '\"')
 		{
 			new_cmd[k++] = commands->cmds[*i]->cmd_main[j];
 		}
@@ -50,13 +51,12 @@ void ft_erase_cmd_quotes(t_msh *commands, int *i)
 	commands->cmds[*i]->cmd_main = new_cmd;
 }
 
-
 void	ft_erase_arg_quotes(t_msh *commands)
 {
-	t_counters count;
-	char	*arg;
-	char	*new_arg;
-	char	quote_char;
+	t_counters	count;
+	char		*arg;
+	char		*new_arg;
+	char		quote_char;
 
 	count.j = 0;
 	count.i = 0;

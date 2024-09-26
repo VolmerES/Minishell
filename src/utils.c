@@ -50,23 +50,26 @@ void	ft_free_matrix(char **env)
 	env = NULL;
 }
 
-void	*ft_realloc(void *ptr, size_t original_size, size_t new_size) 
+void	*ft_realloc(void *ptr, size_t original_size, size_t new_size)
 {
+	void	*new_ptr;
+
 	if (new_size == 0)
 	{
 		free(ptr);
 		return (NULL);
-	} 
+	}
 	else if (!ptr)
 	{
 		return (malloc(new_size));
-	} else if (new_size <= original_size)
+	}
+	else if (new_size <= original_size)
 	{
 		return (ptr);
 	}
 	else
 	{
-		void *new_ptr = malloc(new_size);
+		new_ptr = malloc(new_size);
 		if (new_ptr)
 		{
 			ft_memcpy(new_ptr, ptr, original_size);
@@ -76,11 +79,12 @@ void	*ft_realloc(void *ptr, size_t original_size, size_t new_size)
 	}
 }
 
-void generation_pwd(t_msh *commands)
+void	generation_pwd(t_msh *commands)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	update_env(commands, ft_search_env(commands->envp, "PWD"), ft_strjoin("PWD=", pwd));
+	update_env(commands, ft_search_env(commands->envp, "PWD"), \
+	ft_strjoin("PWD=", pwd));
 	free(pwd);
 }

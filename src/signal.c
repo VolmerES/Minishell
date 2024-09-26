@@ -21,6 +21,7 @@ void	ft_sigint(int sign)
 		ft_putstr_fd("🐚Minihell-42", 1);
 	}
 }
+
 void	ft_sigquit(int sign)
 {
 	if (sign == SIGQUIT)

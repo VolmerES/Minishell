@@ -264,3 +264,5 @@ char	*her_doc(char *name);
 char *ft_strncpy(char *dst, const char *src, size_t len, size_t n);
 void	ft_expand_special(t_msh *commands);
 char	*ft_strstr(const char *haystack, const char *needle);
+
+void	ft_init_msh_struct(t_msh *commands);

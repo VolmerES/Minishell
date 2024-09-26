@@ -21,11 +21,12 @@ int	ft_incomplete_quotes(t_msh *commands)
 	quote = 0;
 	while (commands->input[++i] != '\0')
 	{
-		if (!quote && (commands->input[i] == SQUOTES
-				|| commands->input[i] == DQUOTES) && (i == 0 || commands->input[i
+		if (!quote && (commands->input[i] == SQUOTES \
+		|| commands->input[i] == DQUOTES) && (i == 0 || commands->input[i
 					- 1] != BACKSLASH))
 			quote = commands->input[i];
-		else if (commands->input[i] == quote && ( i == 0 || commands->input[i - 1] != '\\'))
+		else if (commands->input[i] == quote && \
+		(i == 0 || commands->input[i - 1] != '\\'))
 			quote = '\0';
 	}
 	return (quote != '\0');
@@ -45,21 +46,9 @@ void	ft_manage(t_msh *commands)
 	executor_manage(commands);
 }
 
-void	ft_init_msh_struct(t_msh *commands)
-{
-	commands->cmds = NULL;
-	commands->envp = NULL;
-	commands->evar = NULL;
-	commands->input = NULL;
-	commands->cp_stdin = STDIN_FILENO;
-	commands->cp_stdout = STDOUT_FILENO;
-	commands->parser.cmd_index = 0;
-	commands->last_out = 0;
-}
-
 static int	command_empty(char *text)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (text[++i])

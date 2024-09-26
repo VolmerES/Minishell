@@ -14,9 +14,9 @@
 
 void	ft_allocate_commands(t_msh *commands)
 {
-	int i;
-	int pipes;
-	
+	int	i;
+	int	pipes;
+
 	pipes = ft_count_pipes(commands);
 	commands->cmds = malloc(sizeof(t_cmd *) * (pipes + 1));
 	if (commands->cmds == NULL)
@@ -25,29 +25,30 @@ void	ft_allocate_commands(t_msh *commands)
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
-    while (i < pipes)
-    {
-        commands->cmds[i] = malloc(sizeof(t_cmd) * 1);
+	while (i < pipes)
+	{
+		commands->cmds[i] = malloc(sizeof(t_cmd) * 1);
 		set_null(commands, i);
 		if (!commands->cmds[i])
 			exit_(2);
-        i++;
-    }
+		i++;
+	}
 	commands->cmds[i] = NULL;
 }
 
 void	ft_process_character(t_msh *commands)
 {
-	char current_char;
-	int *index;
+	char	current_char;
+	int		*index;
 
 	current_char = commands->input[commands->parser.index];
 	index = &(commands->parser.index);
 	if (current_char == DQUOTES && !commands->parser.in_single_quotes)
 		commands->parser.in_quotes = !(commands->parser.in_quotes);
 	else if (current_char == SQUOTES && !commands->parser.in_quotes)
-		commands->parser.in_single_quotes = !(commands->parser.in_single_quotes);
-	if (current_char == PIPE 
+		commands->parser.in_single_quotes = \
+		!(commands->parser.in_single_quotes);
+	if (current_char == PIPE
 		&& !commands->parser.in_quotes
 		&& !commands->parser.in_single_quotes)
 	{

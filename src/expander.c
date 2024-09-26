@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-//funcion que se encarga de expandir la variable  $?, sustityuendo el valor de $?
+//funcion que se encarga de expandir la variable $?, sustityuendo el valor de $?
 // por el valor de last_out dentro de input
 void	ft_expand_special(t_msh *commands)
 {
@@ -30,23 +30,28 @@ void	ft_expand_special(t_msh *commands)
 	if (pos == NULL)
 	{
 		free(expanded_variable);
-		return;
+		return ;
 	}
-	result = malloc(strlen(commands->input) - 2 + ft_strlen(expanded_variable) + 1);
+	result = malloc(strlen(commands->input) - 2 + \
+	ft_strlen(expanded_variable) + 1);
 	if (result == NULL)
 	{
 		printf("Error: No se pudo asignar memoria.\n");
 		free(expanded_variable);
 		exit(1);
 	}
-	ft_strncpy(result, commands->input, pos - commands->input, ft_strlen(commands->input) - 2 + ft_strlen(expanded_variable) + 1);
+	ft_strncpy(result, commands->input, pos - commands->input, \
+	ft_strlen(commands->input) - 2 + ft_strlen(expanded_variable) + 1);
 	result[pos - commands->input] = '\0';
-	ft_strlcat(result, expanded_variable, ft_strlen(commands->input) - 2 + ft_strlen(expanded_variable) + 1);
-	ft_strlcat(result, pos + 2, strlen(commands->input) - 2 + strlen(expanded_variable) + 1);
+	ft_strlcat(result, expanded_variable, ft_strlen(commands->input) \
+	- 2 + ft_strlen(expanded_variable) + 1);
+	ft_strlcat(result, pos + 2, strlen(commands->input) - 2 + \
+	strlen(expanded_variable) + 1);
 	free(commands->input);
 	commands->input = result;
 	free(expanded_variable);
 }
+
 /* Sobre escribe dentro de evar,con el valor de la variable de 
 entorno y la devuelve */
 char	*ft_manage_expander(char **envpc, int index, char *evar)
