@@ -10,17 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Libft/libft.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h> //? Necesaria para el manejo de señales
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <termcap.h> // Necesaria para tgetstr
+#ifndef MINISHELL_H
+# define MINISHELL_H
+# include "../Libft/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h> //? Necesaria para el manejo de señales
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <termcap.h> // Necesaria para tgetstr
 # include <fcntl.h>
-#include <sys/wait.h>
-#include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 
 # define RESET "\033[0m"
 # define RED "\033[0;31m"
@@ -36,15 +38,15 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 
-#define SPACE ' '
-#define DOLLAR '$'
-#define DQUOTES '\"'
-#define SQUOTES '\''
-#define BACKSLASH '\\'
-#define UNDERSCORE '_'
-#define PIPE '|'
-#define MAX_COMMANDS 1000
-#define PWD './'
+# define SPACE ' '
+# define DOLLAR '$'
+# define DQUOTES '\"'
+# define SQUOTES '\''
+# define BACKSLASH '\\'
+# define UNDERSCORE '_'
+# define PIPE '|'
+# define MAX_COMMANDS 1000
+# define PWD './'
 
 typedef enum s_err_msg
 {
@@ -59,7 +61,7 @@ typedef struct s_parser
 	int	in_quotes;
 	int	cmd_index;
 	int	in_single_quotes;
-	int k;
+	int	k;
 }				t_parser;
 
 typedef enum e_file_type
@@ -89,7 +91,6 @@ typedef struct s_cmd
 
 	/*Argumentos del comando*/
 	char	**args;
-
 
 	/*Infile del comando*/
 	t_file	**infile;
@@ -230,39 +231,40 @@ int			env_builtin(t_msh *commands);
 void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
 void		update_env(t_msh *commands, int index, char *value);
-void    	executor_manage(t_msh *commands);
-void    	bd_one_command(t_msh *commands);
-void    	one_command(t_msh *commands);
-void    	multi_command(t_msh *commands);
+void		executor_manage(t_msh *commands);
+void		bd_one_command(t_msh *commands);
+void		one_command(t_msh *commands);
+void		multi_command(t_msh *commands);
 void		exit_builtin(t_msh *commands, int cmd_i);
 
 char		*check_path(char **path, char *command);
 char		**find_path(char **env);
-char 		**add_to_arg(char **path, char *new_path);
+char		**add_to_arg(char **path, char *new_path);
 
 /*QUOTES ERASER*/
-void ft_trim_end(char *str);
-void	ft_erase_cmd_quotes(t_msh *commands, int *i);
-void	ft_erase_arg_quotes(t_msh *commands);
+void		ft_trim_end(char *str);
+void		ft_erase_cmd_quotes(t_msh *commands, int *i);
+void		ft_erase_arg_quotes(t_msh *commands);
 
 /*TOKENIZER_TWO*/
-void	ft_handle_less_than(t_msh *commands, int *i, int *j);
-void	ft_handle_greater_than(t_msh *commands, int *i, int *j);
-void	ft_handle_else(t_msh *commands, int *i, int *j);
+void		ft_handle_less_than(t_msh *commands, int *i, int *j);
+void		ft_handle_greater_than(t_msh *commands, int *i, int *j);
+void		ft_handle_else(t_msh *commands, int *i, int *j);
 
-void	*ft_realloc(void *ptr, size_t original_size, size_t new_size);
+void		*ft_realloc(void *ptr, size_t original_size, size_t new_size);
 
 /* EXECUTOR */
 
-void	exit_(t_err_msg error);
-void	exit_err(t_msh *commands, int cmd_i);
-void	first_child(t_msh *commands, int *fd);
-void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i);
-void	last_child(t_msh *commands, int *fd);
-char	*her_doc(char *name);
+void		exit_(t_err_msg error);
+void		exit_err(t_msh *commands, int cmd_i);
+void		first_child(t_msh *commands, int *fd);
+void		mid_child(t_msh *commands, int *fd, int *new, int cmd_i);
+void		last_child(t_msh *commands, int *fd);
+char		*her_doc(char *name);
 
-char *ft_strncpy(char *dst, const char *src, size_t len, size_t n);
-void	ft_expand_special(t_msh *commands);
-char	*ft_strstr(const char *haystack, const char *needle);
+char		*ft_strncpy(char *dst, const char *src, size_t len, size_t n);
+void		ft_expand_special(t_msh *commands);
+char		*ft_strstr(const char *haystack, const char *needle);
 
-void	ft_init_msh_struct(t_msh *commands);
+void		ft_init_msh_struct(t_msh *commands);
+#endif
