@@ -12,18 +12,18 @@
 
 #include "../../inc/minishell.h"
 
-void    executor_manage(t_msh *commands)
+void	executor_manage(t_msh *commands)
 {
-	int i;
+	int	i;
 
 	i = 0;
-    if (commands->parser.cmd_index == 1)
-    {
-        if (is_builtins(commands, i))
-            bd_one_command(commands);
-        else
-            one_command(commands);
-    }
-    else
+	if (commands->parser.cmd_index == 1)
+	{
+		if (is_builtins(commands, i))
+			bd_one_command(commands);
+		else
+			one_command(commands);
+	}
+	else
 		multi_command(commands);
 }

@@ -16,7 +16,7 @@ void	wait_childs(t_msh *commands)
 {
 	pid_t	current_pid;
 	int		status;
-	
+
 	while (1)
 	{
 		current_pid = waitpid(-1, &status, 0);

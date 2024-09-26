@@ -17,9 +17,10 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 	char	*path;
 
 	if (commands->cmds[0]->cmd_main)
-		commands->cmds[cmd_i]->full_cmd = add_to_arg(commands->cmds[cmd_i]->args, commands->cmds[cmd_i]->cmd_main);
+		commands->cmds[cmd_i]->full_cmd = add_to_arg(\
+		commands->cmds[cmd_i]->args, commands->cmds[cmd_i]->cmd_main);
 	if (commands->cmds[0]->cmd_main)
-    	path = check_path(commands->path, commands->cmds[cmd_i]->cmd_main);
+		path = check_path(commands->path, commands->cmds[cmd_i]->cmd_main);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	if (fd_in != 0)
@@ -36,7 +37,7 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 			execve(path, commands->cmds[cmd_i]->full_cmd, commands->envp);
 		exit_err(commands, cmd_i);
 	}
-	dprintf(2,"Aquí\n");
+	dprintf(2, "Aquí\n");
 	exit(commands->last_out);
 }
 

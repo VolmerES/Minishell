@@ -14,8 +14,8 @@
 
 static char	*join_path(char *path, char *command)
 {
-	char *command_;
-	char *new_path;
+	char	*command_;
+	char	*new_path;
 
 	command_ = ft_strjoin("/", command);
 	new_path = ft_strjoin(path, command_);
@@ -29,7 +29,7 @@ char	*check_path(char **path, char *command)
 	int		i;
 
 	i = 0;
-	if(!path)
+	if (!path)
 		return (NULL);
 	if (ft_strrchr(command, '/') && !access(command, X_OK))
 		return (command);
@@ -59,11 +59,11 @@ char	**find_path(char **env)
 	return (NULL);
 }
 
-char **add_to_arg(char **path, char *new_path)
+char	**add_to_arg(char **path, char *new_path)
 {
-	int i;
-	int path_len;
-	char **new_path_list;
+	int		i;
+	int		path_len;
+	char	**new_path_list;
 
 	i = 0;
 	path_len = 0;
@@ -72,13 +72,13 @@ char **add_to_arg(char **path, char *new_path)
 		path_len++;
 	new_path_list = malloc((path_len + 2) * sizeof(char *));
 	if (!new_path_list)
-		return NULL;
-	new_path_list[0] =  ft_strdup(new_path);
+		return (NULL);
+	new_path_list[0] = ft_strdup(new_path);
 	while (i < path_len)
 	{
 		new_path_list[i + 1] = ft_strdup(path[i]);
 		i++;
 	}
 	new_path_list[path_len + 1] = NULL;
-	return new_path_list;
+	return (new_path_list);
 }

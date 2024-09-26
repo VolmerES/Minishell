@@ -35,7 +35,7 @@ void	check_malloc(char *count_char, char *name_tmp, char *tmp)
 		_exit(2);
 }
 
-char *check_file(char *name)
+char	*check_file(char *name)
 {
 	char	*tmp;
 	char	*count_char;
@@ -60,16 +60,16 @@ char *check_file(char *name)
 	}
 	free(count_char);
 	free(name_tmp);
-	return tmp;
+	return (tmp);
 }
 
 char	*her_doc(char *name)
 {
 	int		fd;
 	char	*tmpfile;
-	
+
 	tmpfile = check_file(name);
-	fd = open(tmpfile, O_WRONLY | O_CREAT , 0777);
+	fd = open(tmpfile, O_WRONLY | O_CREAT, 0777);
 	if (fd < 0)
 	{
 		free(tmpfile);
