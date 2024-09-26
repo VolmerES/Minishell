@@ -29,6 +29,8 @@ char	*check_path(char **path, char *command)
 	int		i;
 
 	i = 0;
+	if(!path)
+		return (NULL);
 	if (ft_strrchr(command, '/') && !access(command, X_OK))
 		return (command);
 	else if (ft_strrchr(command, '/') && access(command, X_OK))

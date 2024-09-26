@@ -12,6 +12,15 @@
 
 #include "../../inc/minishell.h"
 
+static void check_path_unset(t_msh *commands, int index)
+{
+	if(ft_strncmp(commands->envp[index], "PATH", 4) == 0)
+	{
+		ft_free_matrix(commands->path);
+		commands->path = NULL;
+	}
+}
+
 int unset_builtin(t_msh *commands, int i)
 {
 	int index;
@@ -23,6 +32,7 @@ int unset_builtin(t_msh *commands, int i)
 		index = ft_search_env(commands->envp, commands->cmds[i]->args[j]);
 		if (index != -1)
 		{
+			check_path_unset(commands, index);
 			free(commands->envp[index]);
 			while (commands->envp[index] != NULL)
 			{

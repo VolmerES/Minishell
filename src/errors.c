@@ -26,6 +26,9 @@ void	exit_(t_err_msg error)
 void	exit_err(t_msh *commands, int cmd_i)
 {
 	ft_putstr_fd(commands->cmds[cmd_i]->cmd_main, STDERR_FILENO);
-	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	if (commands->path)
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	else
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 	exit(127);
 }
