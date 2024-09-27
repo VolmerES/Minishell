@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/21 17:24:55 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/27 20:57:54 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,19 @@ int	ft_incomplete_quotes(t_msh *commands)
 	return (quote != '\0');
 }
 
-void	ft_manage(t_msh *commands)
+int	ft_manage(t_msh *commands)
 {
 	if (ft_incomplete_quotes(commands) == 1)
 	{
 		printf("\033[34mSyntax error, quotes not closed\033[0m\n");
-		return ;
+		return 0;
 	}
 	ft_expand_var(commands);
 	ft_parse_input(commands);
 	ft_tokenize(commands);
 	ft_erase_arg_quotes(commands);
 	executor_manage(commands);
+	return (1);
 }
 
 static int	command_empty(char *text)
@@ -76,8 +77,10 @@ void	ft_handle_readline(t_msh *commands)
 			continue ;
 		}
 		add_history(commands->input);
-		ft_manage(commands);
-		free_struct(commands);
+		if (ft_manage(commands))
+			free_struct(commands);
+		else
+			free(commands->input);
 	}
 }
 

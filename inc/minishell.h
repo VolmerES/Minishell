@@ -156,7 +156,7 @@ void		ft_replace_var_with_value(t_msh *commands, char *var_value, int i,
 				int var_len);
 
 /*PROGRAMA MAIN*/
-void		ft_manage(t_msh *commands);
+int			ft_manage(t_msh *commands);
 void		ft_sigint(int sign);
 void		ft_init_struct(t_msh *commands);
 void		ft_shlvl(t_msh *commands, char **envp);
