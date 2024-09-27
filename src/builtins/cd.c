@@ -6,11 +6,23 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:40:32 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/07/24 17:51:36 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:47:03 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static	int	update_pwds(t_msh *commands, char *old_p, int i_p, int i_old_p)
+{
+	if (old_p)
+		update_env(commands, i_old_p, ft_strjoin("OLDPWD=", old_p));
+	else
+	{
+		update_env(commands, i_old_p, ft_strjoin("OLDPWD=", \
+		commands->envp[i_p] + 4));
+	}
+	return (0);
+}
 
 void	update_env(t_msh *commands, int index, char *value)
 {
@@ -42,34 +54,25 @@ static	void	cd_home(t_msh *commands)
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(commands->envp[i_home] + 5) != -1)
 	{
+		commands->last_out = update_pwds(commands, \
+		old_pwd, i_pwd, i_old_pwd);
 		update_env(commands, i_pwd, \
 		ft_strjoin("PWD=", commands->envp[i_home] + 5));
-		update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
-		commands->last_out = 0;
 	}
 	free(old_pwd);
 }
 
 static	void	cd_route(t_msh *commands, int i)
 {
-	int		i_old_pwd;
-	int		i_pwd;
 	char	*old_pwd;
-
-	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
-	i_pwd = ft_search_env(commands->envp, "PWD");
+	
 	old_pwd = getcwd(NULL, 0);
-	if (chdir(commands->cmds[i]->args[0]) != -1)
+	if (ft_strcmp(commands->cmds[i]->args[0], "-") == 0)
 	{
-		if (old_pwd)
-		{
-			update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", old_pwd));
-			free(old_pwd);
-			old_pwd = getcwd(NULL, 0);
-			update_env(commands, i_pwd, ft_strjoin("PWD=", old_pwd));
-			commands->last_out = 0;
-		}//! vaciar pwd
+		
 	}
+	else if (chdir(commands->cmds[i]->args[0]) != -1)
+		updates_pwds(commands, &old_pwd);
 	else
 	{
 		perror(commands->cmds[i]->args[0]);

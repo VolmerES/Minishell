@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/21 18:21:07 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:53:47 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 		exit_err(commands, cmd_i);
 	}
 	dprintf(2, "Aquí\n");
+	dprintf(2, "%s\n", commands->cmds[cmd_i]->cmd_main);
 	exit(commands->last_out);
 }
 

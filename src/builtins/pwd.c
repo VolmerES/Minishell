@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:34:08 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/07/29 20:22:26 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:17:53 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	pwd_builtin(t_msh *commands)
 		free(pwd);
 	}
 	else
-	{
-		update_env(commands, ft_search_env(commands->envp, "PWD"), "PWD=");
-	}
+		update_env(commands, ft_search_env(commands->envp, "PWD"), ft_strdup("PWD="));
 	return (0);
 }
