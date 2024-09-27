@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/23 16:25:24 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/09/27 20:36:59 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,8 @@ void	ft_expand_var(t_msh *commands)
 			&& commands->input[i + 1] != '\0' && commands->input[i
 				+ 1] != DQUOTES && (i == 0 || commands->input[i - 1] != SQUOTES))
 		{
+			if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
+				ft_expand_special(commands);
 			commands->evar = ft_get_var(commands, i + 1);
 			if (!commands->evar)
 			{
