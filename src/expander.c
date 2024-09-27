@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/27 20:36:59 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:50:08 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,25 +143,68 @@ char	*ft_get_var(t_msh *commands, int i)
 	return (evar);
 }
 
+int	ft_quotes_flag_expander(char *str, int i)
+{
+	// 0 = no comillas
+	// 1 = single quotes abiertas
+	// 2 = double quotes abiertas
+	// 3 = single quotes cerradas
+	// 4 = double quotes cerradas
+	static int flag = 0; // Hacerla estática para mantener el estado entre llamadas
+
+	if (str[i] == SQUOTES && (i == 0 || str[i - 1] != BACKSLASH))
+	{
+		if (flag == 1) // Si ya estaba en single quotes, cerrarlas
+			flag = 0; // Cambiar a estado de no comillas
+		else if (flag == 0) // Si no había comillas, abrir single quotes
+			flag = 1;
+	}
+	else if (str[i] == DQUOTES && (i == 0 || str[i - 1] != BACKSLASH))
+	{
+		if (flag == 2) // Si ya estaba en double quotes, cerrarlas
+			flag = 0; // Cambiar a estado de no comillas
+		else if (flag == 0) // Si no había comillas, abrir double quotes
+			flag = 2;
+	}
+	return flag;
+}
+
 /*Esta funcion se encarga de buscar una variable de entorno introducida 
  * en el input	si la encuentra, llama a get_var para seccionarla del 
  * resto del input, para posteriormente expandirla*/
 void	ft_expand_var(t_msh *commands)
 {
-	int	i;
-	int	in_single_quote;
+	int i;
+	int flag;
 
-	in_single_quote = 0;
 	i = 0;
 	while (commands->input[i] != '\0')
 	{
-		if (commands->input[i] == SQUOTES && (i == 0 || commands->input[i - 1] != BACKSLASH))
+		if ((commands->input[i] == SQUOTES || commands->input[i] == DQUOTES) && (i == 0 || commands->input[i - 1] != BACKSLASH))
 		{
-			in_single_quote = !in_single_quote;
+			flag = ft_quotes_flag_expander(commands->input, i);
 		}
-		if (!in_single_quote && commands->input[i] == DOLLAR && commands->input[i + 1] != SPACE
-			&& commands->input[i + 1] != '\0' && commands->input[i
-				+ 1] != DQUOTES && (i == 0 || commands->input[i - 1] != SQUOTES))
+		// Verificar si estamos en el caso especial de '"'$VARIABLE'"'
+		if (i > 0 && commands->input[i] == DOLLAR && commands->input[i - 1] == DQUOTES
+			&& commands->input[i + 1] != SPACE && commands->input[i + 1] != '\0'
+			&& commands->input[i - 2] == SQUOTES)
+		{
+			int j = i + 1;
+			// Buscar el cierre de la comilla doble y comilla simple
+			while (commands->input[j] && !(commands->input[j] == DQUOTES && commands->input[j + 1] == SQUOTES))
+			{
+				j++;
+			}
+			if (commands->input[j] == DQUOTES && commands->input[j + 1] == SQUOTES)
+			{
+				// Este es el caso especial, manejar la expansión aquí
+				flag = 0; // Asegurar que la expansión proceda
+			}
+		}
+		if (commands->input[i] == DOLLAR 
+			&& commands->input[i + 1] != SPACE
+			&& commands->input[i + 1] != '\0' 
+			&& (flag != 1 && flag != 2))
 		{
 			if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
 				ft_expand_special(commands);
