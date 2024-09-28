@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 12:11:18 by david             #+#    #+#             */
-/*   Updated: 2024/08/06 19:26:33 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/28 19:31:11 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,19 @@ static	void	check_path_unset(t_msh *commands, int index)
 	{
 		ft_free_matrix(commands->path);
 		commands->path = NULL;
+	}
+}
+
+void	move_and_free(t_msh *commands, int var)
+{
+	if (var != -1)
+	{
+		free(commands->envp[var]);
+		while (commands->envp[var] != NULL)
+		{
+			commands->envp[var] = commands->envp[var + 1];
+			var++;
+		}
 	}
 }
 
@@ -33,12 +46,7 @@ int	unset_builtin(t_msh *commands, int i)
 		if (index != -1)
 		{
 			check_path_unset(commands, index);
-			free(commands->envp[index]);
-			while (commands->envp[index] != NULL)
-			{
-				commands->envp[index] = commands->envp[index + 1];
-				index++;
-			}
+			move_and_free(commands, index);
 		}
 		j++;
 	}

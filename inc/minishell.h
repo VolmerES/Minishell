@@ -227,7 +227,8 @@ int			open_files(t_msh *commands, int cmd_i, int pipe);
 int			out_files(t_msh *commands, int cmd_i, int pipe);
 int			unset_builtin(t_msh *commands, int i);
 int			env_builtin(t_msh *commands);
-void		updates_pwds(t_msh *commands, char **old_pwd);
+int			updates_pwds(t_msh *commands, int i_cmd);
+void		move_and_free(t_msh *commands, int var);
 
 void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
