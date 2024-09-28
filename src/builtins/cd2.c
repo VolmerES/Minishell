@@ -6,35 +6,62 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:04:12 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/27 23:51:03 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:02:27 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	updates_pwds(t_msh *commands, char **old_pwd)
+static	int	change_dir(t_msh *commands, char *dir)
 {
 	int		i_old_pwd;
 	int		i_pwd;
+	char	*new_pwd;
 
 	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
 	i_pwd = ft_search_env(commands->envp, "PWD");
-	
-	if (*old_pwd)
+	if (dir && chdir(dir) != -1)
 	{
-		update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", *old_pwd));
-		free(*old_pwd);
-		*old_pwd = getcwd(NULL, 0);
-		update_env(commands, i_pwd, ft_strjoin("PWD=", *old_pwd));
-		commands->last_out = 0;
-	}
-	else{
-		free(commands->envp[i_old_pwd]);
-		while (commands->envp[i_old_pwd] != NULL)
+		if (i_pwd != -1)
 		{
-			commands->envp[i_old_pwd] = commands->envp[i_old_pwd + 1];
-			i_old_pwd++;
+			update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", commands->envp[i_pwd] + 4));
+			new_pwd = getcwd(NULL, 0);
+			if (new_pwd)
+			{
+				update_env(commands, i_pwd, ft_strjoin("PWD=", new_pwd));
+				free(new_pwd);
+			}
+			else
+				update_env(commands, i_pwd, ft_strdup("PWD="));
 		}
+		else
+			move_and_free(commands, i_old_pwd);
 		commands->last_out = 0;
 	}
+	else
+		return (dir != NULL);
+	return (0);
+}
+
+static	char	*get_old_pwd(t_msh *commands)
+{
+	int		i_old_pwd;
+
+	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
+	if (i_old_pwd != -1)
+		return (commands->envp[i_old_pwd] + 7);
+	printf("cd: OLDPWD not set\n");
+	commands->last_out = 1;
+	return (NULL);
+}
+
+int	updates_pwds(t_msh *commands, int i_cmd)
+{
+	char	*dir;
+
+	if (ft_strcmp(commands->cmds[i_cmd]->args[0], "-") == 0)
+		dir = get_old_pwd(commands);
+	else
+		dir = commands->cmds[i_cmd]->args[0];
+	return (change_dir(commands, dir));
 }

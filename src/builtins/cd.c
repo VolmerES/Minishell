@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:40:32 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/27 23:47:03 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:54:32 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,11 @@ static	void	cd_home(t_msh *commands)
 
 static	void	cd_route(t_msh *commands, int i)
 {
-	char	*old_pwd;
-	
-	old_pwd = getcwd(NULL, 0);
-	if (ft_strcmp(commands->cmds[i]->args[0], "-") == 0)
-	{
-		
-	}
-	else if (chdir(commands->cmds[i]->args[0]) != -1)
-		updates_pwds(commands, &old_pwd);
-	else
+	if (updates_pwds(commands, i))
 	{
 		perror(commands->cmds[i]->args[0]);
 		commands->last_out = 1;
 	}
-	free(old_pwd);
 }
 
 int	cd_builtin(t_msh *commands, int i)
