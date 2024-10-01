@@ -36,7 +36,8 @@ char	*ft_get_var_name(char *input, int *i)
 
 	var_len = 1;
 	while (input[*i + var_len] != SPACE && input[*i + var_len] != '\0'
-		&& input[*i + var_len] != DOLLAR && input[*i + var_len] != DQUOTES)
+		&& input[*i + var_len] != DOLLAR && input[*i + var_len] != DQUOTES
+		&& input[*i + var_len] != SQUOTES)
 		var_len++;
 	return (ft_substr(input, *i + 1, var_len - 1));
 }
