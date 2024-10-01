@@ -73,11 +73,23 @@ void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
 
 	// Verificar y eliminar comillas del inicio y del final si están presentes
-	if ((filename[0] == '\"' || filename[0] == '\'') && (filename[strlen(filename) - 1] == '\"' || filename[strlen(filename) - 1] == '\''))
+	if ((filename[0] == '\"' && filename[strlen(filename) - 1] == '\"') || (filename[0] == '\'' && filename[strlen(filename) - 1] == '\''))
 	{
-		char *temp = filename;
-		filename = ft_substr(filename, 1, strlen(filename) - 2);
-		free(temp); // Liberar la memoria del string original
+		// Caso especial para comillas dobles dentro de comillas simples
+		if (filename[0] == '\'' && filename[1] == '\"' && filename[strlen(filename) - 2] == '\"' && filename[strlen(filename) - 1] == '\'')
+		{
+			// Eliminar solo las comillas simples externas
+			char *temp = filename;
+			filename = ft_substr(filename, 1, strlen(filename) - 2);
+			free(temp); // Liberar la memoria del string original
+		}
+		else
+		{
+			// Eliminar las comillas externas
+			char *temp = filename;
+			filename = ft_substr(filename, 1, strlen(filename) - 2);
+			free(temp); // Liberar la memoria del string original
+		}
 	}
 
 	outfile->filename = filename;
@@ -129,13 +141,9 @@ void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 		(*j)++; // Saltar la comilla final
 	}
 
-	// Modificación para manejar comillas dobles dentro de comillas simples
-	if (quote_char == '\'') {
-		// Si el nombre del archivo estaba encerrado en comillas simples, conservar todo incluyendo comillas dobles internas
-		// No es necesario eliminar las comillas simples externas ya que se conserva todo el contenido
-	} else if (quote_char == '\"') {
+	// Modificación para conservar comillas simples dentro de comillas dobles
+	if (quote_char == '\"') {
 		// Si el nombre del archivo estaba encerrado en comillas dobles, eliminar solo las comillas dobles externas
-		// y conservar comillas simples internas si las hay
 		char *temp = filename;
 		filename = ft_substr(filename, 0, strlen(filename)); // Conservar el contenido incluyendo comillas simples internas
 		free(temp); // Liberar la memoria del string original
@@ -248,11 +256,24 @@ void	ft_is_infile_here_doc(t_msh *commands, int *i, int *j)
 		(*j)++; // Saltar la comilla final
 	}
 
-	// Eliminar las comillas del inicio y del final si están presentes
-	if ((filename[0] == '\"' || filename[0] == '\'') && (filename[strlen(filename) - 1] == '\"' || filename[strlen(filename) - 1] == '\'')) {
-		char *temp = filename;
-		filename = ft_substr(filename, 1, strlen(filename) - 2);
-		free(temp); // Liberar la memoria del string original
+	// Verificar y eliminar comillas del inicio y del final si están presentes
+	if ((filename[0] == '\"' && filename[strlen(filename) - 1] == '\"') || (filename[0] == '\'' && filename[strlen(filename) - 1] == '\''))
+	{
+		// Caso especial para comillas dobles dentro de comillas simples
+		if (filename[0] == '\'' && filename[1] == '\"' && filename[strlen(filename) - 2] == '\"' && filename[strlen(filename) - 1] == '\'')
+		{
+			// Eliminar solo las comillas simples externas
+			char *temp = filename;
+			filename = ft_substr(filename, 1, strlen(filename) - 2);
+			free(temp); // Liberar la memoria del string original
+		}
+		else
+		{
+			// Eliminar las comillas externas
+			char *temp = filename;
+			filename = ft_substr(filename, 1, strlen(filename) - 2);
+			free(temp); // Liberar la memoria del string original
+		}
 	}
 
 	infile->filename = filename;
