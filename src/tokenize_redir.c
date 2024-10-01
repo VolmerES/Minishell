@@ -94,56 +94,72 @@ void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 
 void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 {
-    t_file	*outfile;
-    char	*filename;
-    int		start;
-    int     in_quotes = 0; // Indicador de comillas
+	t_file	*outfile;
+	char	*filename;
+	int		start;
+	int     in_quotes = 0; // Indicador de comillas
+	char    quote_char = '\0'; // Carácter de comilla detectado
 
-    outfile = malloc(sizeof(t_file));
-    while (commands->cmds[*i]->cmd[*j] != '>' && commands->cmds[*i]->cmd[*j] != '\0')
-        (*j)++;
-    if (commands->cmds[*i]->cmd[*j] == '>')
-        (*j)++;
-    if (commands->cmds[*i]->cmd[*j] == '>')
-        (*j)++;
-    while (commands->cmds[*i]->cmd[*j] == ' ')
-        (*j)++;
-    start = *j;
-    // Detectar comillas al inicio del nombre del archivo
-    if (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'') {
-        in_quotes = 1;
-        start++; // Comenzar después de la comilla inicial
-        (*j)++; // Saltar la comilla inicial
-    }
-    // Continuar hasta encontrar el final del nombre del archivo
-    while (commands->cmds[*i]->cmd[*j] != '\0' &&
-           ((in_quotes && commands->cmds[*i]->cmd[*j] != '\"' && commands->cmds[*i]->cmd[*j] != '\'') ||
-            (!in_quotes && commands->cmds[*i]->cmd[*j] != ' ' && commands->cmds[*i]->cmd[*j] != '>')))
-        (*j)++;
-    // Extraer el nombre del archivo
-    filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
-    // Si terminamos dentro de comillas, ajustar el índice *j
-    if (in_quotes && (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'')) {
-        (*j)++; // Saltar la comilla final
-    }
+	outfile = malloc(sizeof(t_file));
+	while (commands->cmds[*i]->cmd[*j] != '>' && commands->cmds[*i]->cmd[*j] != '\0')
+		(*j)++;
+	if (commands->cmds[*i]->cmd[*j] == '>')
+		(*j)++;
+	if (commands->cmds[*i]->cmd[*j] == '>')
+		(*j)++;
+	while (commands->cmds[*i]->cmd[*j] == ' ')
+		(*j)++;
+	start = *j;
+	// Detectar comillas al inicio del nombre del archivo
+	if (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'') {
+		in_quotes = 1;
+		quote_char = commands->cmds[*i]->cmd[*j]; // Guardar el carácter de comilla detectado
+		start++; // Comenzar después de la comilla inicial
+		(*j)++; // Saltar la comilla inicial
+	}
+	// Continuar hasta encontrar el final del nombre del archivo
+	while (commands->cmds[*i]->cmd[*j] != '\0' &&
+		   ((in_quotes && commands->cmds[*i]->cmd[*j] != quote_char) ||
+			(!in_quotes && commands->cmds[*i]->cmd[*j] != ' ' && commands->cmds[*i]->cmd[*j] != '>')))
+		(*j)++;
+	// Extraer el nombre del archivo
+	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
+	// Si terminamos dentro de comillas, ajustar el índice *j
+	if (in_quotes && commands->cmds[*i]->cmd[*j] == quote_char) {
+		(*j)++; // Saltar la comilla final
+	}
 
-    // Eliminar las comillas del inicio y del final si están presentes
-    if ((filename[0] == '\"' || filename[0] == '\'') && (filename[strlen(filename) - 1] == '\"' || filename[strlen(filename) - 1] == '\'')) {
-        char *temp = filename;
-        filename = ft_substr(filename, 1, strlen(filename) - 2);
-        free(temp); // Liberar la memoria del string original
-    }
+	// Modificación para manejar comillas dobles dentro de comillas simples
+	if (quote_char == '\'') {
+		// Si el nombre del archivo estaba encerrado en comillas simples, conservar todo incluyendo comillas dobles internas
+		// No es necesario eliminar las comillas simples externas ya que se conserva todo el contenido
+	} else if (quote_char == '\"') {
+		// Si el nombre del archivo estaba encerrado en comillas dobles, eliminar solo las comillas dobles externas
+		// y conservar comillas simples internas si las hay
+		char *temp = filename;
+		filename = ft_substr(filename, 0, strlen(filename)); // Conservar el contenido incluyendo comillas simples internas
+		free(temp); // Liberar la memoria del string original
+	} else {
+		// Procesamiento original para eliminar comillas al inicio y al final si son las únicas presentes
+		if ((filename[0] == '\"' || filename[0] == '\'') && filename[strlen(filename) - 1] == filename[0]) {
+			if (strchr(filename + 1, filename[0]) == strrchr(filename, filename[0])) {
+				char *temp = filename;
+				filename = ft_substr(filename, 1, strlen(filename) - 2);
+				free(temp); // Liberar la memoria del string original
+			}
+		}
+	}
 
-    outfile->filename = filename;
-    outfile->type = OUTFILE_APPEND;
-    int outfile_count = 0;
-    while (commands->cmds[*i]->outfile && commands->cmds[*i]->outfile[outfile_count])
-        outfile_count++;
-    commands->cmds[*i]->outfile = ft_realloc(commands->cmds[*i]->outfile, sizeof(t_file *) * (outfile_count + 1), sizeof(t_file *) * (outfile_count + 2));
-    commands->cmds[*i]->outfile[outfile_count] = outfile;
-    commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
+	outfile->filename = filename;
+	outfile->type = OUTFILE_APPEND;
+	int outfile_count = 0;
+	while (commands->cmds[*i]->outfile && commands->cmds[*i]->outfile[outfile_count])
+		outfile_count++;
+	commands->cmds[*i]->outfile = ft_realloc(commands->cmds[*i]->outfile, sizeof(t_file *) * (outfile_count + 1), sizeof(t_file *) * (outfile_count + 2));
+	commands->cmds[*i]->outfile[outfile_count] = outfile;
+	commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
 
-    printf("\033[34mOutfile Type Append: %s\033[0m\n", outfile->filename);
+	printf("\033[34mOutfile Type Append: %s\033[0m\n", outfile->filename);
 }
 
 void	ft_is_infile(t_msh *commands, int *i, int *j)
