@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/27 23:50:08 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:33:09 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	*ft_get_var(t_msh *commands, int i)
 
 	len = 0;
 	while (commands->input[i] != SPACE && commands->input[i] != '\0'
-		&& commands->input[i] != DQUOTES)
+		&& commands->input[i] != DQUOTES  && commands->input[i] != SQUOTES)
 	{
 		i++;
 		len++;
@@ -195,16 +195,16 @@ void	ft_expand_var(t_msh *commands)
 			{
 				j++;
 			}
-			if (commands->input[j] == DQUOTES && commands->input[j + 1] == SQUOTES)
-			{
-				// Este es el caso especial, manejar la expansión aquí
-				flag = 0; // Asegurar que la expansión proceda
-			}
+			// if (commands->input[j] == DQUOTES && commands->input[j + 1] == SQUOTES)
+			// {
+			// 	// Este es el caso especial, manejar la expansión aquí
+			// 	flag = 0; // Asegurar que la expansión proceda
+			// }
 		}
 		if (commands->input[i] == DOLLAR 
 			&& commands->input[i + 1] != SPACE
 			&& commands->input[i + 1] != '\0' 
-			&& (flag != 1 && flag != 2))
+			&& (flag != 1))
 		{
 			if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
 				ft_expand_special(commands);
