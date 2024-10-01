@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_eraser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/08/21 19:49:24 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:51:15 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,32 +53,39 @@ void	ft_erase_cmd_quotes(t_msh *commands, int *i)
 
 void	ft_erase_arg_quotes(t_msh *commands)
 {
-	t_counters	count;
-	char		*arg;
-	char		*new_arg;
-	char		quote_char;
+	t_counters count;
+	char *arg;
+	char *new_arg;
+	char quote_char;
 
-	count.j = 0;
 	count.i = 0;
 	while (commands->cmds && commands->cmds[count.i] != NULL)
 	{
+		count.j = 0;
 		while (commands->cmds[count.i]->args && commands->cmds[count.i]->args[count.j] != NULL)
 		{
 			arg = commands->cmds[count.i]->args[count.j];
-			new_arg = malloc((ft_strlen(arg) + 1 )* sizeof(char));
+			new_arg = malloc((ft_strlen(arg) + 1) * sizeof(char));
 			if (!new_arg)
-				exit_(2);
+				exit_(2); // Asegúrate de que exit_ es una función adecuada para manejar errores de memoria
 			count.k = 0;
 			count.l = 0;
-			quote_char = '\0';
-			if (arg[0] == SQUOTES || arg[0] == DQUOTES)
-				quote_char = arg[0];
 			while (arg[count.l] != '\0')
 			{
-				if (arg[count.l] == quote_char && (count.l == 0 || arg[count.l + 1] == '\0'))
+				if ((arg[count.l] == SQUOTES || arg[count.l] == DQUOTES) && (count.l == 0 || arg[count.l - 1] != '\\'))
+				{
+					quote_char = arg[count.l];
 					count.l++;
+					// Ignorar las comillas emparejadas
+					while (arg[count.l] != '\0' && !(arg[count.l] == quote_char && arg[count.l - 1] != '\\'))
+						new_arg[count.k++] = arg[count.l++];
+					if (arg[count.l] != '\0')
+						count.l++; // Salta la comilla de cierre
+				}
 				else
+				{
 					new_arg[count.k++] = arg[count.l++];
+				}
 			}
 			new_arg[count.k] = '\0';
 			free(commands->cmds[count.i]->args[count.j]);
@@ -87,7 +94,8 @@ void	ft_erase_arg_quotes(t_msh *commands)
 				exit_(2);
 			count.j++;
 		}
-	count.i++;
+		count.i++;
 	}
 }
+
 
