@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 12:11:39 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/05/02 12:11:56 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:16:26 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_handle_less_than(t_msh *commands, int *i, int *j)
 	if (commands->cmds[*i]->cmd[*j + 1] == '<')
 	{
 		if (commands->cmds[*i]->cmd[*j + 2] == '<'
-			|| commands->cmds[*i]->cmd[*j + 2] == '\0'
 			|| commands->cmds[*i]->cmd[*j + 1] != '<')
 			return ;
 		ft_is_infile_here_doc(commands, i, j);

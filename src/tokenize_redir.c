@@ -172,54 +172,54 @@ void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 
 void	ft_is_infile(t_msh *commands, int *i, int *j)
 {
-	t_file	*infile;
-	char	*filename;
-	int		start;
-	int     in_quotes = 0; // Indicador de comillas
+    t_file	*infile;
+    char	*filename;
+    int		start;
+    int     in_quotes = 0; // Indicador de comillas
 
-	infile = malloc(sizeof(t_file));
-	while (commands->cmds[*i]->cmd[*j] != '<' && commands->cmds[*i]->cmd[*j] != '\0')
-		(*j)++;
-	if (commands->cmds[*i]->cmd[*j] == '<')
-		(*j)++;
-	while (commands->cmds[*i]->cmd[*j] == ' ')
-		(*j)++;
-	start = *j;
-	// Detectar comillas al inicio del nombre del archivo
-	if (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'') {
-		in_quotes = 1;
-		start++; // Comenzar después de la comilla inicial
-		(*j)++; // Saltar la comilla inicial
-	}
-	// Continuar hasta encontrar el final del nombre del archivo
-	while (commands->cmds[*i]->cmd[*j] != '\0' &&
-		   ((in_quotes && commands->cmds[*i]->cmd[*j] != '\"' && commands->cmds[*i]->cmd[*j] != '\'') ||
-			(!in_quotes && commands->cmds[*i]->cmd[*j] != ' ' && commands->cmds[*i]->cmd[*j] != '<')))
-		(*j)++;
-	// Extraer el nombre del archivo
-	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
-	// Si terminamos dentro de comillas, ajustar el índice *j
-	if (in_quotes && (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'')) {
-		(*j)++; // Saltar la comilla final
-	}
+    infile = malloc(sizeof(t_file));
+    if (!infile) return; // Comprobación de error de malloc
+    while (commands->cmds[*i]->cmd[*j] != '<' && commands->cmds[*i]->cmd[*j] != '\0')
+        (*j)++;
+    if (commands->cmds[*i]->cmd[*j] == '<')
+        (*j)++;
+    while (commands->cmds[*i]->cmd[*j] == ' ')
+        (*j)++;
+    start = *j;
+    if (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'') {
+        in_quotes = 1;
+        start++;
+        (*j)++;
+    }
+    while (commands->cmds[*i]->cmd[*j] != '\0' &&
+           ((in_quotes && commands->cmds[*i]->cmd[*j] != commands->cmds[*i]->cmd[start - 1]) ||
+            (!in_quotes && commands->cmds[*i]->cmd[*j] != ' ' && commands->cmds[*i]->cmd[*j] != '<')))
+        (*j)++;
+    filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
+    if (in_quotes && (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'')) {
+        (*j)++;
+    }
+    if ((filename[0] == '\"' || filename[0] == '\'') && (filename[strlen(filename) - 1] == '\"' || filename[strlen(filename) - 1] == '\'')) {
+        char *temp = filename;
+        filename = ft_substr(filename, 1, strlen(filename) - 2);
+        free(temp);
+    }
 
-	// Eliminar las comillas del inicio y del final si están presentes
-	if ((filename[0] == '\"' || filename[0] == '\'') && (filename[strlen(filename) - 1] == '\"' || filename[strlen(filename) - 1] == '\'')) {
-		char *temp = filename;
-		filename = ft_substr(filename, 1, strlen(filename) - 2);
-		free(temp); // Liberar la memoria del string original
-	}
+    infile->filename = filename;
+    infile->type = INFILE_NORMAL;
+    int infile_count = 0;
+    while (commands->cmds[*i]->infile && commands->cmds[*i]->infile[infile_count])
+        infile_count++;
+    commands->cmds[*i]->infile = ft_realloc(commands->cmds[*i]->infile, sizeof(t_file *) * (infile_count + 1), sizeof(t_file *) * (infile_count + 2));
+    if (!commands->cmds[*i]->infile) { // Comprobación de error de realloc
+        free(infile->filename);
+        free(infile);
+        return;
+    }
+    commands->cmds[*i]->infile[infile_count] = infile;
+    commands->cmds[*i]->infile[infile_count + 1] = NULL;
 
-	infile->filename = filename;
-	infile->type = INFILE_NORMAL;
-	int infile_count = 0;
-	while (commands->cmds[*i]->infile && commands->cmds[*i]->infile[infile_count])
-		infile_count++;
-	commands->cmds[*i]->infile = ft_realloc(commands->cmds[*i]->infile, sizeof(t_file *) * (infile_count + 1), sizeof(t_file *) * (infile_count + 2));
-	commands->cmds[*i]->infile[infile_count] = infile;
-	commands->cmds[*i]->infile[infile_count + 1] = NULL;
-
-	printf("\033[34mInfile Type Normal: %s\033[0m\n", infile->filename);
+    printf("\033[34mInfile Type Normal: %s\033[0m\n", infile->filename);
 }
 void	ft_is_infile_here_doc(t_msh *commands, int *i, int *j)
 {
@@ -251,7 +251,7 @@ void	ft_is_infile_here_doc(t_msh *commands, int *i, int *j)
 		(*j)++;
 	// Extraer el nombre del archivo
 	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
-	// Si terminamos dentro de comillas, ajustar el índice *j
+	// Si terminamos dentro de comillas, ajustar el índice *j 
 	if (in_quotes && (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'')) {
 		(*j)++; // Saltar la comilla final
 	}
@@ -275,7 +275,6 @@ void	ft_is_infile_here_doc(t_msh *commands, int *i, int *j)
 			free(temp); // Liberar la memoria del string original
 		}
 	}
-
 	infile->filename = filename;
 	infile->type = INFILE_HERE_DOC;
 	int infile_count = 0;
@@ -284,6 +283,12 @@ void	ft_is_infile_here_doc(t_msh *commands, int *i, int *j)
 	commands->cmds[*i]->infile = ft_realloc(commands->cmds[*i]->infile, sizeof(t_file *) * (infile_count + 1), sizeof(t_file *) * (infile_count + 2));
 	commands->cmds[*i]->infile[infile_count] = infile;
 	commands->cmds[*i]->infile[infile_count + 1] = NULL;
+	if (infile->filename[0] == '\0')
+	{
+		infile->filename = ft_strdup("EOF");
+		printf("No end of file specified, using default EOF\n");
+		return;
+	}
 
-	printf("\033[34mInfile Type Here Doc: %s\033[0m\n", infile->filename);
+	printf("\033[34mInfile Type Here Doc: [%s]\033[0m\n", infile->filename);
 }
