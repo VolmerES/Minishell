@@ -1,3 +1,14 @@
 
+COMANDOS QUE ARREGLAR
 
-//variable de entorno $?
+
+
+cat <<HERE | ls // Primero debería ejejcutar el HERE_DOC y luego el ls, en nuestro caso ejecuta ls y luego abre el HERE_DOC.
+
+cat <<HERE      // No expande variables dentro del HERE_DOC
+$USER
+oi
+HERE
+
+
+echo -nnnnnnnnnnn
