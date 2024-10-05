@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/05 17:40:21 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/05 19:43:07 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	first_child(t_msh *commands, int *fd)
 	int	fd_out;
 
 	commands->last_pid = fork();
+	
 	if (commands->last_pid == 0)
 	{
 		close(fd[0]);

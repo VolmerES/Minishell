@@ -76,6 +76,7 @@ typedef struct s_file
 {
 	char		*filename;
 	t_file_type	type;
+	char		*fd_herdoc;
 }				t_file;
 
 typedef struct s_cmd
@@ -238,6 +239,7 @@ void		bd_one_command(t_msh *commands);
 void		one_command(t_msh *commands);
 void		multi_command(t_msh *commands);
 void		exit_builtin(t_msh *commands, int cmd_i);
+void		open_her_docs(t_msh *commands);
 
 char		*check_path(char **path, char *command);
 char		**find_path(char **env);

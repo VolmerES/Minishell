@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 14:17:34 by david             #+#    #+#             */
-/*   Updated: 2024/05/18 19:12:49 by david            ###   ########.fr       */
+/*   Updated: 2024/10/05 17:50:44 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	multi_command(t_msh *commands)
 	int	fd[2];
 	int	counter;
 
+	open_her_docs(commands);
 	if (pipe(fd) < 0)
 		exit_(0);
 	first_child(commands, fd);

@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:28:33 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/09/21 18:48:42 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/05 20:04:10 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	open_files(t_msh *commands, int cmd_i, int pipe)
 			if (commands->cmds[cmd_i]->infile[i]->type == INFILE_NORMAL)
 				infd = open(commands->cmds[cmd_i]->infile[i]->filename, O_RDONLY);
 			else
-				infd = open(her_doc(commands->cmds[cmd_i]->infile[i]->filename), O_RDONLY);
+				infd = open(commands->cmds[cmd_i]->infile[i]->fd_herdoc, O_RDONLY);
 			if (infd < 0)
 			{
 				join = ft_strjoin("Minishell-42: ", commands->cmds[cmd_i]->infile[i]->filename);

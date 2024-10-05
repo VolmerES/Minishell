@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/23 16:25:24 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/05 20:07:08 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ static	void	free_infile(t_msh *commands, int count)
 		{
 			free(commands->cmds[count]->infile[i]->filename);
 			commands->cmds[count]->infile[i]->filename = NULL;
+			if (commands->cmds[count]->infile[i]->type == INFILE_HERE_DOC)
+			{
+				free(commands->cmds[count]->infile[i]->fd_herdoc);
+				commands->cmds[count]->infile[i]->fd_herdoc = NULL;
+			}
 			free(commands->cmds[count]->infile[i]);
 			commands->cmds[count]->infile[i] = NULL;
 		}
