@@ -12,6 +12,15 @@
 
 #include "../../inc/minishell.h"
 
+static	void	msg_error(char *filename)
+{
+	char	*join;
+
+	join = ft_strjoin("Minishell-42: ", filename);
+	perror(join);
+	free(join);
+}
+
 static int	file_check(int fd, int pipe, int predetermined)
 {
 	if (fd > 0)
@@ -25,57 +34,50 @@ static int	file_check(int fd, int pipe, int predetermined)
 	return (predetermined);
 }
 
-int	open_files(t_msh *commands, int cmd_i, int pipe)
+int	open_files(t_msh *c, int cmd_i, int pipe)
 {
-	char	*join;
 	int		infd;
 	int		i;
 
 	infd = -1;
 	i = -1;
-	if (commands->cmds[cmd_i]->infile)
+	if (c->cmds[cmd_i]->infile)
 	{
-		while (commands->cmds[cmd_i]->infile[++i])
+		while (c->cmds[cmd_i]->infile[++i])
 		{
-			if (commands->cmds[cmd_i]->infile[i]->type == INFILE_NORMAL)
-				infd = open(commands->cmds[cmd_i]->infile[i]->filename, O_RDONLY);
+			if (c->cmds[cmd_i]->infile[i]->type == INFILE_NORMAL)
+				infd = open(c->cmds[cmd_i]->infile[i]->filename, O_RDONLY);
+			else if (c->parser.cmd_index == 1)
+				infd = open(her_doc(c->cmds[cmd_i]->infile[i]->filename), \
+				O_RDONLY);
 			else
-				infd = open(commands->cmds[cmd_i]->infile[i]->fd_herdoc, O_RDONLY);
+				infd = open(c->cmds[cmd_i]->infile[i]->filename, O_RDONLY);
 			if (infd < 0)
-			{
-				join = ft_strjoin("Minishell-42: ", commands->cmds[cmd_i]->infile[i]->filename);
-				perror(join);
-				free(join);
-				return (-1);
-			}
+				return (msg_error(c->cmds[cmd_i]->infile[i]->filename), -1);
 		}
 	}
 	return (file_check(infd, pipe, STDIN_FILENO));
 }
 
-int	out_files(t_msh *commands, int cmd_i, int pipe)
+int	out_files(t_msh *c, int cmd_i, int pipe)
 {
-	char	*join;
 	int		outfd;
 	int		i;
 
 	outfd = -1;
 	i = -1;
-	if (commands->cmds[cmd_i]->outfile)
+	if (c->cmds[cmd_i]->outfile)
 	{
-		while (commands->cmds[cmd_i]->outfile[++i])
+		while (c->cmds[cmd_i]->outfile[++i])
 		{
-			if (commands->cmds[cmd_i]->outfile[i]->type == OUTFILE_TRUNC)
-				outfd = open(commands->cmds[cmd_i]->outfile[i]->filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			if (c->cmds[cmd_i]->outfile[i]->type == OUTFILE_TRUNC)
+				outfd = open(c->cmds[cmd_i]->outfile[i]->filename, \
+				O_WRONLY | O_CREAT | O_TRUNC, 0777);
 			else
-				outfd = open(commands->cmds[cmd_i]->outfile[i]->filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
+				outfd = open(c->cmds[cmd_i]->outfile[i]->filename, \
+				O_WRONLY | O_CREAT | O_APPEND, 0777);
 			if (outfd < 0)
-			{
-				join = ft_strjoin("Minishell-42: ", commands->cmds[cmd_i]->outfile[i]->filename);
-				perror(join);
-				free(join);
-				return (-1);
-			}
+				return (msg_error(c->cmds[cmd_i]->outfile[i]->filename), -1);
 		}
 	}
 	return (file_check(outfd, pipe, STDOUT_FILENO));
