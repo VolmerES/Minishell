@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/01 12:33:09 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:19:12 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,11 +195,6 @@ void	ft_expand_var(t_msh *commands)
 			{
 				j++;
 			}
-			// if (commands->input[j] == DQUOTES && commands->input[j + 1] == SQUOTES)
-			// {
-			// 	// Este es el caso especial, manejar la expansión aquí
-			// 	flag = 0; // Asegurar que la expansión proceda
-			// }
 		}
 		if (commands->input[i] == DOLLAR 
 			&& commands->input[i + 1] != SPACE
@@ -208,17 +203,20 @@ void	ft_expand_var(t_msh *commands)
 		{
 			if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
 				ft_expand_special(commands);
-			commands->evar = ft_get_var(commands, i + 1);
-			if (!commands->evar)
+			if (commands->input[i] == DOLLAR && commands->input[i + 1] != '?')
 			{
-				exit(1);
+				commands->evar = ft_get_var(commands, i + 1);
+				if (!commands->evar)
+				{
+					exit(1);
+				}
+				printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n",
+					commands->evar);
+				ft_expand(commands);
+				ft_overwrited_expand(commands);
+				printf("\033[34mVariable de entorno expandida: %s\033[0m\n",
+					commands->evar);
 			}
-			printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n",
-				commands->evar);
-			ft_expand(commands);
-			ft_overwrited_expand(commands);
-			printf("\033[34mVariable de entorno expandida: %s\033[0m\n",
-				commands->evar);
 		}
 		i++;
 	}
