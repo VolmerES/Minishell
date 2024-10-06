@@ -36,3 +36,19 @@ void	ft_signal_handler(void)
 	signal(SIGINT, ft_sigint);
 	signal(SIGQUIT, ft_sigquit);
 }
+
+static void	ft_heredoc_sigint(int sign)
+{
+	if (sign == SIGINT)
+	{
+		rl_replace_line("", 0);
+		ft_putchar_fd('\n', 1);
+		exit(130);
+	}
+}
+
+void	ft_heredoc_signal_handler(void)
+{
+	signal(SIGINT, ft_heredoc_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}

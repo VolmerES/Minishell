@@ -76,7 +76,7 @@ typedef struct s_file
 {
 	char		*filename;
 	t_file_type	type;
-	char		*fd_herdoc;
+	int			fd_herdoc;
 }				t_file;
 
 typedef struct s_cmd
@@ -191,6 +191,7 @@ void		ft_builtins(t_msh *commands, int i);
 
 /*SINGAL.c*/
 void		ft_signal_handler(void);
+void		ft_heredoc_signal_handler(void);
 
 /*PARSERONE.c*/
 void		ft_parse_input(t_msh *commands);
