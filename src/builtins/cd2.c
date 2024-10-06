@@ -12,27 +12,34 @@
 
 #include "../../inc/minishell.h"
 
+static	void	update_pwd(t_msh *commands, int i_pwd)
+{
+	char	*new_pwd;
+
+	new_pwd = getcwd(NULL, 0);
+	if (new_pwd != NULL)
+	{
+		update_env(commands, i_pwd, ft_strjoin("PWD=", new_pwd));
+		free(new_pwd);
+	}
+	else
+		update_env(commands, i_pwd, ft_strdup("PWD="));
+}
+
 static	int	change_dir(t_msh *commands, char *dir)
 {
-	int		i_old_pwd;
-	int		i_pwd;
-	char	*new_pwd;
+	int	i_old_pwd;
+	int	i_pwd;
 
 	i_old_pwd = ft_search_env(commands->envp, "OLDPWD");
 	i_pwd = ft_search_env(commands->envp, "PWD");
-	if (dir && chdir(dir) != -1)
+	if (dir != NULL && chdir(dir) != -1)
 	{
 		if (i_pwd != -1)
 		{
-			update_env(commands, i_old_pwd, ft_strjoin("OLDPWD=", commands->envp[i_pwd] + 4));
-			new_pwd = getcwd(NULL, 0);
-			if (new_pwd)
-			{
-				update_env(commands, i_pwd, ft_strjoin("PWD=", new_pwd));
-				free(new_pwd);
-			}
-			else
-				update_env(commands, i_pwd, ft_strdup("PWD="));
+			update_env(commands, i_old_pwd, \
+			ft_strjoin("OLDPWD=", commands->envp[i_pwd] + 4));
+			update_pwd(commands, i_pwd);
 		}
 		else
 			move_and_free(commands, i_old_pwd);
