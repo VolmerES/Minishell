@@ -34,22 +34,24 @@ void	multi_command(t_msh *commands)
 	int	counter;
 
 	open_her_docs(commands);
-	if (pipe(fd) < 0)
-		exit_(0);
-	first_child(commands, fd);
-	close(fd[1]);
-	counter = 1;
-	while (counter < (commands->parser.cmd_index - 1))
+	if (commands->last_out == 0)
 	{
-		if (pipe(new) < 0)
+		if (pipe(fd) < 0)
 			exit_(0);
-		mid_child(commands, fd, new, counter);
+		first_child(commands, fd);
+		close(fd[1]);
+		counter = 0;
+		while (++counter < (commands->parser.cmd_index - 1))
+		{
+			if (pipe(new) < 0)
+				exit_(0);
+			mid_child(commands, fd, new, counter);
+			close(fd[0]);
+			close(new[1]);
+			fd[0] = new[0];
+		}
+		last_child(commands, fd);
 		close(fd[0]);
-		close(new[1]);
-		fd[0] = new[0];
-		counter++;
+		wait_childs(commands);
 	}
-	last_child(commands, fd);
-	close(fd[0]);
-	wait_childs(commands);
 }
