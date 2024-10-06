@@ -23,11 +23,6 @@ static	void	free_infile(t_msh *commands, int count)
 		{
 			free(commands->cmds[count]->infile[i]->filename);
 			commands->cmds[count]->infile[i]->filename = NULL;
-			if (commands->cmds[count]->infile[i]->type == INFILE_HERE_DOC)
-			{
-				free(commands->cmds[count]->infile[i]->fd_herdoc);
-				commands->cmds[count]->infile[i]->fd_herdoc = NULL;
-			}
 			free(commands->cmds[count]->infile[i]);
 			commands->cmds[count]->infile[i] = NULL;
 		}
