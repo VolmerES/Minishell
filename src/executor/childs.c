@@ -46,7 +46,6 @@ void	first_child(t_msh *commands, int *fd)
 	int	fd_out;
 
 	commands->last_pid = fork();
-	
 	if (commands->last_pid == 0)
 	{
 		close(fd[0]);
