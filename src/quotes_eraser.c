@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/07 13:13:14 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:10:37 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,20 @@ void	ft_erase_cmd_quotes(t_msh *commands, int *i)
 	commands->cmds[*i]->cmd_main = new_cmd;
 }
 
+static int	copy_chars_without_quotes(char *new_arg, char *arg, int l, int *k)
+{
+	char	quote_char;
+
+	quote_char = arg[l++];
+	while (arg[l] != '\0' && !(arg[l] == quote_char && arg[l - 1] != '\\'))
+	{
+		new_arg[(*k)++] = arg[l++];
+	}
+	if (arg[l] != '\0')
+		l++;
+	return (l);
+}
+
 char	*ft_process_quotes(char *arg)
 {
 	char	*new_arg;
@@ -78,19 +92,6 @@ char	*ft_process_quotes(char *arg)
 	return (new_arg);
 }
 
-static int	copy_chars_without_quotes(char *new_arg, char *arg, int l, int *k)
-{
-	char	quote_char;
-
-	quote_char = arg[l++];
-	while (arg[l] != '\0' && !(arg[l] == quote_char && arg[l - 1] != '\\'))
-	{
-		new_arg[(*k)++] = arg[l++];
-	}
-	if (arg[l] != '\0')
-		l++;
-	return (l);
-}
 
 void	ft_erase_arg_quotes(t_msh *commands)
 {
