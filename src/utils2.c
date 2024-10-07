@@ -55,3 +55,16 @@ char	*ft_strstr(const char *haystack, const char *needle)
 	}
 	return (NULL);
 }
+
+void	ft_free_args(t_msh *commands, int *i)
+{
+	int	j;
+
+	j = 0;
+	while (commands->cmds[*i]->args[j] != NULL)
+	{
+		free(commands->cmds[*i]->args[j]);
+		j++;
+	}
+	free(commands->cmds[*i]->args);
+}
