@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/01 12:51:15 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:13:14 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,43 +51,60 @@ void	ft_erase_cmd_quotes(t_msh *commands, int *i)
 	commands->cmds[*i]->cmd_main = new_cmd;
 }
 
+char	*ft_process_quotes(char *arg)
+{
+	char	*new_arg;
+	int		k;
+	int		l;
+
+	l = 0;
+	k = 0;
+	new_arg = malloc((strlen(arg) + 1) * sizeof(char));
+	if (!new_arg)
+		exit(2);
+	while (arg[l] != '\0')
+	{
+		if ((arg[l] == '\'' || arg[l] == '\"')
+			&& (l == 0 || arg[l - 1] != '\\'))
+		{
+			l = copy_chars_without_quotes(new_arg, arg, l, &k);
+		}
+		else
+		{
+			new_arg[k++] = arg[l++];
+		}
+	}
+	new_arg[k] = '\0';
+	return (new_arg);
+}
+
+static int	copy_chars_without_quotes(char *new_arg, char *arg, int l, int *k)
+{
+	char	quote_char;
+
+	quote_char = arg[l++];
+	while (arg[l] != '\0' && !(arg[l] == quote_char && arg[l - 1] != '\\'))
+	{
+		new_arg[(*k)++] = arg[l++];
+	}
+	if (arg[l] != '\0')
+		l++;
+	return (l);
+}
+
 void	ft_erase_arg_quotes(t_msh *commands)
 {
-	t_counters count;
-	char *arg;
-	char *new_arg;
-	char quote_char;
+	t_counters	count;
+	char		*new_arg;
 
 	count.i = 0;
 	while (commands->cmds && commands->cmds[count.i] != NULL)
 	{
 		count.j = 0;
-		while (commands->cmds[count.i]->args && commands->cmds[count.i]->args[count.j] != NULL)
+		while (commands->cmds[count.i]->args
+			&& commands->cmds[count.i]->args[count.j] != NULL)
 		{
-			arg = commands->cmds[count.i]->args[count.j];
-			new_arg = malloc((ft_strlen(arg) + 1) * sizeof(char));
-			if (!new_arg)
-				exit_(2); // Asegúrate de que exit_ es una función adecuada para manejar errores de memoria
-			count.k = 0;
-			count.l = 0;
-			while (arg[count.l] != '\0')
-			{
-				if ((arg[count.l] == SQUOTES || arg[count.l] == DQUOTES) && (count.l == 0 || arg[count.l - 1] != '\\'))
-				{
-					quote_char = arg[count.l];
-					count.l++;
-					// Ignorar las comillas emparejadas
-					while (arg[count.l] != '\0' && !(arg[count.l] == quote_char && arg[count.l - 1] != '\\'))
-						new_arg[count.k++] = arg[count.l++];
-					if (arg[count.l] != '\0')
-						count.l++; // Salta la comilla de cierre
-				}
-				else
-				{
-					new_arg[count.k++] = arg[count.l++];
-				}
-			}
-			new_arg[count.k] = '\0';
+			new_arg = ft_process_quotes(commands->cmds[count.i]->args[count.j]);
 			free(commands->cmds[count.i]->args[count.j]);
 			commands->cmds[count.i]->args[count.j] = new_arg;
 			if (!commands->cmds[count.i]->args[count.j])
@@ -97,5 +114,3 @@ void	ft_erase_arg_quotes(t_msh *commands)
 		count.i++;
 	}
 }
-
-
