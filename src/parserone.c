@@ -63,7 +63,7 @@ void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
 	char	*tmp;
 
 	commands->cmds[*cmd_index]->cmd = ft_strndup
-	(&commands->input[*start], *index - *start);
+		(&commands->input[*start], *index - *start);
 	tmp = ft_strtrim(commands->cmds[*cmd_index]->cmd, " ");
 	free(commands->cmds[*cmd_index]->cmd);
 	commands->cmds[*cmd_index]->cmd = tmp;
