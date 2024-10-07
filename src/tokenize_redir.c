@@ -105,24 +105,16 @@ void ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 	commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
 	printf("\033[34mOutfile Type Trunc: %s\033[0m\n", outfile->filename);
 }
+/************************************************************************************************************** */
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
+//OUTFILE APPEND
+char *extract_filename_append(t_msh *commands, int *i, int *j)
 {
-	t_file	*outfile;
-	char	*filename;
-	int		start;
-	int     in_quotes = 0;
-	char    quote_char = '\0';
-	int		outfile_count = 0;
+	int start;
+	int in_quotes = 0;
+	char quote_char = '\0';
 
-	outfile = malloc(sizeof(t_file));
-	while (commands->cmds[*i]->cmd[*j] != '>' && commands->cmds[*i]->cmd[*j] != '\0')
-		(*j)++;
-	if (commands->cmds[*i]->cmd[*j] == '>')
-		(*j)++;
-	if (commands->cmds[*i]->cmd[*j] == '>')
-		(*j)++;
-	while (commands->cmds[*i]->cmd[*j] == ' ')
+	while (commands->cmds[*i]->cmd[*j] == '>' || commands->cmds[*i]->cmd[*j] == ' ')
 		(*j)++;
 	start = *j;
 	if (commands->cmds[*i]->cmd[*j] == '\"' || commands->cmds[*i]->cmd[*j] == '\'')
@@ -136,31 +128,35 @@ void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 		   ((in_quotes && commands->cmds[*i]->cmd[*j] != quote_char) ||
 			(!in_quotes && commands->cmds[*i]->cmd[*j] != ' ' && commands->cmds[*i]->cmd[*j] != '>')))
 		(*j)++;
-	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
-	if (in_quotes && commands->cmds[*i]->cmd[*j] == quote_char) {
+	char *filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
+	if (in_quotes && commands->cmds[*i]->cmd[*j] == quote_char)
 		(*j)++;
-	}
-	if (quote_char == '\"')
+	return filename;
+}
+
+char *clean_filename_append(char *filename)
+{
+	if ((filename[0] == '\"' || filename[0] == '\'') && filename[strlen(filename) - 1] == filename[0])
 	{
-		char *temp = filename;
-		filename = ft_substr(filename, 0, strlen(filename));
-		free(temp);
-	} 
-	else
-	{
-		if ((filename[0] == '\"' || filename[0] == '\'') && filename[strlen(filename) - 1] == filename[0])
+		if (strchr(filename + 1, filename[0]) == strrchr(filename, filename[0]))
 		{
-			if (strchr(filename + 1, filename[0]) == strrchr(filename, filename[0]))
-			{
-				char *temp = filename;
-				filename = ft_substr(filename, 1, strlen(filename) - 2);
-				free(temp);
-			}
+			char *temp = filename;
+			filename = ft_substr(filename, 1, strlen(filename) - 2);
+			free(temp);
 		}
 	}
+	return filename;
+}
+
+void ft_is_outfile_append(t_msh *commands, int *i, int *j)
+{
+	t_file *outfile = malloc(sizeof(t_file));
+	char *filename = extract_filename_append(commands, i, j);
+	filename = clean_filename_append(filename);
 
 	outfile->filename = filename;
 	outfile->type = OUTFILE_APPEND;
+	int outfile_count = 0;
 	while (commands->cmds[*i]->outfile && commands->cmds[*i]->outfile[outfile_count])
 		outfile_count++;
 	commands->cmds[*i]->outfile = ft_realloc(commands->cmds[*i]->outfile, sizeof(t_file *) * (outfile_count + 1), sizeof(t_file *) * (outfile_count + 2));
@@ -168,7 +164,9 @@ void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 	commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
 	printf("\033[34mOutfile Type Append: %s\033[0m\n", outfile->filename);
 }
-
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/************************************************************************************************************** */
+//INFILE
 void	ft_is_infile(t_msh *commands, int *i, int *j)
 {
     t_file	*infile;
