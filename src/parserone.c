@@ -60,9 +60,10 @@ void	ft_process_character(t_msh *commands)
 
 void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
 {
-	char *tmp; //! strndup
-	commands->cmds[*cmd_index]->cmd = strndup(&commands->input[*start], *index
-			- *start);
+	char	*tmp;
+
+	commands->cmds[*cmd_index]->cmd = ft_strndup
+	(&commands->input[*start], *index - *start);
 	tmp = ft_strtrim(commands->cmds[*cmd_index]->cmd, " ");
 	free(commands->cmds[*cmd_index]->cmd);
 	commands->cmds[*cmd_index]->cmd = tmp;
