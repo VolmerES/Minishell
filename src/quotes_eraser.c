@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:20 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/07 17:10:37 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:46:47 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ char	*ft_process_quotes(char *arg)
 	new_arg[k] = '\0';
 	return (new_arg);
 }
-
 
 void	ft_erase_arg_quotes(t_msh *commands)
 {
