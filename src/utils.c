@@ -88,3 +88,21 @@ void	generation_pwd(t_msh *commands)
 	ft_strjoin("PWD=", pwd));
 	free(pwd);
 }
+
+char	*ft_strndup(const char *s, size_t n)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	str = (char *)malloc(sizeof(char) * (n + 1));
+	if (!str)
+		return (NULL);
+	while (s[i] && i < n)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
