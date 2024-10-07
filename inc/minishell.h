@@ -275,4 +275,8 @@ void		ft_init_msh_struct(t_msh *commands);
 
 char		*ft_strndup(const char *s, size_t n);
 void		ft_free_args(t_msh *commands, int *i);
+void		ft_construct_new_input(t_msh *commands, char *expvar, char *pos);
+void		ft_handle_quotes(t_msh *commands, int *i, int *flag);
+void		ft_expand_variables(t_msh *commands, int i, int flag);
+void		ft_expand_var(t_msh *commands);
 #endif
