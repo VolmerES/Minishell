@@ -6,18 +6,39 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/05 18:19:12 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/07 19:33:50 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-//funcion que se encarga de expandir la variable $?, sustityuendo el valor de $?
-// por el valor de last_out dentro de input
+void	ft_construct_new_input(t_msh *commands, char *expvar, char *pos)
+{
+	char	*result;
+	size_t	initial_len;
+	size_t	expanded_len;
+	size_t	final_len;
+
+	initial_len = pos - commands->input;
+	expanded_len = ft_strlen(expvar);
+	final_len = ft_strlen(commands->input) - 2 + expanded_len + 1;
+	result = malloc(final_len);
+	if (result == NULL)
+	{
+		printf("Error: No se pudo asignar memoria.\n");
+		free(expvar);
+		exit(1);
+	}
+	ft_strncpy(result, commands->input, initial_len, final_len);
+	ft_strlcat(result, expvar, final_len);
+	ft_strlcat(result, pos + 2, final_len);
+	free(commands->input);
+	commands->input = result;
+}
+
 void	ft_expand_special(t_msh *commands)
 {
 	char	*expanded_variable;
-	char	*result;
 	char	*pos;
 
 	expanded_variable = ft_itoa(commands->last_out);
@@ -32,28 +53,10 @@ void	ft_expand_special(t_msh *commands)
 		free(expanded_variable);
 		return ;
 	}
-	result = malloc(strlen(commands->input) - 2 + \
-	ft_strlen(expanded_variable) + 1);
-	if (result == NULL)
-	{
-		printf("Error: No se pudo asignar memoria.\n");
-		free(expanded_variable);
-		exit(1);
-	}
-	ft_strncpy(result, commands->input, pos - commands->input, \
-	ft_strlen(commands->input) - 2 + ft_strlen(expanded_variable) + 1);
-	result[pos - commands->input] = '\0';
-	ft_strlcat(result, expanded_variable, ft_strlen(commands->input) \
-	- 2 + ft_strlen(expanded_variable) + 1);
-	ft_strlcat(result, pos + 2, strlen(commands->input) - 2 + \
-	strlen(expanded_variable) + 1);
-	free(commands->input);
-	commands->input = result;
+	ft_construct_new_input(commands, expanded_variable, pos);
 	free(expanded_variable);
 }
 
-/* Sobre escribe dentro de evar,con el valor de la variable de 
-entorno y la devuelve */
 char	*ft_manage_expander(char **envpc, int index, char *evar)
 {
 	const char	*equal_sign;
@@ -78,8 +81,6 @@ char	*ft_manage_expander(char **envpc, int index, char *evar)
 	}
 	return (NULL);
 }
-/*Busca la variable de entorno dentro del env,
-	deuvelve un indice a su posicon y copia lo que sigue al simbolo "="*/
 
 void	ft_expand(t_msh *commands)
 {
@@ -89,8 +90,6 @@ void	ft_expand(t_msh *commands)
 	commands->evar = ft_manage_expander(commands->envp, i, commands->evar);
 }
 
-/*Verifica que la variable de entorno no comienze por un numero,
-	y que tenga caracteres correctos*/
 int	ft_check_syntax(char *evar, t_msh *commands)
 {
 	int	i;
@@ -114,110 +113,4 @@ int	ft_check_syntax(char *evar, t_msh *commands)
 		i++;
 	}
 	return (0);
-}
-
-/*Esta funcion extrae la variable de entorno y la copia dentro de evar,
-para despues comprobar que sea una variable de entrono correcta 
-mediante syntax */
-char	*ft_get_var(t_msh *commands, int i)
-{
-	size_t	len;
-	char	*evar;
-
-	len = 0;
-	while (commands->input[i] != SPACE && commands->input[i] != '\0'
-		&& commands->input[i] != DQUOTES  && commands->input[i] != SQUOTES)
-	{
-		i++;
-		len++;
-	}
-	evar = malloc(len + 1);
-	if (!evar)
-	{
-		printf("Error: Memory allocation failed. Unable to continue.\n");
-		exit(EXIT_FAILURE);
-	}
-	strncpy(evar, &commands->input[i - len], len);
-	evar[len] = '\0';
-	ft_check_syntax(evar, commands);
-	return (evar);
-}
-
-int	ft_quotes_flag_expander(char *str, int i)
-{
-	// 0 = no comillas
-	// 1 = single quotes abiertas
-	// 2 = double quotes abiertas
-	// 3 = single quotes cerradas
-	// 4 = double quotes cerradas
-	static int flag = 0; // Hacerla estática para mantener el estado entre llamadas
-
-	if (str[i] == SQUOTES && (i == 0 || str[i - 1] != BACKSLASH))
-	{
-		if (flag == 1) // Si ya estaba en single quotes, cerrarlas
-			flag = 0; // Cambiar a estado de no comillas
-		else if (flag == 0) // Si no había comillas, abrir single quotes
-			flag = 1;
-	}
-	else if (str[i] == DQUOTES && (i == 0 || str[i - 1] != BACKSLASH))
-	{
-		if (flag == 2) // Si ya estaba en double quotes, cerrarlas
-			flag = 0; // Cambiar a estado de no comillas
-		else if (flag == 0) // Si no había comillas, abrir double quotes
-			flag = 2;
-	}
-	return flag;
-}
-
-/*Esta funcion se encarga de buscar una variable de entorno introducida 
- * en el input	si la encuentra, llama a get_var para seccionarla del 
- * resto del input, para posteriormente expandirla*/
-void	ft_expand_var(t_msh *commands)
-{
-	int i;
-	int flag;
-
-	i = 0;
-	while (commands->input[i] != '\0')
-	{
-		if ((commands->input[i] == SQUOTES || commands->input[i] == DQUOTES) && (i == 0 || commands->input[i - 1] != BACKSLASH))
-		{
-			flag = ft_quotes_flag_expander(commands->input, i);
-		}
-		// Verificar si estamos en el caso especial de '"'$VARIABLE'"'
-		if (i > 0 && commands->input[i] == DOLLAR && commands->input[i - 1] == DQUOTES
-			&& commands->input[i + 1] != SPACE && commands->input[i + 1] != '\0'
-			&& commands->input[i - 2] == SQUOTES)
-		{
-			int j = i + 1;
-			// Buscar el cierre de la comilla doble y comilla simple
-			while (commands->input[j] && !(commands->input[j] == DQUOTES && commands->input[j + 1] == SQUOTES))
-			{
-				j++;
-			}
-		}
-		if (commands->input[i] == DOLLAR 
-			&& commands->input[i + 1] != SPACE
-			&& commands->input[i + 1] != '\0' 
-			&& (flag != 1))
-		{
-			if (commands->input[i] == DOLLAR && commands->input[i + 1] == '?')
-				ft_expand_special(commands);
-			if (commands->input[i] == DOLLAR && commands->input[i + 1] != '?')
-			{
-				commands->evar = ft_get_var(commands, i + 1);
-				if (!commands->evar)
-				{
-					exit(1);
-				}
-				printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n",
-					commands->evar);
-				ft_expand(commands);
-				ft_overwrited_expand(commands);
-				printf("\033[34mVariable de entorno expandida: %s\033[0m\n",
-					commands->evar);
-			}
-		}
-		i++;
-	}
 }
