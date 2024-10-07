@@ -12,28 +12,34 @@
 
 #include "../inc/minishell.h"
 
-void	ft_is_command(t_msh *commands, int *i, int *j)
+void	ft_update_quote_flags(char c, int *squotes, int *dquotes)
+{
+	if (c == SQUOTES)
+		*squotes = !(*squotes);
+	if (c == DQUOTES)
+		*dquotes = !(*dquotes);
+}
+
+void	ft_set_main_command(t_msh *commands, int *i, int *j)
 {
 	int	start;
 	int	squotes;
 	int	dquotes;
 
-	dquotes = 0;
 	squotes = 0;
+	dquotes = 0;
 	while (commands->cmds[*i]->cmd[*j] == SPACE)
 		(*j)++;
 	if (commands->cmds[*i]->cmd_main == NULL)
 	{
 		start = *j;
 		while (commands->cmds[*i]->cmd[*j] != '\0'
-			&& (squotes == 1 || dquotes == 1 || (commands->cmds[*i]->cmd[*j] != ' '
-			&& commands->cmds[*i]->cmd[*j] != '<'
-			&& commands->cmds[*i]->cmd[*j] != '>')))
+			   && (squotes == 1 || dquotes == 1
+			   || (commands->cmds[*i]->cmd[*j] != ' '
+			   && commands->cmds[*i]->cmd[*j] != '<'
+			   && commands->cmds[*i]->cmd[*j] != '>')))
 		{
-			if (commands->cmds[*i]->cmd[*j] == SQUOTES)
-				squotes = !squotes;
-			if (commands->cmds[*i]->cmd[*j] == DQUOTES)
-				dquotes = !dquotes;
+			ft_update_quote_flags(commands->cmds[*i]->cmd[*j], &squotes, &dquotes);
 			(*j)++;
 		}
 		if (commands->cmds[*i]->cmd[*j - 1] == SPACE && squotes == 0 && dquotes == 0)
@@ -41,51 +47,53 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 		commands->cmds[*i]->cmd_main = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
 		printf("\033[34mMain command: [%s]\033[0m\n", commands->cmds[*i]->cmd_main);
 	}
+}
+
+void ft_is_command(t_msh *commands, int *i, int *j)
+{
+	ft_set_main_command(commands, i, j);
 	while (commands->cmds[*i]->cmd[*j] == SPACE)
 		(*j)++;
 	while (commands->cmds[*i]->cmd[*j] != '<'
-		&& commands->cmds[*i]->cmd[*j] != '>'
-		&& commands->cmds[*i]->cmd[*j] != '\0'
-		&& commands->cmds[*i]->cmd[*j] != ' ')
+	&& commands->cmds[*i]->cmd[*j] != '>'
+	&& commands->cmds[*i]->cmd[*j] != '\0'
+	&& commands->cmds[*i]->cmd[*j] != ' ')
 	{
 		ft_arguments(commands, i, j);
 	}
 	if (commands->cmds[*i]->args)
 		commands->cmds[*i]->args[commands->parser.k] = NULL;
 }
+/************************************************************************************************************** */
+//OUTFILE TRUNC
 
-void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
+char *extract_filename(t_msh *commands, int *i, int *j)
 {
-	t_file	*outfile;
-	char	*filename;
-	int		start;
-
-	outfile = malloc(sizeof(t_file));
-	while (commands->cmds[*i]->cmd[*j] != '>' && commands->cmds[*i]->cmd[*j] != '\0')
-		(*j)++;
-	if (commands->cmds[*i]->cmd[*j] == '>')
-		(*j)++;
-	while (commands->cmds[*i]->cmd[*j] == ' ')
+	int start;
+	while (commands->cmds[*i]->cmd[*j] == '>' || commands->cmds[*i]->cmd[*j] == ' ')
 		(*j)++;
 	start = *j;
 	while (commands->cmds[*i]->cmd[*j] != '\0' && commands->cmds[*i]->cmd[*j] != ' ' && commands->cmds[*i]->cmd[*j] != '>')
 		(*j)++;
-	filename = ft_substr(commands->cmds[*i]->cmd, start, *j - start);
+	return ft_substr(commands->cmds[*i]->cmd, start, *j - start);
+}
+
+char *clean_filename(char *filename)
+{
 	if ((filename[0] == '\"' && filename[strlen(filename) - 1] == '\"') || (filename[0] == '\'' && filename[strlen(filename) - 1] == '\''))
 	{
-		if (filename[0] == '\'' && filename[1] == '\"' && filename[strlen(filename) - 2] == '\"' && filename[strlen(filename) - 1] == '\'')
-		{
-			char *temp = filename;
-			filename = ft_substr(filename, 1, strlen(filename) - 2);
-			free(temp);
-		}
-		else
-		{
-			char *temp = filename;
-			filename = ft_substr(filename, 1, strlen(filename) - 2);
-			free(temp);
-		}
+		char *temp = filename;
+		filename = ft_substr(filename, 1, strlen(filename) - 2);
+		free(temp);
 	}
+	return filename;
+}
+
+void ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
+{
+	t_file *outfile = malloc(sizeof(t_file));
+	char *filename = extract_filename(commands, i, j);
+	filename = clean_filename(filename);
 
 	outfile->filename = filename;
 	outfile->type = OUTFILE_TRUNC;
@@ -97,7 +105,7 @@ void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 	commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
 	printf("\033[34mOutfile Type Trunc: %s\033[0m\n", outfile->filename);
 }
-
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 {
 	t_file	*outfile;
