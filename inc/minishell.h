@@ -272,4 +272,7 @@ void		ft_expand_special(t_msh *commands);
 char		*ft_strstr(const char *haystack, const char *needle);
 
 void		ft_init_msh_struct(t_msh *commands);
+
+char		*ft_strndup(const char *s, size_t n);
+void		ft_free_args(t_msh *commands, int *i);
 #endif
