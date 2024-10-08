@@ -15,11 +15,11 @@
 # include "../Libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <signal.h> //? Necesaria para el manejo de señales
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <termcap.h> // Necesaria para tgetstr
+# include <termcap.h>
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/types.h>
@@ -279,4 +279,34 @@ void		ft_construct_new_input(t_msh *commands, char *expvar, char *pos);
 void		ft_handle_quotes(t_msh *commands, int *i, int *flag);
 void		ft_expand_variables(t_msh *commands, int i, int flag);
 void		ft_expand_var(t_msh *commands);
+
+/* REDIR FOLDER*/
+/* INFILE_HERE_DOC */
+char *extract_delimiter_name(const char *cmd, int *j);
+char *parse_here_doc_filename(t_msh *commands, int *i, int *j);
+void add_here_doc_to_command(t_msh *commands, int *i, char *filename);
+void ft_is_infile_here_doc(t_msh *commands, int *i, int *j);
+
+/* INFILE NORMAL */
+char *ft_two_clean_filename(char *filename);
+char *parse_infile(t_msh *commands, int *i, int *j);
+void add_infile_to_command(t_msh *commands, int *i, char *filename);
+void ft_is_infile(t_msh *commands, int *i, int *j);
+
+/* OUTFILE_APPEND */
+char *extract_filename_append(t_msh *commands, int *i, int *j);
+char *clean_filename_append(char *filename);
+void ft_is_outfile_append(t_msh *commands, int *i, int *j);
+
+/* OUTFILE_TRUNC */
+char *extract_filename(t_msh *commands, int *i, int *j);
+char *clean_filename(char *filename);
+void ft_is_outfile_trunc(t_msh *commands, int *i, int *j);
+
+
+/* QUOTES_ERES_TWO */
+int	ft_locate_next_quote(int i, char *input, char quote);
+int	ft_has_quotes(char *str, int i);
+int	*ft_find_quotes(char *str, int i);
+void	ft_rm_quotes(char **str, int *quotes);
 #endif
