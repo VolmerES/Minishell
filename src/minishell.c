@@ -6,11 +6,13 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/09/27 20:57:54 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:37:36 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int		g_signal_control;
 
 int	ft_incomplete_quotes(t_msh *commands)
 {

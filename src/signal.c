@@ -12,29 +12,42 @@
 
 #include "../inc/minishell.h"
 
-void	ft_sigint(int sign)
+void	ctrl_c(int sign)
 {
-	if (sign == SIGINT)
+	(void)sign;
+	if (g_signal_control == 0)
 	{
+		write(STDERR_FILENO, "\n", 1);
+		rl_on_new_line();
 		rl_replace_line("", 0);
-		ft_putchar_fd('\n', 1);
-		ft_putstr_fd("🐚Minihell-42", 1);
+		rl_redisplay();
+	}
+	else if (g_signal_control == 2)
+		return ;
+	else
+	{
+		g_signal_control = 130;
+		write(STDERR_FILENO, "\n", 1);
 	}
 }
 
-void	ft_sigquit(int sign)
+void	ctrl_4(int sign)
 {
-	if (sign == SIGQUIT)
+	(void)sign;
+	if (g_signal_control == 2)
+		return ;
+	else if (g_signal_control == 1)
 	{
-		rl_on_new_line();
-		rl_redisplay();
+		write(STDERR_FILENO, "^\\Quit: 3\n", 10);
+		g_signal_control = 131;
 	}
+	return ;
 }
 
 void	ft_signal_handler(void)
 {
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigquit);
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, ctrl_4);
 }
 
 static void	ft_heredoc_sigint(int sign)

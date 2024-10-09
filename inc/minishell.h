@@ -69,6 +69,8 @@
 # define MAX_COMMANDS 1000
 # define PWD './'
 
+extern int					g_signal_control;
+
 typedef enum s_err_msg
 {
 	PIPE_,
