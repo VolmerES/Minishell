@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:30:47 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/07 19:38:08 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:05:52 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_quotes_flag_expander(char *str, int i)
 {
 	static int	flag;
 
-	flag = 0;
 	if (str[i] == SQUOTES && (i == 0 || str[i - 1] != BACKSLASH))
 	{
 		if (flag == 1)
@@ -102,7 +101,7 @@ char	*ft_get_var(t_msh *commands, int i)
 	size_t	len;
 	char	*evar;
 
-	len = 0;
+	len = 0; 
 	while (commands->input[i] != SPACE && commands->input[i] != '\0'
 		&& commands->input[i] != DQUOTES && commands->input[i] != SQUOTES)
 	{
