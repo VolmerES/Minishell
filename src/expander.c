@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/07 19:33:50 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:05:34 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	*ft_manage_expander(char **envpc, int index, char *evar)
 			if (expanded_variable == NULL)
 			{
 				printf("Error: No se pudo asignar memoria.\n");
+				free(expanded_variable);
 				exit(1);
 			}
 			return (expanded_variable);
