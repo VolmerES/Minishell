@@ -38,6 +38,27 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 
+# define CL1 "\033[38;2;255;0;0m"
+# define CL2 "\033[38;2;255;69;0m"
+# define CL3 "\033[38;2;255;165;0m"
+# define CL4 "\033[38;2;255;215;0m"
+# define CL5 "\033[38;2;255;255;0m"
+# define CL6 CL4
+# define CL7 CL3
+# define CL8 CL2
+# define CL9 CL1
+# define CL10 CL2 
+# define CL11 CL3
+# define CL12 CL4
+# define CL13 CL5
+# define CL14 CL4
+# define CL15 CL3
+# define CL16 CL1
+# define CLR_RST "\033[0m"
+# define CBY "\033[38;2;135;206;235m"
+# define COLOR_AS "\033[38;2;255;105;180m"
+# define CAS "\033[38;2;255;105;180m"
+
 # define SPACE ' '
 # define DOLLAR '$'
 # define DQUOTES '\"'
@@ -282,31 +303,30 @@ void		ft_expand_var(t_msh *commands);
 
 /* REDIR FOLDER*/
 /* INFILE_HERE_DOC */
-char *extract_delimiter_name(const char *cmd, int *j);
-char *parse_here_doc_filename(t_msh *commands, int *i, int *j);
-void add_here_doc_to_command(t_msh *commands, int *i, char *filename);
-void ft_is_infile_here_doc(t_msh *commands, int *i, int *j);
+char		*extract_delimiter_name(const char *cmd, int *j);
+char		*parse_here_doc_filename(t_msh *commands, int *i, int *j);
+void		add_here_doc_to_command(t_msh *commands, int *i, char *filename);
+void		ft_is_infile_here_doc(t_msh *commands, int *i, int *j);
 
 /* INFILE NORMAL */
-char *ft_two_clean_filename(char *filename);
-char *parse_infile(t_msh *commands, int *i, int *j);
-void add_infile_to_command(t_msh *commands, int *i, char *filename);
-void ft_is_infile(t_msh *commands, int *i, int *j);
+char		*ft_two_clean_filename(char *filename);
+char		*parse_infile(t_msh *commands, int *i, int *j);
+void		add_infile_to_command(t_msh *commands, int *i, char *filename);
+void		ft_is_infile(t_msh *commands, int *i, int *j);
 
 /* OUTFILE_APPEND */
-char *extract_filename_append(t_msh *commands, int *i, int *j);
-char *clean_filename_append(char *filename);
-void ft_is_outfile_append(t_msh *commands, int *i, int *j);
+char		*extract_filename_append(t_msh *commands, int *i, int *j);
+char		*clean_filename_append(char *filename);
+void		ft_is_outfile_append(t_msh *commands, int *i, int *j);
 
 /* OUTFILE_TRUNC */
-char *extract_filename(t_msh *commands, int *i, int *j);
-char *clean_filename(char *filename);
-void ft_is_outfile_trunc(t_msh *commands, int *i, int *j);
-
+char		*extract_filename(t_msh *commands, int *i, int *j);
+char		*clean_filename(char *filename);
+void		ft_is_outfile_trunc(t_msh *commands, int *i, int *j);
 
 /* QUOTES_ERES_TWO */
-int	ft_locate_next_quote(int i, char *input, char quote);
-int	ft_has_quotes(char *str, int i);
-int	*ft_find_quotes(char *str, int i);
-void	ft_rm_quotes(char **str, int *quotes);
+int			ft_locate_next_quote(int i, char *input, char quote);
+int			ft_has_quotes(char *str, int i);
+int			*ft_find_quotes(char *str, int i);
+void		ft_rm_quotes(char **str, int *quotes);
 #endif
