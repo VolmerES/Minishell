@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:56:44 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/08 19:57:16 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/09 12:23:45 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_locate_next_quote(int i, char *input, char quote)
 		i++;
 	return (i);
 }
+
 int	ft_has_quotes(char *str, int i)
 {
 	i--;
