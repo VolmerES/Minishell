@@ -68,3 +68,12 @@ void	ft_free_args(t_msh *commands, int *i)
 	}
 	free(commands->cmds[*i]->args);
 }
+
+void	ft_erase_first_number(t_msh *commands, int i)
+{
+	int	j;
+
+	j = i + 2;
+	ft_strlcpy(&commands->input[i],
+	&commands->input[j], ft_strlen(&commands->input[j]) + 1);
+}
