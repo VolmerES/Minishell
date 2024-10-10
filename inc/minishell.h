@@ -331,4 +331,6 @@ int			ft_locate_next_quote(int i, char *input, char quote);
 int			ft_has_quotes(char *str, int i);
 int			*ft_find_quotes(char *str, int i);
 void		ft_rm_quotes(char **str, int *quotes);
+
+void		ft_erase_first_number(t_msh *commands, int i);
 #endif

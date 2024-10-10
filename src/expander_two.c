@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:30:47 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/09 18:05:52 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:59:23 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	ft_expand_variables(t_msh *commands, int i, int flag)
 			ft_expand_special(commands);
 		else if (commands->input[i] == DOLLAR)
 		{
+			if (ft_isdigit(commands->input[i + 1]) == 1)
+				return (ft_erase_first_number(commands, i));
 			commands->evar = ft_get_var(commands, i + 1);
 			if (!commands->evar)
 			{
