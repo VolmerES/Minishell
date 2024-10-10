@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:30:47 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/10 18:59:23 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:09:59 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	ft_handle_quotes(t_msh *commands, int *i, int *flag)
 
 void	ft_expand_variables(t_msh *commands, int i, int flag)
 {
+	if (i + 1 >= (int)ft_strlen(commands->input))
+		return ;
 	if (commands->input[i] == DOLLAR
 		&& commands->input[i + 1] != SPACE
 		&& commands->input[i + 1] != '\0'
