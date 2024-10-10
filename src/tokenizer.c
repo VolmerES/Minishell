@@ -84,10 +84,12 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 void	ft_tokenize_command(t_msh *commands, int *i)
 {
 	int	j;
+	int	cmd_len;
 
 	j = 0;
 	commands->parser.k = 0;
-	while (commands->cmds[*i]->cmd[j] != '\0')
+	cmd_len = strlen(commands->cmds[*i]->cmd); // Calcular la longitud de la cadena una vez.
+	while (j < cmd_len) // Asegurarse de que j no exceda cmd_len.
 	{
 		if (commands->cmds[*i]->cmd[j] == '<')
 			ft_handle_less_than(commands, i, &j);
