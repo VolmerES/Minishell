@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/05 19:43:07 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:29:57 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 		close(fd_out);
 	if (!commands->cmds[cmd_i]->cmd_main)
 		exit(0);
+	dprintf(2, "comando ejecutado en el hijo %s\n", commands->cmds[cmd_i]->cmd_main);
 	if (is_builtins(commands, cmd_i))
 		ft_builtins(commands, cmd_i);
 	else

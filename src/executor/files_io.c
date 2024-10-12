@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:28:33 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/05 20:04:10 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:18:06 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ int	open_files(t_msh *c, int cmd_i, int pipe)
 			if (c->cmds[cmd_i]->infile[i]->type == INFILE_NORMAL)
 				infd = open(c->cmds[cmd_i]->infile[i]->filename, O_RDONLY);
 			else if (c->parser.cmd_index == 1)
-				infd = open(her_doc(c->cmds[cmd_i]->infile[i]->filename), \
-				O_RDONLY);
+			{
+				open_her_docs(c);
+				infd = open(c->cmds[cmd_i]->infile[i]->name_herdoc, O_RDONLY);
+			}
 			else
-				infd = open(c->cmds[cmd_i]->infile[i]->filename, O_RDONLY);
+				infd = open(c->cmds[cmd_i]->infile[i]->name_herdoc, O_RDONLY);
 			if (infd < 0)
 				return (msg_error(c->cmds[cmd_i]->infile[i]->filename), -1);
 		}

@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/05 20:07:08 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:19:45 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ static	void	free_infile(t_msh *commands, int count)
 		{
 			free(commands->cmds[count]->infile[i]->filename);
 			commands->cmds[count]->infile[i]->filename = NULL;
+			if (commands->cmds[count]->infile[i]->type == 1)
+			{
+				free(commands->cmds[count]->infile[i]->name_herdoc);
+				commands->cmds[count]->infile[i]->name_herdoc = NULL;
+			}
 			free(commands->cmds[count]->infile[i]);
 			commands->cmds[count]->infile[i] = NULL;
 		}

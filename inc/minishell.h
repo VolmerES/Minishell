@@ -99,7 +99,7 @@ typedef struct s_file
 {
 	char		*filename;
 	t_file_type	type;
-	int			fd_herdoc;
+	char		*name_herdoc;
 }				t_file;
 
 typedef struct s_cmd
@@ -288,7 +288,7 @@ void		exit_err(t_msh *commands, int cmd_i);
 void		first_child(t_msh *commands, int *fd);
 void		mid_child(t_msh *commands, int *fd, int *new, int cmd_i);
 void		last_child(t_msh *commands, int *fd);
-char		*her_doc(char *name);
+void		her_doc(char *name, char *here_doc);
 
 char		*ft_strncpy(char *dst, const char *src, size_t len, size_t n);
 void		ft_expand_special(t_msh *commands);
@@ -296,6 +296,7 @@ char		*ft_strstr(const char *haystack, const char *needle);
 
 void		ft_init_msh_struct(t_msh *commands);
 
+char		*check_file(char *name);
 char		*ft_strndup(const char *s, size_t n);
 void		ft_free_args(t_msh *commands, int *i);
 void		ft_construct_new_input(t_msh *commands, char *expvar, char *pos);

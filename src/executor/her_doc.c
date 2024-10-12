@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:55:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/08/17 13:24:59 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:07:58 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	write_tmp(int fd, char *name)
 void	check_malloc(char *count_char, char *name_tmp, char *tmp)
 {
 	if (!count_char || !name_tmp || !tmp)
-		_exit(2);
+		exit_(2);
 }
 
 char	*check_file(char *name)
@@ -63,19 +63,13 @@ char	*check_file(char *name)
 	return (tmp);
 }
 
-char	*her_doc(char *name)
+void	her_doc(char *name, char *here_doc)
 {
 	int		fd;
-	char	*tmpfile;
 
-	tmpfile = check_file(name);
-	fd = open(tmpfile, O_WRONLY | O_CREAT, 0777);
+	fd = open(name, O_WRONLY | O_TRUNC , 0777);
 	if (fd < 0)
-	{
-		free(tmpfile);
-		_exit(2);
-	}
-	write_tmp(fd, name);
+		exit_(2);
+	write_tmp(fd, here_doc);
 	close(fd);
-	return (tmpfile);
 }

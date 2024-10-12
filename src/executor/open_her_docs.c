@@ -6,67 +6,58 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:51:17 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/05 20:09:38 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:16:52 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static	void	return_child(t_msh *commands, int fd[2], t_counters count)
+static	void	return_child(t_msh *commands, t_counters count)
 {
-	char	*herdoc_file;
-
-	close(fd[0]);
 	ft_heredoc_signal_handler();
-	herdoc_file = her_doc(commands->cmds[count.i]->infile[count.j]->filename);
-	if (herdoc_file)
-		write(fd[1], herdoc_file, ft_strlen(herdoc_file) + 1);
-	free(herdoc_file);
-	close(fd[1]);
+	her_doc(commands->cmds[count.i]->infile[count.j]->name_herdoc, \
+	commands->cmds[count.i]->infile[count.j]->filename);
 	exit(0);
 }
 
-void	proc_f(t_msh *commands, int fd[2], t_counters count, pid_t pid)
+void	proc_f(t_msh *commands, t_counters count)
 {
-	char	herdoc_file[256];
-	ssize_t	bytes_read;
-
-	close(fd[1]);
-	bytes_read = read(fd[0], herdoc_file, sizeof(herdoc_file));
-	if (bytes_read > 0)
-	{
-		free(commands->cmds[count.i]->infile[count.j]->filename);
-		commands->cmds[count.i]->infile[count.j]->filename = \
-		ft_strdup(herdoc_file);
-	}
-	waitpid(pid, &count.k, 0);
-	commands->last_out = WEXITSTATUS(count.k);
-	close(fd[0]);
-	if (commands->last_out != 0)
-		return ;
-}
-
-static	void	handle_heredoc(t_msh *commands, int fd[2], t_counters counters)
-{
-	pid_t	pid;
+	pid_t pid;
 
 	pid = fork();
-	if (pid == 0)
-		return_child(commands, fd, counters);
-	else if (pid > 0)
-		proc_f(commands, fd, counters, pid);
+	if(pid == 0)
+		return_child(commands, count);
 	else
-		exit_(FORK_);
+	{
+		waitpid(pid, &count.k, 0);
+		commands->last_out = WEXITSTATUS(count.k);
+		if (commands->last_out != 0)
+			return ;
+	}
+}
+
+static	void	handle_heredoc(t_msh *c, t_counters counters)
+{
+	char	*file;
+	int		fd;
+
+	file = check_file(c->cmds[counters.i]->infile[counters.j]->filename);
+	fd = open(file, O_WRONLY | O_CREAT, 0777);
+	if (fd < 0)
+	{
+		free(file);
+		exit_(2);
+	}
+	c->cmds[counters.i]->infile[counters.j]->name_herdoc = ft_strdup(file);
+	close(fd);
+	proc_f(c, counters);
 }
 
 void	open_her_docs(t_msh *commands)
 {
-	int			fd[2];
 	t_counters	counters;
 
 	counters.i = -1;
-	if (pipe(fd) < 0)
-		exit_(PIPE_);
 	while (commands->cmds[++counters.i])
 	{
 		counters.j = -1;
@@ -75,7 +66,7 @@ void	open_her_docs(t_msh *commands)
 		{
 			if (commands->cmds[counters.i]->infile[counters.j]->type \
 			== INFILE_HERE_DOC)
-				handle_heredoc(commands, fd, counters);
+				handle_heredoc(commands, counters);
 		}
 	}
 }
