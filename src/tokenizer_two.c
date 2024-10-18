@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_two.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 12:11:39 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/02 16:16:26 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/18 13:13:19 by volmer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,34 @@ void	ft_handle_else(t_msh *commands, int *i, int *j)
 {
 	ft_is_command(commands, i, j);
 	ft_erase_cmd_quotes(commands, i);
+}
+
+int		ft_count_redir(char *str)
+{
+	int	count;
+	int	i;
+
+	i = 0;
+	count = 0;
+	while (str[i] == '<')
+	{
+		count++;
+		i++;
+			if (count >= 3)
+			{
+				printf("Syntax error: invalid token '<'\n");
+				return (count);
+			}
+	}
+	while (str[i] == '>')
+	{
+		count++;
+		i++;
+			if (count >= 3)
+			{
+				printf("Syntax error: invalid token '>'\n");
+				return (count);
+			}
+	}
+	return (0);
 }

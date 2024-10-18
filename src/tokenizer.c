@@ -91,9 +91,14 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 	cmd_len = strlen(commands->cmds[*i]->cmd);
 	while (j < cmd_len)
 	{
-		if (commands->cmds[*i]->cmd[j] == '<')
+		if (ft_count_redir(&commands->cmds[*i]->cmd[j]) != 0)
+		{
+			j += ft_count_redir(&commands->cmds[*i]->cmd[j]);
+			return ;
+		}
+		if (commands->cmds[*i]->cmd[j] == '<' && ft_count_redir(&commands->cmds[*i]->cmd[j]) == 0)
 			ft_handle_less_than(commands, i, &j);
-		else if (commands->cmds[*i]->cmd[j] == '>')
+		else if (commands->cmds[*i]->cmd[j] == '>' && ft_count_redir(&commands->cmds[*i]->cmd[j]) == 0)
 			ft_handle_greater_than(commands, i, &j);
 		else if (commands->cmds[*i]->cmd[j] == SPACE)
 			j++;
