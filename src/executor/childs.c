@@ -29,7 +29,6 @@ static void	child_aux(t_msh *commands, int cmd_i, int fd_in, int fd_out)
 		close(fd_out);
 	if (!commands->cmds[cmd_i]->cmd_main)
 		exit(0);
-	dprintf(2, "comando ejecutado en el hijo %s\n", commands->cmds[cmd_i]->cmd_main);
 	if (is_builtins(commands, cmd_i))
 		ft_builtins(commands, cmd_i);
 	else
