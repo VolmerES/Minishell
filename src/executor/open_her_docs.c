@@ -31,8 +31,6 @@ void	proc_f(t_msh *commands, t_counters count)
 	{
 		waitpid(pid, &count.k, 0);
 		commands->last_out = WEXITSTATUS(count.k);
-		if (commands->last_out != 0)
-			return ;
 	}
 }
 
@@ -51,7 +49,8 @@ static	void	handle_heredoc(t_msh *c, t_counters counters)
 	c->cmds[counters.i]->infile[counters.j]->name_herdoc = ft_strdup(file);
 	free(file);
 	close(fd);
-	proc_f(c, counters);
+	if (c->last_out == 0)
+		proc_f(c, counters);
 }
 
 void	open_her_docs(t_msh *commands)
