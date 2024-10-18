@@ -49,6 +49,7 @@ static	void	handle_heredoc(t_msh *c, t_counters counters)
 		exit_(2);
 	}
 	c->cmds[counters.i]->infile[counters.j]->name_herdoc = ft_strdup(file);
+	free(file);
 	close(fd);
 	proc_f(c, counters);
 }
