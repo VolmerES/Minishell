@@ -47,11 +47,6 @@ int	open_files(t_msh *c, int cmd_i, int pipe)
 		{
 			if (c->cmds[cmd_i]->infile[i]->type == INFILE_NORMAL)
 				infd = open(c->cmds[cmd_i]->infile[i]->filename, O_RDONLY);
-			else if (c->parser.cmd_index == 1)
-			{
-				open_her_docs(c);
-				infd = open(c->cmds[cmd_i]->infile[i]->name_herdoc, O_RDONLY);
-			}
 			else
 				infd = open(c->cmds[cmd_i]->infile[i]->name_herdoc, O_RDONLY);
 			if (infd < 0)
