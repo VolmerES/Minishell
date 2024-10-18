@@ -73,14 +73,11 @@ void	one_command(t_msh *commands)
 		commands->cmds[0]->full_cmd = add_to_arg(\
 		commands->cmds[0]->args, commands->cmds[0]->cmd_main);
 	open_her_docs(commands);
-	if (commands->last_out == 0)
-	{
-		pid = fork();
-		if (pid < 0)
-			exit_(1);
-		if (pid == 0)
-			child_one_command(commands);
-		waitpid(pid, &status, 0);
-		commands->last_out = WEXITSTATUS(status);
-	}
+	pid = fork();
+	if (pid < 0)
+		exit_(1);
+	if (pid == 0)
+		child_one_command(commands);
+	waitpid(pid, &status, 0);
+	commands->last_out = WEXITSTATUS(status);
 }
