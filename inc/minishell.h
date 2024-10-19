@@ -253,13 +253,13 @@ int			out_files(t_msh *commands, int cmd_i, int pipe);
 int			unset_builtin(t_msh *commands, int i);
 int			env_builtin(t_msh *commands);
 int			updates_pwds(t_msh *commands, int i_cmd);
+int			bd_one_command(t_msh *commands);
 void		move_and_free(t_msh *commands, int var);
 
 void		export_empty(t_msh *commands);
 void		manage_export(t_msh *commands, int num_command);
 void		update_env(t_msh *commands, int index, char *value);
 void		executor_manage(t_msh *commands);
-void		bd_one_command(t_msh *commands);
 void		one_command(t_msh *commands);
 void		multi_command(t_msh *commands);
 void		exit_builtin(t_msh *commands, int cmd_i);

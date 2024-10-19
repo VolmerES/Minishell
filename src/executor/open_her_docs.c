@@ -6,11 +6,12 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:51:17 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/19 18:10:05 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:49:18 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
 extern int	g_signal_control;
 
 static	void	return_child(t_msh *commands, t_counters count)
@@ -23,10 +24,10 @@ static	void	return_child(t_msh *commands, t_counters count)
 
 void	proc_f(t_msh *commands, t_counters count)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
-	if(pid == 0)
+	if (pid == 0)
 		return_child(commands, count);
 	else
 	{

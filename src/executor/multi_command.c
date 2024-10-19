@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 14:17:34 by david             #+#    #+#             */
-/*   Updated: 2024/10/19 14:33:24 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:48:25 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,4 @@ void	multi_command(t_msh *commands)
 	last_child(commands, fd);
 	close(fd[0]);
 	wait_childs(commands);
-	
 }

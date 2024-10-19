@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:55:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/12 19:07:58 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:49:51 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	her_doc(char *name, char *here_doc)
 {
 	int		fd;
 
-	fd = open(name, O_WRONLY | O_TRUNC , 0777);
+	fd = open(name, O_WRONLY | O_TRUNC, 0777);
 	if (fd < 0)
 		exit_(2);
 	write_tmp(fd, here_doc);

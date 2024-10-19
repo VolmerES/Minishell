@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:25:02 by david             #+#    #+#             */
-/*   Updated: 2024/06/22 20:39:05 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:33:55 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	exit_builtin(t_msh *commands, int cmd_i)
 {
 	printf("exit\n");
 	commands->last_out = 0;
+	close(commands->cp_stdin);
+	close(commands->cp_stdout);
 	if (check_num_args(commands, cmd_i) > 1)
 	{
 		commands->last_out = 1;

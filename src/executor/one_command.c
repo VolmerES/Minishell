@@ -6,47 +6,37 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 11:39:36 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/19 19:21:26 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:47:46 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	bd_one_command(t_msh *commands)
+int	bd_one_command(t_msh *commands)
 {
 	int	infd;
 	int	outfd;
 
 	infd = open_files(commands, 0, -1);
 	if (infd < 0)
-	{
-		commands->last_out = 1;
-		return ;
-	}
+		return (commands->last_out = 1);
 	outfd = out_files(commands, 0, -1);
 	if (outfd < 0)
-	{
-		commands->last_out = 1;
-		return ;
-	}
+		return (commands->last_out = 1);
 	commands->cp_stdin = dup(STDIN_FILENO);
 	commands->cp_stdout = dup(STDOUT_FILENO);
 	dup2(infd, STDIN_FILENO);
 	dup2(outfd, STDOUT_FILENO);
-	
-	
+	ft_builtins(commands, 0);
 	if (infd != 0)
 		close(infd);
-	if (outfd != 1  || outfd != 2)
+	if (outfd != 1 || outfd != 2)
 		close(outfd);
-	ft_builtins(commands, 0);
-	printf("ped %d\n", getpid());
 	dup2(commands->cp_stdin, STDIN_FILENO);
 	dup2(commands->cp_stdout, STDOUT_FILENO);
 	close(commands->cp_stdin);
 	close(commands->cp_stdout);
-	dprintf(2, "infd %i\n outfd %i\n", infd, outfd);
-	dprintf(2, "commands->cp_stdin %i\n commands->cp_stdout %i\n", commands->cp_stdin, commands->cp_stdout);
+	return (0);
 }
 
 void	child_one_command(t_msh *commands)
@@ -86,7 +76,6 @@ void	one_command(t_msh *commands)
 		commands->cmds[0]->full_cmd = add_to_arg(\
 		commands->cmds[0]->args, commands->cmds[0]->cmd_main);
 	open_her_docs(commands);
-	
 	pid = fork();
 	if (pid < 0)
 		exit_(1);
