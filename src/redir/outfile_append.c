@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:53:38 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/09 12:16:56 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:00:34 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,4 @@ void	ft_is_outfile_append(t_msh *commands, int *i, int *j)
 			* (outfile_count + 1), sizeof(t_file *) * (outfile_count + 2));
 	commands->cmds[*i]->outfile[outfile_count] = outfile;
 	commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
-	printf("\033[34mOutfile Type Append: %s\033[0m\n", outfile->filename);
 }

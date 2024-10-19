@@ -22,9 +22,10 @@ void	ft_update_quote_flags(char c, int *squotes, int *dquotes)
 
 void	ft_set_main_command(t_msh *commands, int *i, int *j)
 {
-	int	start;
-	int	squotes;
-	int	dquotes;
+	int		start;
+	int		squotes;
+	int		dquotes;
+	char	c;
 
 	squotes = 0;
 	dquotes = 0;
@@ -33,23 +34,18 @@ void	ft_set_main_command(t_msh *commands, int *i, int *j)
 	if (commands->cmds[*i]->cmd_main == NULL)
 	{
 		start = *j;
-		while (commands->cmds[*i]->cmd[*j] != '\0'
-			&& (squotes == 1 || dquotes == 1
-				|| (commands->cmds[*i]->cmd[*j] != ' '
-					&& commands->cmds[*i]->cmd[*j] != '<'
-					&& commands->cmds[*i]->cmd[*j] != '>')))
+		c = commands->cmds[*i]->cmd[*j];
+		while (c != '\0' && (squotes == 1 || dquotes == 1
+				|| (c != ' ' && c != '<' && c != '>')))
 		{
-			ft_update_quote_flags
-				(commands->cmds[*i]->cmd[*j], &squotes, &dquotes);
-			(*j)++;
+			ft_update_quote_flags(c, &squotes, &dquotes);
+			c = commands->cmds[*i]->cmd[++(*j)];
 		}
 		if (commands->cmds[*i]->cmd[*j - 1] == SPACE
 			&& squotes == 0 && dquotes == 0)
 			(*j)--;
 		commands->cmds[*i]->cmd_main = ft_substr(
 				commands->cmds[*i]->cmd, start, *j - start);
-		printf("\033[34mMain command: [%s]\033[0m\n",
-			commands->cmds[*i]->cmd_main);
 	}
 }
 
@@ -67,4 +63,14 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 	}
 	if (commands->cmds[*i]->args)
 		commands->cmds[*i]->args[commands->parser.k] = NULL;
+}
+
+int	ft_count_redir(char *str)
+{
+	if (check_consecutive_chars(str, '<') >= 3
+		|| check_consecutive_chars(str, '>') >= 3)
+		return (1);
+	if (check_mixed_redir(str))
+		return (1);
+	return (0);
 }

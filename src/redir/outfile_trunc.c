@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:52:03 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/09 12:23:23 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:00:38 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,4 @@ void	ft_is_outfile_trunc(t_msh *commands, int *i, int *j)
 			sizeof(t_file *) * (outfile_count + 2));
 	commands->cmds[*i]->outfile[outfile_count] = outfile;
 	commands->cmds[*i]->outfile[outfile_count + 1] = NULL;
-	printf("\033[34mOutfile Type Trunc: %s\033[0m\n", outfile->filename);
 }

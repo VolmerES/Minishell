@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 18:36:39 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:51:29 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_manage(t_msh *commands)
 {
 	if (ft_incomplete_quotes(commands) == 1)
 	{
-		printf("\033[34mSyntax error, quotes not closed\033[0m\n");
+		printf("\033[34mSyntax error: quotes not closed\033[0m\n");
 		return (0);
 	}
 	ft_expand_var(commands);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_two.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: volmer <volmer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 12:11:39 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/18 13:13:19 by volmer           ###   ########.fr       */
+/*   Updated: 2024/10/19 18:26:41 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,36 @@ void	ft_handle_else(t_msh *commands, int *i, int *j)
 	ft_erase_cmd_quotes(commands, i);
 }
 
-int		ft_count_redir(char *str)
+int	check_consecutive_chars(char *str, char c)
 {
 	int	count;
-	int	i;
 
-	i = 0;
 	count = 0;
-	while (str[i] == '<')
+	while (*str == c)
 	{
 		count++;
-		i++;
-			if (count >= 3)
-			{
-				printf("Syntax error: invalid token '<'\n");
-				return (count);
-			}
+		str++;
+		if (count >= 3)
+		{
+			printf("Syntax error: invalid token '%c'\n", c);
+			return (count);
+		}
 	}
-	while (str[i] == '>')
+	return (count);
+}
+
+int	check_mixed_redir(char *str)
+{
+	while (*str)
 	{
-		count++;
-		i++;
-			if (count >= 3)
-			{
-				printf("Syntax error: invalid token '>'\n");
-				return (count);
-			}
+		if ((*str == '<' && *(str + 1) == '>')
+			|| (*str == '>' && *(str + 1) == '<'))
+		{
+			printf("Syntax error: invalid token sequence '%c%c'\n", \
+				*str, *(str + 1));
+			return (1);
+		}
+		str++;
 	}
 	return (0);
 }

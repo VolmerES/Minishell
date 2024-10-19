@@ -76,8 +76,6 @@ void	ft_arguments(t_msh *commands, int *i, int *j)
 		ft_free_args(commands, i);
 		exit(1);
 	}
-	printf("\033[34mARGS: [%s]\033[0m\n", \
-	commands->cmds[*i]->args[commands->parser.k]);
 	commands->parser.k++;
 }
 
@@ -96,9 +94,11 @@ void	ft_tokenize_command(t_msh *commands, int *i)
 			j += ft_count_redir(&commands->cmds[*i]->cmd[j]);
 			return ;
 		}
-		if (commands->cmds[*i]->cmd[j] == '<' && ft_count_redir(&commands->cmds[*i]->cmd[j]) == 0)
+		if (commands->cmds[*i]->cmd[j] == '<'
+			&& ft_count_redir(&commands->cmds[*i]->cmd[j]) == 0)
 			ft_handle_less_than(commands, i, &j);
-		else if (commands->cmds[*i]->cmd[j] == '>' && ft_count_redir(&commands->cmds[*i]->cmd[j]) == 0)
+		else if (commands->cmds[*i]->cmd[j] == '>'
+			&& ft_count_redir(&commands->cmds[*i]->cmd[j]) == 0)
 			ft_handle_greater_than(commands, i, &j);
 		else if (commands->cmds[*i]->cmd[j] == SPACE)
 			j++;

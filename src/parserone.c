@@ -21,7 +21,7 @@ void	ft_allocate_commands(t_msh *commands)
 	commands->cmds = malloc(sizeof(t_cmd *) * (pipes + 1));
 	if (commands->cmds == NULL)
 	{
-		fprintf(stderr, "Error al asignar memoria para los comandos\n");
+		fprintf(stderr, "Error: Memory allocation failed.\n");
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
@@ -70,23 +70,11 @@ void	ft_add_command(t_msh *commands, int *start, int *index, int *cmd_index)
 	if (commands->cmds[*cmd_index]->cmd == NULL)
 	{
 		fprintf(stderr,
-			"Error al asignar memoria para el string del comando\n");
+			"Error: Memory allocation failed. Unable to continue.\n");
 		exit(EXIT_FAILURE);
 	}
 	(*cmd_index)++;
 	*start = *index + 1;
-}
-
-void	ft_print_commands(t_msh *commands)
-{
-	int	i;
-
-	i = 0;
-	while (commands->cmds[i] != NULL)
-	{
-		printf("Comando %d: %s\n", i, commands->cmds[i]->cmd);
-		i++;
-	}
 }
 
 void	ft_parse_input(t_msh *commands)
@@ -102,5 +90,4 @@ void	ft_parse_input(t_msh *commands)
 	ft_add_command(commands, &(commands->parser.start),
 		&(commands->parser.index), &(commands->parser.cmd_index));
 	commands->cmds[commands->parser.cmd_index] = NULL;
-	ft_print_commands(commands);
 }
