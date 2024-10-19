@@ -1,0 +1,18 @@
+her ficheros que no sean el nombre
+
+
+🐚Minihell-42 cat << A | cat << B
+
+		Main command: [cat]
+		Infile Type Here Doc: [A]
+		Main command: [cat]
+		Infile Type Here Doc: [B]
+		DAWD
+		A
+		B
+		HOLAA
+		AA
+
+
+🐚Minihell-42 sleep  4 | echo hola
+
