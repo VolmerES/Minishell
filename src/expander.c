@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 14:58:15 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:33:02 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,16 +104,16 @@ int	ft_check_syntax(char *evar, t_msh *commands)
 	i = 0;
 	while (evar[i] != '\0')
 	{
-		if (ft_isdigit(evar[0]) == 1)
+		if (ft_isdigit(evar[0]) == 1  || evar[0] == '=')
 		{
-			printf("error var num\n");
+			printf("error: not a valid identifier\n");
 			commands->last_out = 1;
 			return (1);
 		}
 		if (ft_isalpha(evar[i]) == 0 && evar[i] != UNDERSCORE
 			&& ft_isdigit(evar[i + 1]) != 0)
 		{
-			printf("error, var type\n");
+			printf("error: not a valid identifier\n");
 			commands->last_out = 1;
 			return (1);
 		}
