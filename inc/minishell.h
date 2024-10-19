@@ -173,7 +173,7 @@ typedef struct s_counters
 }				t_counters;
 
 /*OVEREXPANDER.c*/
-void		ft_overwrited_expand(t_msh *commands);
+void		ft_overwrited_expand(t_msh *commands, int i);
 char		*ft_get_env_var_value(t_msh *commands, char *var_name);
 char		*ft_get_var_name(char *input, int *i);
 void		ft_replace_var_with_value(t_msh *commands, char *var_value, int i,

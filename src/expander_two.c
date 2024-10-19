@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:30:47 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 18:21:21 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 23:01:37 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_handle_quotes(t_msh *commands, int *i, int *flag)
 		&& commands->input[*i - 1] == DQUOTES
 		&& commands->input[*i + 1] != SPACE
 		&& commands->input[*i + 1] != '\0'
-		&& commands->input[*i - 2] == SQUOTES)
+		&& commands->input[*i - 2] != SQUOTES)
 	{
 		j = *i + 1;
 		while (commands->input[j] && !(commands->input[j] == DQUOTES
@@ -77,7 +77,7 @@ void	ft_expand_variables(t_msh *commands, int i, int flag)
 				exit (1);
 			}
 			ft_expand(commands);
-			ft_overwrited_expand(commands);
+			ft_overwrited_expand(commands, i);
 			free(commands->evar);
 			commands->evar = NULL;
 		}

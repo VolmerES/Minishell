@@ -71,13 +71,11 @@ void	ft_replace_var_with_value(t_msh *commands, char *var_value, int i,
 	free(after);
 }
 
-void	ft_overwrited_expand(t_msh *commands)
+void	ft_overwrited_expand(t_msh *commands, int i)
 {
-	int		i;
 	char	*var_name;
 	char	*var_value;
 
-	i = 0;
 	while (commands->input[i] != '\0')
 	{
 		if (commands->input[i] == DOLLAR
@@ -91,6 +89,7 @@ void	ft_overwrited_expand(t_msh *commands)
 			i += ft_strlen(var_value) - 1;
 			free(var_name);
 			free(var_value);
+			break ;
 		}
 		i++;
 	}
