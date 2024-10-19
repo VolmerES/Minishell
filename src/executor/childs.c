@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:32:02 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/12 19:29:57 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:02:52 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	first_child(t_msh *commands, int *fd)
 	int	fd_out;
 
 	commands->last_pid = fork();
-	if (commands->last_pid == 0)
+	if (commands->last_pid == 0 && commands->last_out != 130)
 	{
 		close(fd[0]);
 		fd_in = open_files(commands, 0, fd[0]);
@@ -57,6 +57,8 @@ void	first_child(t_msh *commands, int *fd)
 			exit(1);
 		child_aux(commands, 0, fd_in, fd_out);
 	}
+	else if (commands->last_pid == 0)
+		exit(130);
 	else if (commands->last_pid < 0)
 		exit_(1);
 }
@@ -67,7 +69,7 @@ void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i)
 	int	fd_out;
 
 	commands->last_pid = fork();
-	if (commands->last_pid == 0)
+	if (commands->last_pid == 0 && commands->last_out != 130)
 	{
 		close(new[0]);
 		fd_in = open_files(commands, cmd_i, fd[0]);
@@ -78,6 +80,8 @@ void	mid_child(t_msh *commands, int *fd, int *new, int cmd_i)
 			exit(1);
 		child_aux(commands, cmd_i, fd_in, fd_out);
 	}
+	else if (commands->last_pid == 0)
+		exit(130);
 	else if (commands->last_pid < 0)
 		exit_(1);
 }
@@ -88,7 +92,7 @@ void	last_child(t_msh *commands, int *fd)
 	int	fd_out;
 
 	commands->last_pid = fork();
-	if (commands->last_pid == 0)
+	if (commands->last_pid == 0 && commands->last_out != 130)
 	{
 		fd_in = open_files(commands, commands->parser.cmd_index - 1, fd[0]);
 		if (fd_in < 0)
@@ -98,6 +102,8 @@ void	last_child(t_msh *commands, int *fd)
 			exit(1);
 		child_aux(commands, commands->parser.cmd_index - 1, fd_in, fd_out);
 	}
+	else if (commands->last_pid == 0)
+		exit(130);
 	else if (commands->last_pid < 0)
 		exit_(1);
 }

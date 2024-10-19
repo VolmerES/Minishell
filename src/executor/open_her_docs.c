@@ -6,11 +6,12 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:51:17 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/19 17:09:44 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:10:05 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+extern int	g_signal_control;
 
 static	void	return_child(t_msh *commands, t_counters count)
 {
@@ -31,7 +32,6 @@ void	proc_f(t_msh *commands, t_counters count)
 	{
 		waitpid(pid, &count.k, 0);
 		commands->last_out = WEXITSTATUS(count.k);
-		// dprintf(2,"ultima salida hijo %i\n", commands->last_out);
 	}
 }
 
@@ -58,8 +58,7 @@ static	void	handle_heredoc(t_msh *c, t_counters counters)
 	}
 	free(file);
 	close(fd);
-	// dprintf(2,"ultima salida %i\n", c->last_out);
-	if (c->last_out != 130)
+	if (g_signal_control != 130)
 		proc_f(c, counters);
 }
 

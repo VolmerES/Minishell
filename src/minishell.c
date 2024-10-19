@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 17:27:43 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:36:39 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_handle_readline(t_msh *commands)
 	while (1)
 	{
 		ft_signal_handler();
+		g_signal_control = 0;
 		commands->input = readline("🐚Minihell-42 ");
 		if (commands->input == NULL)
 		{
