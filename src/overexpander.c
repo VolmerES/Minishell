@@ -60,10 +60,10 @@ void	ft_replace_var_with_value(t_msh *commands, char *var_value, int i,
 	after = ft_substr(commands->input, i + var_len, ft_strlen(commands->input)
 			- (i + var_len));
 	if (before == NULL || after == NULL)
-		return (free (before, free (after), NULL));
+		return (free (before), free (after));
 	temp = ft_strjoin(before, var_value);
 	if (temp == NULL)
-		return (free(before), free(after), NULL);
+		return (free(before), free(after));
 	free(commands->input);
 	commands->input = ft_strjoin(temp, after);
 	free(temp);
