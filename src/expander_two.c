@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:30:47 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 14:05:08 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:59:40 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,9 @@ void	ft_expand_variables(t_msh *commands, int i, int flag)
 			if (ft_isdigit(commands->input[i + 1]) == 1)
 				return (ft_erase_first_number(commands, i));
 			commands->evar = ft_get_var(commands, i + 1);
-			if (!commands->evar)
+			if (commands->evar == NULL)
 			{
-				free(commands->evar);
-				exit(1);
+				exit (1);
 			}
 			printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n",
 				commands->evar);
@@ -83,6 +82,8 @@ void	ft_expand_variables(t_msh *commands, int i, int flag)
 			ft_overwrited_expand(commands);
 			printf("\033[34mVariable de entorno expandida: %s\033[0m\n",
 				commands->evar);
+			free(commands->evar);
+			commands->evar = NULL;
 		}
 	}
 }
@@ -97,7 +98,11 @@ void	ft_expand_var(t_msh *commands)
 	while (commands->input[i] != '\0')
 	{
 		ft_handle_quotes(commands, &i, &flag);
+		if (commands->input[i] == '\0')
+			return;
 		ft_expand_variables(commands, i, flag);
+		if (commands->input[i] == '\0')
+			return;
 		i++;
 	}
 }
@@ -118,11 +123,14 @@ char	*ft_get_var(t_msh *commands, int i)
 	if (!evar)
 	{
 		printf("Error: Memory allocation failed. Unable to continue.\n");
-		free(evar);
 		exit(EXIT_FAILURE);
 	}
 	ft_strncpy(evar, &commands->input[i - len], len, len);
 	evar[len] = '\0';
-	ft_check_syntax(evar, commands);
+	if (ft_check_syntax(evar, commands) == 1)
+	{
+		free(evar);
+		return (NULL);
+	}
 	return (evar);
 }

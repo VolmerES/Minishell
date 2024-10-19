@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/15 15:38:40 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:33:02 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	ft_expand(t_msh *commands)
 	int	i;
 
 	i = ft_search_env(commands->envp, commands->evar);
+	if (i ==  -1)
+		free(commands->evar);
 	commands->evar = ft_manage_expander(commands->envp, i, commands->evar);
 	if (commands->evar == NULL)
 		free(commands->evar);
@@ -102,16 +104,16 @@ int	ft_check_syntax(char *evar, t_msh *commands)
 	i = 0;
 	while (evar[i] != '\0')
 	{
-		if (ft_isdigit(evar[0]) == 1)
+		if (ft_isdigit(evar[0]) == 1  || evar[0] == '=')
 		{
-			printf("error var num\n");
+			printf("error: not a valid identifier\n");
 			commands->last_out = 1;
 			return (1);
 		}
 		if (ft_isalpha(evar[i]) == 0 && evar[i] != UNDERSCORE
 			&& ft_isdigit(evar[i + 1]) != 0)
 		{
-			printf("error, var type\n");
+			printf("error: not a valid identifier\n");
 			commands->last_out = 1;
 			return (1);
 		}
