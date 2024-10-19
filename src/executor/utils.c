@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 14:56:37 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/08/07 19:58:15 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:41:08 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ char	*check_path(char **path, char *command)
 	int		i;
 
 	i = 0;
-	if (!path)
-		return (NULL);
 	if (ft_strrchr(command, '/') && !access(command, X_OK))
 		return (command);
 	else if (ft_strrchr(command, '/') && access(command, X_OK))
+		return (NULL);
+	if (!path)
 		return (NULL);
 	while (path[i])
 	{
