@@ -66,9 +66,11 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 	if (commands->cmds[*i]->args)
 		commands->cmds[*i]->args[commands->parser.k] = NULL;
 }
+
 int	ft_count_redir(char *str)
 {
-	if (check_consecutive_chars(str, '<') >= 3 || check_consecutive_chars(str, '>') >= 3)
+	if (check_consecutive_chars(str, '<') >= 3
+		|| check_consecutive_chars(str, '>') >= 3)
 		return (1);
 	if (check_mixed_redir(str))
 		return (1);

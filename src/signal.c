@@ -35,7 +35,6 @@ void	ctrl_c(int sign)
 	}
 }
 
-
 void	ft_signal_handler(void)
 {
 	signal(SIGINT, ctrl_c);

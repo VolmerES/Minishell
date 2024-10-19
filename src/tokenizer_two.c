@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 12:11:39 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 18:11:31 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:26:41 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ void	ft_handle_else(t_msh *commands, int *i, int *j)
 
 int	check_consecutive_chars(char *str, char c)
 {
-	int count = 0;
+	int	count;
+
+	count = 0;
 	while (*str == c)
 	{
 		count++;
@@ -62,13 +64,15 @@ int	check_consecutive_chars(char *str, char c)
 	return (count);
 }
 
-int check_mixed_redir(char *str)
+int	check_mixed_redir(char *str)
 {
 	while (*str)
 	{
-		if ((*str == '<' && *(str + 1) == '>') || (*str == '>' && *(str + 1) == '<'))
+		if ((*str == '<' && *(str + 1) == '>')
+			|| (*str == '>' && *(str + 1) == '<'))
 		{
-			printf("Syntax error: invalid token sequence '%c%c'\n", *str, *(str + 1));
+			printf("Syntax error: invalid token sequence '%c%c'\n", \
+				*str, *(str + 1));
 			return (1);
 		}
 		str++;

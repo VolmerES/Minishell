@@ -21,7 +21,7 @@ void	ft_allocate_commands(t_msh *commands)
 	commands->cmds = malloc(sizeof(t_cmd *) * (pipes + 1));
 	if (commands->cmds == NULL)
 	{
-		fprintf(stderr, "Error: Memory allocation failed. Unable to continue.\n");
+		fprintf(stderr, "Error: Memory allocation failed.\n");
 		exit(EXIT_FAILURE);
 	}
 	i = 0;

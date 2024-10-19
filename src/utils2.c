@@ -75,5 +75,5 @@ void	ft_erase_first_number(t_msh *commands, int i)
 
 	j = i + 2;
 	ft_strlcpy(&commands->input[i],
-	&commands->input[j], ft_strlen(&commands->input[j]) + 1);
+		&commands->input[j], ft_strlen(&commands->input[j]) + 1);
 }

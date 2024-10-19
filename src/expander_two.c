@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:30:47 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 17:57:22 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:21:21 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ void	ft_expand_var(t_msh *commands)
 	{
 		ft_handle_quotes(commands, &i, &flag);
 		if (commands->input[i] == '\0')
-			return;
+			return ;
 		ft_expand_variables(commands, i, flag);
 		if (commands->input[i] == '\0')
-			return;
+			return ;
 		i++;
 	}
 }
@@ -108,7 +108,7 @@ char	*ft_get_var(t_msh *commands, int i)
 	size_t	len;
 	char	*evar;
 
-	len = 0; 
+	len = 0;
 	while (commands->input[i] != SPACE && commands->input[i] != '\0'
 		&& commands->input[i] != DQUOTES && commands->input[i] != SQUOTES)
 	{
