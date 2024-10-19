@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:30:47 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/16 12:48:54 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:05:08 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,14 @@ void	ft_expand_variables(t_msh *commands, int i, int flag)
 				free(commands->evar);
 				exit(1);
 			}
-//			printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n",
-//				commands->evar);
+			printf("\033[34mVariable de entorno sin expandir: %s\033[0m\n",
+				commands->evar);
 			ft_expand(commands);
 			ft_overwrited_expand(commands);
-//			printf("\033[34mVariable de entorno expandida: %s\033[0m\n",
-//				commands->evar);
+			printf("\033[34mVariable de entorno expandida: %s\033[0m\n",
+				commands->evar);
 		}
 	}
-	if (commands->evar)
-		free(commands->evar);
 }
 
 void	ft_expand_var(t_msh *commands)
