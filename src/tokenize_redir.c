@@ -48,8 +48,6 @@ void	ft_set_main_command(t_msh *commands, int *i, int *j)
 			(*j)--;
 		commands->cmds[*i]->cmd_main = ft_substr(
 				commands->cmds[*i]->cmd, start, *j - start);
-		printf("\033[34mMain command: [%s]\033[0m\n",
-			commands->cmds[*i]->cmd_main);
 	}
 }
 
@@ -67,4 +65,12 @@ void	ft_is_command(t_msh *commands, int *i, int *j)
 	}
 	if (commands->cmds[*i]->args)
 		commands->cmds[*i]->args[commands->parser.k] = NULL;
+}
+int	ft_count_redir(char *str)
+{
+	if (check_consecutive_chars(str, '<') >= 3 || check_consecutive_chars(str, '>') >= 3)
+		return (1);
+	if (check_mixed_redir(str))
+		return (1);
+	return (0);
 }

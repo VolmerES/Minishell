@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:54:39 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/09 12:12:18 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:00:30 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	add_infile_to_command(t_msh *commands, int *i, char *filename)
 	}
 	commands->cmds[*i]->infile[infile_count] = infile;
 	commands->cmds[*i]->infile[infile_count + 1] = NULL;
-	printf("\033[34mInfile Type Normal: %s\033[0m\n", infile->filename);
 }
 
 void	ft_is_infile(t_msh *commands, int *i, int *j)

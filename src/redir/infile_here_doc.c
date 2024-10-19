@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:55:29 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/09 12:32:44 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:01:15 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,6 @@ void	add_here_doc_to_command(t_msh *commands, int *i, char *filename)
 	{
 		infile->filename = ft_strdup("EOF");
 		printf("No end of file specified, using default EOF\n");
-	}
-	else
-	{
-		printf("\033[34mInfile Type Here Doc: [%s]\033[0m\n", infile->filename);
 	}
 }
 

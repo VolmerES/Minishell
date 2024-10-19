@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 17:09:16 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:03:00 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_construct_new_input(t_msh *commands, char *expvar, char *pos)
 	result = malloc(final_len);
 	if (result == NULL)
 	{
-		printf("Error: No se pudo asignar memoria.\n");
+		printf("Error: Memory allocation failed. Unable to continue.\n");
 		free(expvar);
 		exit(1);
 	}
@@ -50,7 +50,7 @@ void	ft_expand_special(t_msh *commands)
 	expanded_variable = ft_itoa(commands->last_out);
 	if (expanded_variable == NULL)
 	{
-		printf("Error: No se pudo asignar memoria.\n");
+		printf("Error: Memory allocation failed. Unable to continue.\n");
 		exit(1);
 	}
 	pos = ft_strstr(commands->input, "$?");
@@ -79,7 +79,7 @@ char	*ft_manage_expander(char **envpc, int index, char *evar)
 			expanded_variable = ft_strdup(equal_sign + 1);
 			if (expanded_variable == NULL)
 			{
-				printf("Error: No se pudo asignar memoria.\n");
+				printf("Error: Memory allocation failed.\n");
 				free(expanded_variable);
 				exit(1);
 			}
