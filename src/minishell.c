@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 17:04:52 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:27:43 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_handle_readline(t_msh *commands)
 		if (commands->input == NULL)
 		{
 			printf("exit\n");
-			exit (1);
+			exit (0);
 		}
 		if (command_empty(commands->input))
 		{

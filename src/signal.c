@@ -35,23 +35,11 @@ void	ctrl_c(int sign)
 	}
 }
 
-void	ctrl_4(int sign)
-{
-	(void)sign;
-	if (g_signal_control == 2)
-		return ;
-	else if (g_signal_control == 1)
-	{
-		write(STDERR_FILENO, "^\\Quit: \n", 10);
-		g_signal_control = 131;
-	}
-	return ;
-}
 
 void	ft_signal_handler(void)
 {
 	signal(SIGINT, ctrl_c);
-	signal(SIGQUIT, ctrl_4);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static void	ft_heredoc_sigint(int sign)
