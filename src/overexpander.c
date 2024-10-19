@@ -49,10 +49,29 @@ void	ft_replace_var_with_value(t_msh *commands, char *var_value, int i,
 	char	*after;
 	char	*temp;
 
+	if (!var_value)
+		var_value = ft_strdup("");
 	before = ft_substr(commands->input, 0, i);
+	if (var_value == NULL)
+	{
+		free(before);
+		return ;
+	}
 	after = ft_substr(commands->input, i + var_len, ft_strlen(commands->input)
 			- (i + var_len));
+	if (before == NULL || after == NULL)
+	{
+		free(before);
+		free(after);
+		return ;
+	}
 	temp = ft_strjoin(before, var_value);
+	if (temp == NULL)
+	{
+		free(before);
+		free(after);
+		return ;
+	}
 	free(commands->input);
 	commands->input = ft_strjoin(temp, after);
 	free(temp);

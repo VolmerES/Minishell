@@ -6,7 +6,7 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/10 19:13:54 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:38:40 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	ft_construct_new_input(t_msh *commands, char *expvar, char *pos)
 	ft_strlcat(result, pos + 2, final_len);
 	free(commands->input);
 	commands->input = result;
-	free(expvar);
+	if (commands->input == NULL)
+		free(expvar);
 }
 
 void	ft_expand_special(t_msh *commands)
@@ -75,6 +76,7 @@ char	*ft_manage_expander(char **envpc, int index, char *evar)
 			if (expanded_variable == NULL)
 			{
 				printf("Error: No se pudo asignar memoria.\n");
+				free(expanded_variable);
 				exit(1);
 			}
 			return (expanded_variable);
@@ -89,6 +91,8 @@ void	ft_expand(t_msh *commands)
 
 	i = ft_search_env(commands->envp, commands->evar);
 	commands->evar = ft_manage_expander(commands->envp, i, commands->evar);
+	if (commands->evar == NULL)
+		free(commands->evar);
 }
 
 int	ft_check_syntax(char *evar, t_msh *commands)
