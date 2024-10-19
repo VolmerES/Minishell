@@ -88,7 +88,7 @@ void	ft_overwrited_expand(t_msh *commands)
 	i = 0;
 	while (commands->input[i] != '\0')
 	{
-		if (commands->input[i] == DOLLAR && commands->input[i + 1] != '\0')
+		if (commands->input[i] == DOLLAR && commands->input[i + 1] != '\0' && commands->input[i + 1] != '?')
 		{
 			var_name = ft_get_var_name(commands->input, &i);
 			var_value = ft_get_env_var_value(commands, var_name);
