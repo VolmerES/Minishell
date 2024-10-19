@@ -280,6 +280,8 @@ void		ft_handle_greater_than(t_msh *commands, int *i, int *j);
 void		ft_handle_else(t_msh *commands, int *i, int *j);
 int			ft_count_redir(char *str);
 void		*ft_realloc(void *ptr, size_t original_size, size_t new_size);
+int			check_consecutive_chars(char *str, char c);
+int			check_mixed_redir(char *str);
 
 /* EXECUTOR */
 
