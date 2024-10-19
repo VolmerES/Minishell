@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 14:17:34 by david             #+#    #+#             */
-/*   Updated: 2024/10/05 17:50:44 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:33:24 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,22 @@ void	multi_command(t_msh *commands)
 	int	counter;
 
 	open_her_docs(commands);
-	if (commands->last_out == 0)
+	if (pipe(fd) < 0)
+		exit_(0);
+	first_child(commands, fd);
+	close(fd[1]);
+	counter = 0;
+	while (++counter < (commands->parser.cmd_index - 1))
 	{
-		if (pipe(fd) < 0)
+		if (pipe(new) < 0)
 			exit_(0);
-		first_child(commands, fd);
-		close(fd[1]);
-		counter = 0;
-		while (++counter < (commands->parser.cmd_index - 1))
-		{
-			if (pipe(new) < 0)
-				exit_(0);
-			mid_child(commands, fd, new, counter);
-			close(fd[0]);
-			close(new[1]);
-			fd[0] = new[0];
-		}
-		last_child(commands, fd);
+		mid_child(commands, fd, new, counter);
 		close(fd[0]);
-		wait_childs(commands);
+		close(new[1]);
+		fd[0] = new[0];
 	}
+	last_child(commands, fd);
+	close(fd[0]);
+	wait_childs(commands);
+	
 }
