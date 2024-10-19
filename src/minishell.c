@@ -6,13 +6,13 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/09 15:37:36 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:04:52 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int		g_signal_control;
+int		g_signal_control = 0;
 
 int	ft_incomplete_quotes(t_msh *commands)
 {
@@ -96,6 +96,5 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_msh_struct(&commands);
 	ft_shlvl(&commands, envp);
 	ft_handle_readline(&commands);
-	write_history("Historial");
 	return (commands.last_out);
 }

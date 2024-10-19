@@ -6,11 +6,13 @@
 /*   By: jdelorme <jdelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 22:50:45 by jdelorme          #+#    #+#             */
-/*   Updated: 2024/10/19 16:33:02 by jdelorme         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:09:16 by jdelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+extern int		g_signal_control;
 
 void	ft_construct_new_input(t_msh *commands, char *expvar, char *pos)
 {
@@ -43,6 +45,8 @@ void	ft_expand_special(t_msh *commands)
 	char	*expanded_variable;
 	char	*pos;
 
+	if (g_signal_control == 130)
+		commands->last_out = g_signal_control;
 	expanded_variable = ft_itoa(commands->last_out);
 	if (expanded_variable == NULL)
 	{

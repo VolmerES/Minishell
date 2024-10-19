@@ -12,6 +12,8 @@
 
 #include "../inc/minishell.h"
 
+extern int		g_signal_control;
+
 void	ctrl_c(int sign)
 {
 	(void)sign;
@@ -21,13 +23,15 @@ void	ctrl_c(int sign)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_signal_control = 130;
 	}
-	else if (g_signal_control == 2)
-		return ;
 	else
 	{
 		g_signal_control = 130;
 		write(STDERR_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
@@ -38,7 +42,7 @@ void	ctrl_4(int sign)
 		return ;
 	else if (g_signal_control == 1)
 	{
-		write(STDERR_FILENO, "^\\Quit: 3\n", 10);
+		write(STDERR_FILENO, "^\\Quit: \n", 10);
 		g_signal_control = 131;
 	}
 	return ;
