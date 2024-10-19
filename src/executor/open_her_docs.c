@@ -6,7 +6,7 @@
 /*   By: ldiaz-ra <ldiaz-ra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:51:17 by ldiaz-ra          #+#    #+#             */
-/*   Updated: 2024/10/12 19:16:52 by ldiaz-ra         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:09:44 by ldiaz-ra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ void	proc_f(t_msh *commands, t_counters count)
 	{
 		waitpid(pid, &count.k, 0);
 		commands->last_out = WEXITSTATUS(count.k);
+		// dprintf(2,"ultima salida hijo %i\n", commands->last_out);
 	}
 }
 
 static	void	handle_heredoc(t_msh *c, t_counters counters)
 {
 	char	*file;
+	char	**args;
 	int		fd;
 
 	file = check_file(c->cmds[counters.i]->infile[counters.j]->filename);
@@ -47,9 +49,17 @@ static	void	handle_heredoc(t_msh *c, t_counters counters)
 		exit_(2);
 	}
 	c->cmds[counters.i]->infile[counters.j]->name_herdoc = ft_strdup(file);
+	if (!c->cmds[counters.i]->args)
+	{
+		args = malloc(sizeof(char *) * 2);
+		args[0] = ft_strdup(file);
+		args[1] = NULL;
+		c->cmds[counters.i]->args = args;
+	}
 	free(file);
 	close(fd);
-	if (c->last_out == 0)
+	// dprintf(2,"ultima salida %i\n", c->last_out);
+	if (c->last_out != 130)
 		proc_f(c, counters);
 }
 
