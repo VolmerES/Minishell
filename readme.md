@@ -1,65 +1,81 @@
-# Minishell Readme
-
 # Minishell
 
----
+![42 Cursus](https://img.shields.io/badge/42-Cursus-black?style=for-the-badge&logo=42)
+![C](https://img.shields.io/badge/C-blue?style=for-the-badge&logo=c)
 
-Minishell is a shell implementation written in C as part of the 42Cursus curriculum. It provides a basic command-line interface where users can execute commands and interact with the operating system.
+## 🗣️ About
 
----
+**Minishell** is a shell implementation written in C as part of the 42 Cursus curriculum. It provides a basic command-line interface where users can execute commands and interact with the operating system, mimicking the behavior of bash.
 
-## Index
+## ✨ Features
 
-## Features
+- **Command Execution**: Execute built-in commands and external programs.
+- **Redirection**: Handle input (`<`, `<<`) and output (`>`, `>>`) redirections.
+- **Pipes**: Chain multiple commands using pipes (`|`).
+- **Environment Variables**: Manage environment variables with `export` and `unset`, and expand them with `$`.
+- **Signal Handling**: persistent handling of `Ctrl+C`, `Ctrl+D`, and `Ctrl+\`.
+- **Command History**: Access previous commands (if implemented via readline).
 
----
+## 🏗️ Architecture
 
-- Command execution: Minishell allows users to execute various commands, including built-in commands and external programs.
-- Input/Output redirection: Users can redirect input and output streams using the `<` and `>` operators.
-- Pipes: Minishell supports command piping, allowing users to chain multiple commands together.
-- Environment variables: Users can set and manipulate environment variables using the `export` command.
-- Signal handling: Minishell handles signals such as Ctrl+C and Ctrl+D to provide a smooth user experience.
+The parsing logic is a critical component of Minishell. The following diagram illustrates how the command line input is processed:
 
-## Getting Started
+![Parsing Diagram](Minishell%20Readme/Code.png)
 
----
+## 🚀 Getting Started
 
-To get started with Minishell, follow these steps:
+### Prerequisites
 
-1. Clone the repository: `git clone git@github.com:VolmerES/Minishell.git`
-2. Navigate to the project directory: `cd minishell`
-3. Build the project: `make`
-4. Run Minishell: `./minishell`
+- GCC or Clang
+- Make
+- Readline library
 
-## Usage
+### Installation
 
----
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:VolmerES/Minishell.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd minishell
+   ```
+3. Compile the project:
+   ```bash
+   make
+   ```
 
-Once Minishell is running, you can use it just like any other shell. Here are some examples of commands you can try:
+## 🛠️ Usage
 
-- Execute a command: `ls -l`
-- Redirect input: `cat < input.txt`
-- Redirect output: `ls > output.txt`
-- Pipe commands: `ls -l | grep "file"`
-- Set environment variable: `export MY_VAR=Hello`
-- Access environment variable: `echo $MY_VAR`
+Run the shell:
 
-For more information on how to use Minishell, refer to the project documentation or the source code.
+```bash
+./minishell
+```
 
-## About the code
+### Examples
 
----
+Execute commands:
 
-![Untitled](Minishell%20Readme/Code.png)
+```bash
+minishell$ ls -l
+```
 
-## Contributing
+Redirection:
 
----
+```bash
+minishell$ grep "error" < log.txt > errors.txt
+```
 
-Contributions to Minishell are welcome! If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.
+Pipes:
 
-## License
+```bash
+minishell$ ps aux | grep minishell
+```
 
----
+Environment Variables:
 
-Minishell is open-source software licensed under the MIT license. See the [LICENSE](https://www.notion.so/LICENSE) file for more information.
+```bash
+minishell$ export MY_VAR="Hello World"
+minishell$ echo $MY_VAR
+```
