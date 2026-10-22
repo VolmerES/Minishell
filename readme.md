@@ -5,16 +5,16 @@
 
 ## 🗣️ About
 
-**Minishell** is a shell implementation written in C as part of the 42 Cursus curriculum. It provides a basic command-line interface where users can execute commands and interact with the operating system, mimicking the behavior of bash.
+**Minishell** is a shell written in C as a team project of the 42 Madrid common core (grade: **100/100**). It provides a basic command-line interface where users can execute commands and interact with the operating system, mimicking the behavior of bash.
 
 ## ✨ Features
 
-- **Command Execution**: Execute built-in commands and external programs.
+- **Command Execution**: Runs external programs from `PATH` and the built-ins `echo`, `cd`, `pwd`, `export`, `unset`, `env` and `exit`.
 - **Redirection**: Handle input (`<`, `<<`) and output (`>`, `>>`) redirections.
 - **Pipes**: Chain multiple commands using pipes (`|`).
 - **Environment Variables**: Manage environment variables with `export` and `unset`, and expand them with `$`.
-- **Signal Handling**: persistent handling of `Ctrl+C`, `Ctrl+D`, and `Ctrl+\`.
-- **Command History**: Access previous commands (if implemented via readline).
+- **Signal Handling**: `Ctrl+C`, `Ctrl+D` and `Ctrl+\` behave as they do in bash.
+- **Command History**: Previous commands with the arrow keys, through readline.
 
 ## 🏗️ Architecture
 
@@ -34,11 +34,11 @@ The parsing logic is a critical component of Minishell. The following diagram il
 
 1. Clone the repository:
    ```bash
-   git clone git@github.com:VolmerES/Minishell.git
+   git clone https://github.com/VolmerES/Minishell.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd minishell
+   cd Minishell
    ```
 3. Compile the project:
    ```bash
@@ -79,3 +79,8 @@ Environment Variables:
 minishell$ export MY_VAR="Hello World"
 minishell$ echo $MY_VAR
 ```
+
+## Authors
+
+- **Luis David Díaz** (`ldiaz-ra`) · [@davidiaz1251](https://github.com/davidiaz1251)
+- **Juan Bautista Delorme** (`jdelorme`) · [@VolmerES](https://github.com/VolmerES) · [Portfolio](https://juandelorme-portfolio.volmer.es)
