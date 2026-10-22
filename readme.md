@@ -83,4 +83,4 @@ minishell$ echo $MY_VAR
 ## Authors
 
 - **Luis David Díaz** (`ldiaz-ra`) · [@davidiaz1251](https://github.com/davidiaz1251)
-- **Juan Bautista Delorme** (`jdelorme`) · [@VolmerES](https://github.com/VolmerES) · [Portfolio](https://juandelorme-portfolio.volmer.es)
+- **Juan Bautista Delorme** (`jdelorme`) · [@VolmerES](https://github.com/VolmerES) · [Portfolio](https://juandelorme-portfolio.volmer.es) · [LinkedIn](https://www.linkedin.com/in/jdelorme/)
